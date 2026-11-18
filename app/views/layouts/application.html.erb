@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" class="h-full">
   <head>
     <title>Quick Teams</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= action_cable_meta_tag %>
@@ -15,6 +16,9 @@
         <%= yield(:head) %>
       </main>
     <% end %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <%= javascript_importmap_tags %>
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "https://ga.jspm.io/npm:trix@2.1.8/dist/trix.css", "data-turbo-track": "reload" %>
@@ -23,14 +27,14 @@
     <%= stylesheet_link_tag "slim", "data-turbo-track": "reload" %>
     <%= favicon_link_tag "favicon.png" %>
   </head>
-  <body>
+  <body class="min-h-full bg-gray-50 font-sans text-gray-900">
     <% if user_signed_in? %>
       <%= render "shared/navbar/navbar" %>
       <div id="modal"></div>
     <% end %>
-    <p class="text-sm font-medium text-center notice bg-green-50"><%= notice %></p>
-    <p class="text-sm font-medium text-center alert bg-red-50"><%= alert %></p>
-    <main>
+    <p class="notice flash-notice empty:hidden" role="status"><%= notice %></p>
+    <p class="alert flash-alert empty:hidden" role="alert"><%= alert %></p>
+    <main class="pb-12">
       <%= yield %>
     </main>
   </body>
