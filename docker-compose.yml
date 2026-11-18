@@ -1,0 +1,21 @@
+# Local services for development: Postgres only.
+# (Jobs and Action Cable run on Solid Queue / Solid Cable, so no Redis is needed.)
+#   docker compose up -d
+# Postgres is published on 5433 so it doesn't clash with a Postgres already
+# running on the host's 5432.
+services:
+  db:
+    build: ./docker/postgres
+    image: quickteams-postgres:16
+    ports:
+      - "${DB_PORT:-5433}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  pgdata:
