@@ -1,6 +1,6 @@
 require "application_system_test_case"
 
-class EmployeeAboutTest < ApplicationSystemTestCase
+class EmployeeAboutPermissionsTest < ApplicationSystemTestCase
   setup do
     @actor = users(:super)
     @employee = users(:regular)

@@ -1,6 +1,6 @@
 require "application_system_test_case"
 
-class EmployeeScheduleTest < ApplicationSystemTestCase
+class EmployeeSchedulesPermissionsTest < ApplicationSystemTestCase
   include ActionMailer::TestHelper
 
   setup do

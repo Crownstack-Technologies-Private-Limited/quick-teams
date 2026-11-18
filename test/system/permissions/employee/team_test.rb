@@ -1,6 +1,6 @@
 require "application_system_test_case"
 
-class EmployeeTeamTest < ApplicationSystemTestCase
+class EmployeeTeamPermissionsTest < ApplicationSystemTestCase
   setup do
     @employee = users(:regular)
     @account = @employee.account

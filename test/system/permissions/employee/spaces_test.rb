@@ -1,6 +1,6 @@
 require "application_system_test_case"
 
-class SpacesTest < ApplicationSystemTestCase
+class EmployeeSpacesPermissionsTest < ApplicationSystemTestCase
   setup do
     @user = users(:regular)
     @account = @user.account
