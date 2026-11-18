@@ -84,3 +84,4 @@ yarn-debug.log*
 !/app/assets/builds/.keep
 
 /config/credentials/development.key
+dump.rdb

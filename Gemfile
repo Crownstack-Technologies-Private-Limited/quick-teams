@@ -79,6 +79,7 @@ group :development, :test do
 end
 
 group :development do
+  gem "letter_opener_web" # config.action_mailer.delivery_method = :letter_opener_web, UI at /letter_opener
   gem "web-console"
   gem "listen"
 end
