@@ -184,8 +184,9 @@ class ProjectsTest < ApplicationSystemTestCase
     assert_selector "h1", text: @project.name
 
     take_screenshot
+    tag_name = @project.project_tags.first.name
     find("div", id: "project-tags").click_button("remove")
-    assert_no_selector "span", text: @project.project_tags.first.name
+    assert_no_selector "span", text: tag_name
     take_screenshot
   end
 end

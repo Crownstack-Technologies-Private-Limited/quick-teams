@@ -50,13 +50,13 @@ class ProjectAboutTest < ApplicationSystemTestCase
 
   test "can add project observer" do
     visit page_url
+    observers_before = @project.project_observers.count
     within "#add-observers" do
       fill_in "search", with: "a"
-      first("#project-observer").click
-      within "#project-observers" do
-        assert_selector "li", count: @project.project_observers.count + 1
-      end
+      click_reflex("[data-nav-search-target=results] #project-observer")
     end
+    # The reflex re-renders #add-observers, so look the list up again afterwards.
+    assert_selector "#project-observers li", count: observers_before + 1
     take_screenshot
   end
 end

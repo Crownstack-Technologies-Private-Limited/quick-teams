@@ -32,9 +32,9 @@ class EmployeeSkillsTest < ApplicationSystemTestCase
   test "can add and remove skills" do
     visit page_url
     fill_in "search-skills", with: "u"
-    find("#add-skill").click
+    click_reflex("[data-nav-search-target=results] #add-skill", text: "Vue")
     assert_selector "#employee-skills", text: "Vue"
-    first("#remove-skill").click
+    click_reflex("#remove-skill")
     assert_no_selector "#employee-skills", text: "Ruby"
   end
 
