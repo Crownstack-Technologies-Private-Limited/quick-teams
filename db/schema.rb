@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_04_151100) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_18_173602) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -202,8 +202,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_04_151100) do
     t.bigint "customer_id", null: false
     t.jsonb "data"
     t.jsonb "metadata"
+    t.jsonb "object"
     t.string "processor_id", null: false
+    t.string "stripe_account"
     t.bigint "subscription_id"
+    t.string "type"
     t.datetime "updated_at", null: false
     t.index ["customer_id", "processor_id"], name: "index_pay_charges_on_customer_id_and_processor_id", unique: true
     t.index ["subscription_id"], name: "index_pay_charges_on_subscription_id"
@@ -214,10 +217,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_04_151100) do
     t.jsonb "data"
     t.boolean "default"
     t.datetime "deleted_at", precision: nil
+    t.jsonb "object"
     t.bigint "owner_id"
     t.string "owner_type"
     t.string "processor", null: false
     t.string "processor_id"
+    t.string "stripe_account"
+    t.string "type"
     t.datetime "updated_at", null: false
     t.index ["owner_type", "owner_id", "deleted_at", "default"], name: "pay_customer_owner_index"
     t.index ["processor", "processor_id"], name: "index_pay_customers_on_processor_and_processor_id", unique: true
@@ -231,6 +237,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_04_151100) do
     t.string "owner_type"
     t.string "processor", null: false
     t.string "processor_id"
+    t.string "type"
     t.datetime "updated_at", null: false
     t.index ["owner_type", "owner_id", "processor"], name: "index_pay_merchants_on_owner_type_and_owner_id_and_processor"
   end
@@ -240,7 +247,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_04_151100) do
     t.bigint "customer_id", null: false
     t.jsonb "data"
     t.boolean "default"
+    t.string "payment_method_type"
     t.string "processor_id", null: false
+    t.string "stripe_account"
     t.string "type"
     t.datetime "updated_at", null: false
     t.index ["customer_id", "processor_id"], name: "index_pay_payment_methods_on_customer_id_and_processor_id", unique: true
@@ -257,14 +266,18 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_04_151100) do
     t.jsonb "metadata"
     t.boolean "metered"
     t.string "name", null: false
+    t.jsonb "object"
     t.string "pause_behavior"
     t.datetime "pause_resumes_at"
     t.datetime "pause_starts_at"
+    t.string "payment_method_id"
     t.string "processor_id", null: false
     t.string "processor_plan", null: false
     t.integer "quantity", default: 1, null: false
     t.string "status", null: false
+    t.string "stripe_account"
     t.datetime "trial_ends_at", precision: nil
+    t.string "type"
     t.datetime "updated_at", null: false
     t.index ["customer_id", "processor_id"], name: "index_pay_subscriptions_on_customer_id_and_processor_id", unique: true
     t.index ["metered"], name: "index_pay_subscriptions_on_metered"
