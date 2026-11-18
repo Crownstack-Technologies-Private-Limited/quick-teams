@@ -1,5 +1,5 @@
-# Recurring jobs configuration for Solid Queue
-# These replace the sidekiq-scheduler jobs
+# Recurring jobs for Solid Queue (replace the old sidekiq-scheduler.yml).
+# Times are UTC: config.time_zone is not set, the same as under sidekiq-scheduler.
 
 # Weekly activity report - every Monday at 10:00 AM
 send_weekly_activity_report:
@@ -19,8 +19,14 @@ delete_deactivated_users_after_x_days:
   queue: default
   schedule: every day at midnight
 
-# Delete cancelled subscriptions - daily at midnight
-delete_cancelled_subscriptions:
-  class: DeleteAccountsJob
+# Delete archived projects - daily at midnight
+delete_archived_projects_after_x_days:
+  class: DeleteArchivedProjectsJob
   queue: default
   schedule: every day at midnight
+
+# Housekeeping: remove finished Solid Queue jobs (kept for clear_finished_jobs_after, 1 day by default)
+clear_solid_queue_finished_jobs:
+  command: "SolidQueue::Job.clear_finished_in_batches(sleep_between_batches: 0.3)"
+  queue: default
+  schedule: every hour at minute 12
