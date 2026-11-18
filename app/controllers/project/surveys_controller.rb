@@ -3,7 +3,7 @@ class Project::SurveysController < Project::BaseController
     authorize [@project, :survey]
 
     @surveys = @project.surveys
-    @pagy, @filled_surveys = pagy_nil_safe(params, @project.filled_surveys.order(created_at: :desc), items: LIMIT)
+    @pagy, @filled_surveys = pagy_nil_safe(params, @project.filled_surveys.order(created_at: :desc), limit: LIMIT)
     render_partial("project/surveys/survey", collection: @filled_surveys, cached: true) if stale?(@filled_surveys + @surveys + [@project])
   end
 end

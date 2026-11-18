@@ -5,7 +5,7 @@ class Report::GoalsController < Report::BaseController
     entries = Goal.includes(:user, :goalable).query(goal_filter_params.except(:order_by, :order), nil, goal_filter_params[:order_by], goal_filter_params[:order])
     @stats = GoalsStats.new(entries)
 
-    @pagy, @goals = pagy_nil_safe(params, entries, items: LIMIT)
+    @pagy, @goals = pagy_nil_safe(params, entries, limit: LIMIT)
     render_partial("report/goals/goal", collection: @goals.empty? ? @goals : @goals.includes(:goalable).decorate, cached: false)
   end
 
@@ -17,7 +17,7 @@ class Report::GoalsController < Report::BaseController
       .where(goals: { status: :progress, deadline: date_range }).uniq
 
     employees = User.for_current_account.active.includes(:role, :job, :discipline, :status, :manager).where.not(id: @employees_with_goals.pluck(:id)).order(:first_name)
-    @pagy, @employees = pagy_nil_safe(params, employees, items: LIMIT)
+    @pagy, @employees = pagy_nil_safe(params, employees, limit: LIMIT)
     render_partial("report/goals/employee", collection: @employees, cached: false)
   end
 

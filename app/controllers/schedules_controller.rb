@@ -17,7 +17,7 @@ class SchedulesController < BaseController
     @free_resources = free_of_schedule(employees.where(billable: true)).round(2)
     @billed = (@billable - @free_resources).round(2)
 
-    @pagy, @employees = pagy_nil_safe(params, employees, items: 20)
+    @pagy, @employees = pagy_nil_safe(params, employees, limit: 20)
     if stale?(@employees)
       respond_to do |format|
         format.html

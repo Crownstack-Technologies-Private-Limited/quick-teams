@@ -3,7 +3,7 @@ class Report::KpisController < Report::BaseController
     authorize :report
 
     kpis = filtered_kpis
-    @pagy, @kpis = pagy_nil_safe(params, kpis, items: LIMIT)
+    @pagy, @kpis = pagy_nil_safe(params, kpis, limit: LIMIT)
     render_partial("report/kpis/kpi", collection: @kpis, cached: false)
   end
 

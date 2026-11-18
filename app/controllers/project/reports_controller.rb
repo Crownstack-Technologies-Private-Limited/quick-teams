@@ -3,7 +3,7 @@ class Project::ReportsController < Project::BaseController
 
   def index
     authorize [@project, Report]
-    @pagy, @reports = pagy_nil_safe(params, @project.reports.order(created_at: :desc), items: LIMIT)
+    @pagy, @reports = pagy_nil_safe(params, @project.reports.order(created_at: :desc), limit: LIMIT)
     render_partial("project/reports/report", collection: @reports) if stale?(@reports + [@project])
   end
 

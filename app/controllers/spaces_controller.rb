@@ -29,7 +29,7 @@ class SpacesController < BaseController
     authorize :spaces, :index?
 
     @archived_spaces = current_user.spaces.where(archive: true).order(created_at: :desc)
-    @pagy, @spaces = pagy_nil_safe(params, @archived_spaces, items: LIMIT)
+    @pagy, @spaces = pagy_nil_safe(params, @archived_spaces, limit: LIMIT)
 
     render_partial_as("spaces/archived_spaces", collection: @spaces, as: :space, cached: true) if stale?(@spaces)
   end

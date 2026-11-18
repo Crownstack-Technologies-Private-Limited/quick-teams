@@ -6,7 +6,7 @@ class Survey::AssigneesController < Survey::BaseController
     authorize [:survey, :assignee]
 
     klass = @survey.survey_for.resolve_class
-    @pagy, @assignees = pagy_nil_safe(params, klass.available.where(kpi_id: @survey), items: LIMIT)
+    @pagy, @assignees = pagy_nil_safe(params, klass.available.where(kpi_id: @survey), limit: LIMIT)
     @assigns = klass.available.where(kpi_id: nil)
     render_partial("survey/assignees/assignee", collection: @assignees, cached: true) if stale?(@assignees + @assigns + [@survey])
   end

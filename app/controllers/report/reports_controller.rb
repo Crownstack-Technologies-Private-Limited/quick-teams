@@ -3,7 +3,7 @@ class Report::ReportsController < Report::BaseController
     authorize :report
     reports = Report.query(reports_filter_params, nil, created_at: :desc)
 
-    @pagy, @reports = pagy_nil_safe(params, reports, items: LIMIT)
+    @pagy, @reports = pagy_nil_safe(params, reports, limit: LIMIT)
     render_partial("report/reprots/report", collection: @reports, cached: false)
   end
 
