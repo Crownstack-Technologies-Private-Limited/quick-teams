@@ -1,24 +1,34 @@
-# README
+# Quick Teams
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Rails 8.1 app (importmap + propshaft + tailwindcss-rails, Solid Queue / Solid Cable, Postgres). No Node or Redis needed.
 
-Things you may want to cover:
+## Local setup
 
-* Ruby version
+```bash
+docker compose up -d            # Postgres 16 on localhost:5433 (postgres/postgres)
+bundle install
+bin/rails dev:cache             # StimulusReflex refuses to boot without caching in development
+bin/rails db:prepare
+bin/dev                         # Rails server + Tailwind watcher (Procfile.dev)
+```
 
-* System dependencies
+`config/database.yml` is driven by environment variables (`DB_HOST`, `DB_PORT`, `DB_USERNAME`, `DB_PASSWORD`).
+Set `DB_NAME` to give a checkout or worktree its own pair of databases (`${DB_NAME}_development` / `${DB_NAME}_test`).
 
-* Configuration
+## Tests
 
-* Database creation
+```bash
+bin/rails test                  # models, controllers, mailers, jobs, interactors
+bin/rails test test/system      # Selenium + Chrome
+bundle exec brakeman -q
+bundle exec bundle-audit check --update
+```
 
-* Database initialization
+## Deployment
 
-* How to run the test suite
+Production and staging need three databases: primary (`DATABASE_URL`), Solid Queue (`QUEUE_DATABASE_URL`) and
+Solid Cable (`CABLE_DATABASE_URL`); the last two fall back to `DATABASE_URL`. `bin/render-build.sh` runs
+`bin/rails db:prepare`, which loads `db/queue_schema.rb` and `db/cable_schema.rb` into empty databases.
+The worker process is `bin/jobs start` (see `Procfile`).
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+See `docs/upgrade-plan.md` for the upgrade history and outstanding human actions.

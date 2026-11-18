@@ -10,6 +10,8 @@ StimulusReflex.configure do |config|
   # `:exit` or `:warn` or `:ignore`
 
   # config.on_failed_sanity_checks = :exit
+  # The test environment deliberately uses :null_store; don't abort `rails test` over it.
+  config.on_failed_sanity_checks = :ignore if Rails.env.test?
 
   # Enable/disable exiting / warning when there's a new StimulusReflex release
   # `:exit` or `:warn` or `:ignore`
