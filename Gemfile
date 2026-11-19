@@ -51,8 +51,8 @@ gem "bootsnap", "~> 1.18", require: false
 gem "draper"
 gem "pagy", "~> 9.3"
 gem "rails-patterns"
-gem "wicked_pdf", github: "mileszs/wicked_pdf", branch: "master"
-gem "wkhtmltopdf-binary", "0.12.6.7"
+gem "wicked_pdf", "~> 2.8"
+gem "wkhtmltopdf-binary", "0.12.6.10"
 gem "csv"
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
