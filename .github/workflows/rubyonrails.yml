@@ -47,8 +47,12 @@ jobs:
         run: bin/rails db:prepare
       - name: Build Tailwind CSS
         run: bin/rails tailwindcss:build
-      - name: Validate Solid Queue configuration
-        run: bin/rails solid_queue:check
+      - name: Validate Solid Queue configuration (production config, throwaway databases)
+        env:
+          RAILS_ENV: production
+          SECRET_KEY_BASE: ci-only-not-a-secret
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/ci_production
+        run: bin/rails db:prepare && bin/rails solid_queue:check
       - name: Unit tests
         run: bin/rails test
       - name: System tests (Selenium + Chrome preinstalled on the runner)
