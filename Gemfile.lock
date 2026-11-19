@@ -251,7 +251,8 @@ GEM
       timeout
     net-smtp (0.5.1)
       net-protocol
-    newrelic_rpm (9.24.0)
+    newrelic_rpm (10.9.1)
+      logger
     nio4r (2.7.5)
     nokogiri (1.19.7-arm64-darwin)
       racc (~> 1.4)
@@ -492,7 +493,7 @@ DEPENDENCIES
   listen
   mini_magick (~> 5.4)
   mocha
-  newrelic_rpm (~> 9.16)
+  newrelic_rpm (~> 10.9)
   nokogiri (~> 1.16)
   pagy (~> 9.3)
   pay (~> 11.4)

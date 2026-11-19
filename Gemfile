@@ -67,7 +67,7 @@ gem "devise-pwned_password"
 gem "pay", "~> 11.4"
 gem "stripe", "~> 18.0"
 
-gem "newrelic_rpm", "~> 9.16"
+gem "newrelic_rpm", "~> 10.9"
 
 group :development, :test do
   gem "brakeman", require: false
