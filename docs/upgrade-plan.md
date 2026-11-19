@@ -278,3 +278,48 @@ A–D touch disjoint files and can run in parallel; E–H likewise except H depe
 - Hosting: Ruby 4.0.9 availability, ImageMagick installed, Puma IPv6 bind vs health checks, DigitalOcean Spaces checksum settings.
 - Current Stripe webhook endpoint API version and event list.
 - Whether the removed features (nuggets, knowledge base) and their data can be dropped.
+
+---
+
+## 12. Execution status (branch `claude/upgrade-phases-6f2b15`, 2026-11-19)
+
+Test numbers: baseline on `upgrade-base` — unit 120/0/0, system 855 runs / 24 F / 12 E. Latest full system run
+(`fdefdb42`, Ruby 4.0.9 + load_defaults 8.1): 855 runs / 1 F / 0 E; unit now 157/0/0. bundle-audit: 158 advisories → **0**.
+brakeman: 13 mass-assignment warnings, unchanged.
+
+| Item | Status |
+|---|---|
+| §3.1 JS imports, §3.2 SR pin | done on `upgrade-base`; §3.2 test sanity check ignored in test (`6c07691b`) |
+| §3.3 Pay 7/8/10 migrations, billing fixes, SignUp error reporting | done (`d47b34d7`) |
+| §3.4 Solid Queue recurring/queue config | done (`3d8deb51`) |
+| §3.5 staging queue/cable, render-build, Procfile | done (`62efc76b`); queue/cable must be separate DBs (see README) |
+| §3.6 small bugs | done: New Relic ENV key, letter_opener_web, bin/dev, dead code, favicon, Pagy `limit:`, SubscriptionManager, invitation text link, sign-up HTML fallback |
+| Extra Phase 0 fixes | modal stacking (Tailwind 4), 27 duplicate test class names, Chrome 159 test-browser fixes, stale fixtures, racy tests |
+| §4 merge `dev` | done (`f1bcaf87`): /up, Puma WEB_CONCURRENCY, prod force_ssl/static/STDOUT logs; nuggets/kbs drop migrations untouched |
+| §5.4 Rails 8.1.4.1 + low-risk bumps | done; pg_search/vcr/webmock removed; importmap trix 2.1.19, request.js 0.0.13 |
+| §5.1 Pagy 43.8 | done (`cf85de7f`) with pagination tests |
+| §5.2 Devise 5, pwned, devise_invitable 2.0.14 | done (`1fd3503a`); Devise key pinned to Devise 4 order |
+| §5.3 Pay 12.5 / Stripe 21 | done (`93d7c6e0`); optional client_reference_id/sync not changed |
+| §6 Ruby 4.0.9 | done (`360295c9`, `69b15585`) |
+| §7 load_defaults 8.1 | done (`d8b71729`) |
+| §7 acts_as_tenant 2.2 | done (`34ec9cbf`); cross-tenant create is now a validation error (no app path does it) |
+| §7 rails-patterns → ApplicationService | done (`b48bf019`) |
+| §7 devise_invitable 3.x | **deferred**: 3.x never signs in a user who existed before the invite (this app creates employees, then invites), so after accepting they would land on the sign-in page instead of being signed in. Keeping 2.x behaviour means overriding a deliberate security change: product decision. A verified data migration (old tokens keep working), N+1 fix and tests are saved in the shared notes folder `devise_invitable3-attempt/`. |
+| §7 StimulusReflex → Turbo Streams | **not done** (usage limit). Designed: HTTP shim keeping `data-reflex` markup, allow-listed `ReflexActionsController`, `morph` → Turbo Stream replace/update with morphing, page morph via `Turbo.morphBodyElements`. 37 actions in 21 reflexes. |
+| §7 wkhtmltopdf replacement | **not done**; PDF smoke test exists (`test/controllers/report/kpis_pdf_test.rb`). Grover needs Node, Ferrum needs Chrome on the host, Prawn changes the PDF look: needs a decision. |
+| §8 CI, renovate | done (`92d76544`, `89c9c470`, `ca50f063`) |
+
+Remaining failing system test: `EmployeeSpacesPermissionsTest#test_space_participant_can_not_delete_a_thread` (intermittent).
+It contradicts `Space::MessagePolicy#destroy?` (any participant may delete a thread since 2023) and only passed while two
+`SpacesTest` classes shared a setup. Product must decide whether the policy or the test is right.
+
+## 13. Human actions
+
+- **Rotate the New Relic license key** (it is in git history); set `NEW_RELIC_LICENSE_KEY` everywhere. newrelic_rpm 10 renames ActiveJob metrics: update dashboards/alerts.
+- Before deploying the Pay migrations: `bin/rails runner 'p Pay::Customer.column_names'` on production/staging; take a DB backup.
+- Provision separate Solid Queue and Solid Cable databases; set `QUEUE_DATABASE_URL` and `CABLE_DATABASE_URL` (a shared fresh DB does not work with `db:prepare`). Remove Redis add-ons and `REDIS_URL`; run the worker as `bin/jobs start`.
+- Check `SECRET_KEY_BASE` vs credentials: Devise is pinned to credentials first, so links stay valid, but confirm that credentials exist in each environment.
+- Stripe Dashboard: new webhook endpoint `/pay/webhooks/stripe` on the API version stripe-ruby 21 pins (events incl. `invoice.updated`, `payment_method.automatically_updated`, `charge.updated`), test mode first; then exercise checkout, billing portal and webhooks with `stripe listen`.
+- Hosting: Ruby 4.0.9 available, ImageMagick installed (avatar variants were not exercised locally), health check on `/up` with `force_ssl` (consider `ssl_options` redirect exclude for `/up`).
+- Product sign-off: dropping nuggets/knowledge base (irreversible migrations), devise_invitable 3 sign-in change, the space-thread delete policy.
+- Follow-up security fix: `ProjectsController#index` interpolates `params[:column]`/`params[:direction]` into `order` (SQL injection; brakeman does not flag it). Reflexes perform no authorization checks.
