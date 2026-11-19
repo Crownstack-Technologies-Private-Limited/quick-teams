@@ -2,12 +2,12 @@
 
 one:
   key: MyString
-  value: <%= ActiveRecord::FixtureSet.identify(:regular) %>
+  value: 365
   account: crownstack
 
 two:
   key: MyString
-  value: <%= ActiveRecord::FixtureSet.identify(:regular) %>
+  value: 365
   account: crownstack
 
 three:

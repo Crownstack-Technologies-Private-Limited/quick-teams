@@ -257,8 +257,11 @@ class EmployeeSpacesPermissionsTest < ApplicationSystemTestCase
   end
 
   test "space creater can only delete any of comments on a thread" do
-    @space = @all_spaces.select { |space| space.user_id == @user.id && space.archive == false }.first
-    @thread = @space.messages.where(published: true).first
+    # A published thread, in an active space the user created, that someone else commented on.
+    own_spaces = @all_spaces.select { |space| space.user_id == @user.id && space.archive == false }
+    @thread = Message.where(published: true, space: own_spaces).order(:id)
+      .find { |message| message.message_comments.any? { |comment| comment.user_id != @user.id } }
+    @space = @thread.space
     visit thread_page_url
     @comment = @thread.message_comments.select { |comment| comment.user_id != @user.id }.first
     within "turbo-frame##{dom_id(@comment)}" do

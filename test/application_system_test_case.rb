@@ -17,7 +17,14 @@ end
 Capybara::Selenium::Driver::ChromeDriver.prepend(ChromeResetWithoutWildcardOrigin)
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
-  driven_by :selenium, using: :chrome, screen_size: [1440, 900]
+  # Fixture users sign in with "password"; Chrome's password manager then shows its leaked-password
+  # warning over the page, which swallowed every click of the next test. Turn that UI off.
+  driven_by :selenium, using: :chrome, screen_size: [1440, 900] do |options|
+    options.add_preference("credentials_enable_service", false)
+    options.add_preference("profile.password_manager_enabled", false)
+    options.add_preference("profile.password_manager_leak_detection", false)
+    options.add_argument("--disable-features=PasswordLeakDetection,PasswordManagerOnboarding")
+  end
 
   # StimulusReflex wires up [data-reflex] elements from a debounced (20ms) MutationObserver.
   # Clicking a freshly inserted element (e.g. a search result) before that happens skips the
