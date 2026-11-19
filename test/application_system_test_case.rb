@@ -1,5 +1,21 @@
 require "test_helper"
 
+# Chrome 159+ rejects the wildcard origin Capybara 3.40 passes to Storage.clearDataForOrigin when it resets
+# the session between tests, so cookies (and the signed-in user) leaked into the next test. Fall back to
+# clearing all cookies and the app origin's storage.
+module ChromeResetWithoutWildcardOrigin
+  def reset!
+    super
+  rescue Selenium::WebDriver::Error::InvalidArgumentError => e
+    raise unless e.message.include?("is not a valid URL")
+
+    execute_cdp("Network.clearBrowserCookies")
+    server = Capybara.current_session.server
+    execute_cdp("Storage.clearDataForOrigin", origin: server.base_url, storageTypes: "cookies,local_storage") if server
+  end
+end
+Capybara::Selenium::Driver::ChromeDriver.prepend(ChromeResetWithoutWildcardOrigin)
+
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   driven_by :selenium, using: :chrome, screen_size: [1440, 900]
 

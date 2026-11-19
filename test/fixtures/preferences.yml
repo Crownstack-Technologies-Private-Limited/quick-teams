@@ -2,17 +2,17 @@
 
 one:
   key: MyString
-  value: 365
+  value: <%= ActiveRecord::FixtureSet.identify(:regular) %>
   account: crownstack
 
 two:
   key: MyString
-  value: 365
+  value: <%= ActiveRecord::FixtureSet.identify(:regular) %>
   account: crownstack
 
 three:
   key: transfer_data_to_admin
-  value: 365
+  value: <%= ActiveRecord::FixtureSet.identify(:regular) %>
   account: crownstack
   
 four:
