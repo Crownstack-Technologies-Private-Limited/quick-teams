@@ -4,7 +4,7 @@ source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 # ruby version app is using, [https://www.ruby-lang.org/en/downloads/]
-ruby "3.4.7"
+ruby "4.0.9"
 
 # Bundle edge Rails instead: gem 'rails', [https://github.com/rails/rails]
 gem "rails", "~> 8.1.4", ">= 8.1.4.1"
@@ -55,7 +55,7 @@ gem "wicked_pdf", "~> 2.8"
 gem "wkhtmltopdf-binary", "0.12.6.10"
 gem "csv"
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
+gem "tzinfo-data", platforms: %i[windows jruby]
 gem "nokogiri", "~> 1.16"
 
 # devise gems
@@ -88,5 +88,5 @@ end
 group :test do
   gem "capybara"
   gem "selenium-webdriver"
-  gem "mocha"
+  gem "mocha", ">= 3.1" # 2.x uses CGI.parse, removed in Ruby 4
 end
