@@ -88,6 +88,8 @@ class EmployeeTimesheetsTest < ApplicationSystemTestCase
     timesheet = @employee.timesheets.last_30_days.order(date: :desc).first
     assert_text timesheet.description.upcase_first
     find("tr", id: dom_id(timesheet)).click_link("Edit")
+    # The index has its own timesheet_description field (new-timesheet form); wait for the edit form.
+    assert_button "Edit Timesheet"
     description = "Spent on agile process 1"
     fill_in "timesheet_description", with: description
     take_screenshot
