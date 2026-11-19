@@ -15,10 +15,10 @@ pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin "@rails/actioncable", to: "actioncable.esm.js"
 pin "@rails/activestorage", to: "activestorage.esm.js"
 pin "@rails/actiontext", to: "actiontext.esm.js"
-pin "@rails/request.js", to: "https://ga.jspm.io/npm:@rails/request.js@0.0.11/src/index.js"
+pin "@rails/request.js", to: "https://ga.jspm.io/npm:@rails/request.js@0.0.13/src/index.js"
 
 # Trix editor
-pin "trix", to: "https://ga.jspm.io/npm:trix@2.1.8/dist/trix.esm.min.js"
+pin "trix", to: "https://ga.jspm.io/npm:trix@2.1.19/dist/trix.esm.min.js"
 
 # StimulusReflex and CableReady
 pin "stimulus_reflex", to: "https://ga.jspm.io/npm:stimulus_reflex@3.5.5/dist/stimulus_reflex.js"
