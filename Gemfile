@@ -16,7 +16,7 @@ gem "propshaft"
 gem "pg", "~> 1.5"
 
 # Use Puma as the app server [https://github.com/puma/puma]
-gem "puma", "~> 6.5"
+gem "puma", "~> 8.1"
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
@@ -37,10 +37,10 @@ gem "stimulus_reflex", "~> 3.5"
 gem "image_processing", "~> 1.13"
 
 # Solid Queue for background jobs
-gem "solid_queue", "~> 1.2"
+gem "solid_queue", "~> 1.7"
 
 # Solid Cable for Action Cable
-gem "solid_cable", "~> 3.0"
+gem "solid_cable", "~> 4.1"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "acts_as_tenant"

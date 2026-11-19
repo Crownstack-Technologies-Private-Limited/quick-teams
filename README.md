@@ -29,6 +29,7 @@ bundle exec bundle-audit check --update
 Production and staging need three databases: primary (`DATABASE_URL`), Solid Queue (`QUEUE_DATABASE_URL`) and
 Solid Cable (`CABLE_DATABASE_URL`); the last two fall back to `DATABASE_URL`. `bin/render-build.sh` runs
 `bin/rails db:prepare`, which loads `db/queue_schema.rb` and `db/cable_schema.rb` into empty databases.
-The worker process is `bin/jobs start` (see `Procfile`).
+The worker process is `bin/jobs start` (see `Procfile`); `bin/rails solid_queue:check` validates its configuration.
+On macOS, forked Solid Queue workers segfault inside `pg` unless `PGGSSENCMODE=disable` is set (Linux is unaffected).
 
 See `docs/upgrade-plan.md` for the upgrade history and outstanding human actions.
