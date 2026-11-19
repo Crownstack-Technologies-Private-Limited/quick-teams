@@ -1,4 +1,4 @@
-class DestroyProject < Patterns::Service
+class DestroyProject < ApplicationService
   def initialize(project)
     @project = project
   end

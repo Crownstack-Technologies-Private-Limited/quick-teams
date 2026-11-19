@@ -1,4 +1,4 @@
-class AddSpace < Patterns::Service
+class AddSpace < ApplicationService
   def initialize(space_params, actor, users)
     @space = Space.new(space_params)
     @actor = actor

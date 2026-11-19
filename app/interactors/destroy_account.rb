@@ -1,4 +1,4 @@
-class DestroyAccount < Patterns::Service
+class DestroyAccount < ApplicationService
   def initialize(ids)
     @accounts = Account.where(id: ids)
   end

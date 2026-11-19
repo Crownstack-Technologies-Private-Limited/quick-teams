@@ -1,4 +1,4 @@
-class ArchiveSpace < Patterns::Service
+class ArchiveSpace < ApplicationService
   def initialize(space, actor)
     @space = space
     @actor = actor

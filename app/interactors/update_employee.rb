@@ -1,4 +1,4 @@
-class UpdateEmployee < Patterns::Service
+class UpdateEmployee < ApplicationService
   def initialize(employee, params, actor)
     @employee = employee
     @actor = actor

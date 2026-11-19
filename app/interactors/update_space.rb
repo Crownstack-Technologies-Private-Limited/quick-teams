@@ -1,4 +1,4 @@
-class UpdateSpace < Patterns::Service
+class UpdateSpace < ApplicationService
   def initialize(space, actor, users, params)
     @space = space
     @actor = actor

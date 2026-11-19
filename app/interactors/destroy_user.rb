@@ -1,4 +1,4 @@
-class DestroyUser < Patterns::Service
+class DestroyUser < ApplicationService
   TRANSFERABLE_MODELS = {
     "Survey::Survey" => :actor_id,
     "Template" => :user_id,

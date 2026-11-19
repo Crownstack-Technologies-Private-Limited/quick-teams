@@ -1,4 +1,4 @@
-class RemoveTodo < Patterns::Service
+class RemoveTodo < ApplicationService
   def initialize(todo, actor)
     @todo = todo
     @actor = actor

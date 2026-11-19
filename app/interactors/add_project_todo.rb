@@ -1,4 +1,4 @@
-class AddProjectTodo < Patterns::Service
+class AddProjectTodo < ApplicationService
   def initialize(project, params, actor)
     @project = project
     @todo = project.todos.new(params)

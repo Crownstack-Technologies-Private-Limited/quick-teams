@@ -1,4 +1,4 @@
-class SignUp < Patterns::Service
+class SignUp < ApplicationService
   def initialize(account, user)
     @account = account
     @user = user

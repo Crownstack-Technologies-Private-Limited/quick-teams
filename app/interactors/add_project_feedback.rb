@@ -1,4 +1,4 @@
-class AddProjectFeedback < Patterns::Service
+class AddProjectFeedback < ApplicationService
   def initialize(project, params, actor)
     @project = project
     @feedback = project.feedbacks.new(params)

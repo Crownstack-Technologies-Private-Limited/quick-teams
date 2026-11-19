@@ -1,4 +1,4 @@
-class UpdateReport < Patterns::Service
+class UpdateReport < ApplicationService
   def initialize(report, params, submitted)
     @report = report
     @submitted = submitted

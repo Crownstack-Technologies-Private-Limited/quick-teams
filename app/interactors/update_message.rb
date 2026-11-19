@@ -1,4 +1,4 @@
-class UpdateMessage < Patterns::Service
+class UpdateMessage < ApplicationService
   def initialize(space, message, actor, draft, send_email, params)
     @space = space
     @message = message

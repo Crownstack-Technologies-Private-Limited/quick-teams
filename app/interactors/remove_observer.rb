@@ -1,4 +1,4 @@
-class RemoveObserver < Patterns::Service
+class RemoveObserver < ApplicationService
   def initialize(project, observer, actor)
     @project = project
     @observer = observer

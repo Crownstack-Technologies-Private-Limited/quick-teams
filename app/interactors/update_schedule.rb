@@ -1,4 +1,4 @@
-class UpdateSchedule < Patterns::Service
+class UpdateSchedule < ApplicationService
   def initialize(schedule, project, employee, params, actor)
     @schedule = schedule
     @project = project

@@ -1,4 +1,4 @@
-class AddTimesheet < Patterns::Service
+class AddTimesheet < ApplicationService
   def initialize(params, actor)
     @timesheet = Timesheet.new(params)
     @project = Project.find(params["project_id"])

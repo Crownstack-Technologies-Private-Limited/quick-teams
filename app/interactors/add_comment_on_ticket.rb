@@ -1,4 +1,4 @@
-class AddCommentOnTicket < Patterns::Service
+class AddCommentOnTicket < ApplicationService
   def initialize(params, ticket, method, actor)
     @comment = Comment.new(params)
     @ticket = ticket

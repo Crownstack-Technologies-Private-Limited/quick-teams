@@ -1,4 +1,4 @@
-class AddNote < Patterns::Service
+class AddNote < ApplicationService
   def initialize(project, params, actor)
     @project = project
     @note = project.notes.new(params)

@@ -1,4 +1,4 @@
-class AddCommentOnMessage < Patterns::Service
+class AddCommentOnMessage < ApplicationService
   def initialize(params, message, actor)
     @comment = MessageComment.new(params)
     @message = Message.find(message)

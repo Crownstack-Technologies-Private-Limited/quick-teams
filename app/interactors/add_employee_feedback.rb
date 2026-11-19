@@ -1,4 +1,4 @@
-class AddEmployeeFeedback < Patterns::Service
+class AddEmployeeFeedback < ApplicationService
   def initialize(employee, params, actor)
     @employee = employee
     @feedback = employee.feedbacks.new(params)

@@ -1,4 +1,4 @@
-class AddProjectReport < Patterns::Service
+class AddProjectReport < ApplicationService
   def initialize(project, params, submitted, actor)
     @project = project
     @report = project.reports.new(params)

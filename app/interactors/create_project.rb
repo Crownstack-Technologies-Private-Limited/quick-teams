@@ -1,4 +1,4 @@
-class CreateProject < Patterns::Service
+class CreateProject < ApplicationService
   def initialize(params, actor, observers)
     @project = Project.new(params)
     @actor = actor

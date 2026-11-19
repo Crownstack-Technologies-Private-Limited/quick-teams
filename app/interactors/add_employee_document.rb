@@ -1,4 +1,4 @@
-class AddEmployeeDocument < Patterns::Service
+class AddEmployeeDocument < ApplicationService
   def initialize(employee, params, actor)
     @employee = employee
     @document = employee.documents.new(params)
