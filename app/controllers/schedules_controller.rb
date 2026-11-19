@@ -1,5 +1,4 @@
 class SchedulesController < BaseController
-  include Pagy::Backend
 
   before_action :set_project, only: %i[ update create destroy edit ]
   before_action :set_schedule, only: %i[ update destroy edit ]

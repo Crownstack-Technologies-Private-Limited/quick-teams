@@ -1,4 +1,5 @@
-<% link = pagy_anchor(pagy) %>
+<%# Pagy 43: series and a_lambda are protected helpers; the markup below is unchanged. %>
+<% link = pagy.send(:a_lambda) %>
 
 <nav
   aria-label="Pagination"
@@ -8,14 +9,14 @@
   "
   role="navigation"
 >
-  <% if pagy.prev %>
+  <% if pagy.previous %>
     <span
       class="
         px-3 py-2 text-sm font-medium leading-tight text-gray-700 border-r
         border-gray-200 page prev hover:text-gray-900 hover:bg-gray-100
       "
     >
-      <%== link.(pagy.prev, "&lt;", aria_label: "Previous") %>
+      <%== link.(pagy.previous, "&lt;", aria_label: "Previous") %>
     </span>
   <% else %>
     <span
@@ -29,7 +30,7 @@
     </span>
   <% end %>
 
-  <% pagy.series.each do |item| %>
+  <% pagy.send(:series).each do |item| %>
     <% if item.is_a?(Integer) %>
       <span
         class="
@@ -70,9 +71,8 @@
       "
     >
       <a
-        href="<%== pagy_url_for(pagy, pagy.next) %>"
+        href="<%= pagy.page_url(:next) %>"
         rel="next"
-        aria-disabled="true"
         aria-label="Next"
       >
         &gt;

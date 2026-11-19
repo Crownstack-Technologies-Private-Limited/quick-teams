@@ -1,6 +1,5 @@
 class Survey::BaseController < BaseController
   before_action :set_survey, only: %i[show edit update destroy]
-  include Pagy::Backend
   helper_method :resolve_redirect_path
 
   private

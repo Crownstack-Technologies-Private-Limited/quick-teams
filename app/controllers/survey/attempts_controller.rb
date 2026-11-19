@@ -1,5 +1,4 @@
 class Survey::AttemptsController < Survey::BaseController
-  include Pagy::Backend
   before_action :set_survey, only: [:index, :update, :destroy, :show, :new, :create, :preview, :survey_questions]
   before_action :set_attempt, only: [:destroy, :update]
   before_action :set_attempt_with_survey, only: [:preview, :show]

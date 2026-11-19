@@ -3,7 +3,6 @@ class Project::BaseController < BaseController
   before_action :set_statuses, only: %i[index]
   before_action :set_tags, only: %i[index]
   after_action :verify_authorized
-  include Pagy::Backend
 
   def set_project
     @project ||= Project.find(params["project_id"])

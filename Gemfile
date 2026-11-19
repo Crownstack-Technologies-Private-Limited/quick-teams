@@ -49,7 +49,7 @@ gem "acts_as_tenant"
 gem "aws-sdk-s3", "~> 1.170"
 gem "bootsnap", "~> 1.18", require: false
 gem "draper"
-gem "pagy", "~> 9.3"
+gem "pagy", "~> 43.0"
 gem "rails-patterns"
 gem "wicked_pdf", "~> 2.8"
 gem "wkhtmltopdf-binary", "0.12.6.10"

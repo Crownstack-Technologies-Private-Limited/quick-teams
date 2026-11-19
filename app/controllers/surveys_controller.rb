@@ -1,5 +1,4 @@
 class SurveysController < BaseController
-  include Pagy::Backend
   before_action :set_survey, only: %i[ show edit update destroy clone assignees ]
 
   def index
