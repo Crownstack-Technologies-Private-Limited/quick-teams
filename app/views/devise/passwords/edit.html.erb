@@ -1,9 +1,10 @@
-<div class="flex flex-col justify-center min-h-screen py-12 bg-gray-50 sm:px-6 lg:px-8">
+<div class="flex min-h-screen flex-col justify-center bg-linear-to-b from-primary-50/60 to-gray-50 px-4 py-12 sm:px-6 lg:px-8">
   <div class="sm:mx-auto sm:w-full sm:max-w-md">
-    <a href="http://teams.quicklabs.in">
-      <img class="w-auto h-12 mx-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow">
+    <a href="http://teams.quicklabs.in" class="mx-auto flex w-fit items-center gap-2.5 rounded-lg" aria-label="Quick Teams home">
+      <span class="brand-mark h-10 w-10 rounded-xl text-base" aria-hidden="true">Q</span>
+      <span class="brand-name text-lg">Quick Teams</span>
     </a>
-    <h2 class="mt-6 text-3xl font-extrabold text-center text-gray-900">
+    <h2 class="mt-8 text-center text-2xl font-semibold tracking-tight text-gray-900">
       Change your password
     </h2>
   </div>
@@ -11,29 +12,29 @@
     <%= f.hidden_field :reset_password_token %>
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <%= render "devise/shared/error_messages", resource: resource %>
-      <div class="px-4 py-8 mt-4 space-y-4 bg-white shadow sm:rounded-lg sm:px-10">
+      <div class="card mt-4 space-y-5 px-5 py-8 shadow-sm sm:px-10">
         <div>
-          <label for="password" class="block text-sm font-medium text-gray-700">
+          <label for="user_password" class="form-label">
             New Password
           </label>
           <% if @minimum_password_length %>
             <em>(<%= @minimum_password_length %> characters minimum)</em><br />
           <% end %>
-          <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+          <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "form-text-field" %>
         </div>
         <div>
-          <label for="password_confirmation" class="block text-sm font-medium text-gray-700">
+          <label for="user_password_confirmation" class="form-label">
             Confrim New Password
           </label>
-          <%= f.password_field :password_confirmation, autofocus: true, autocomplete: "new-password", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" %>
+          <%= f.password_field :password_confirmation, autofocus: true, autocomplete: "new-password", class: "form-text-field" %>
         </div>
         <div>
-          <%= f.submit "Change my password", class: "cursor-pointer w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+          <%= f.submit "Change my password", class: "btn-primary w-full py-2.5" %>
         </div>
         <div>
           <% -if controller_name != "sessions" %>
             <div class="text-sm text-center">
-              <a href="<%= new_session_path(resource_name) %>" class="font-medium text-indigo-600 hover:text-indigo-500">
+              <a href="<%= new_session_path(resource_name) %>" class="font-medium text-primary-700 hover:text-primary-800 hover:underline">
                 Log in
               </a>
             </div>
