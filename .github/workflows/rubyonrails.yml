@@ -52,6 +52,8 @@ jobs:
           RAILS_ENV: production
           SECRET_KEY_BASE: ci-only-not-a-secret
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/ci_production
+          QUEUE_DATABASE_URL: postgres://postgres:postgres@localhost:5432/ci_production_queue
+          CABLE_DATABASE_URL: postgres://postgres:postgres@localhost:5432/ci_production_cable
         run: bin/rails db:prepare && bin/rails solid_queue:check
       - name: Unit tests
         run: bin/rails test
