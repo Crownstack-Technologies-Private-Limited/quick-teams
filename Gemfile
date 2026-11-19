@@ -34,7 +34,9 @@ gem "stimulus-rails", "~> 1.3"
 gem "stimulus_reflex", "~> 3.5"
 
 # Use Active Storage variant
-gem "image_processing", "~> 1.13"
+gem "image_processing", "~> 2.2"
+# image_processing 2 no longer depends on mini_magick; variants use variant_processor :mini_magick
+gem "mini_magick", "~> 5.4"
 
 # Solid Queue for background jobs
 gem "solid_queue", "~> 1.7"
