@@ -26,14 +26,13 @@
 <div class="order-3 w-full sm:order-none sm:ml-auto sm:w-64 lg:w-80" data-behavior="autocomplete" data-controller="nav-search" data-nav-search-url-value="/search/people-projects">
   <div class="w-full">
     <div class="relative">
-      <label for="search" class="sr-only">Search employee or project</label>
       <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
         <!-- Heroicon name: solid/search -->
         <svg class="h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
           <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
         </svg>
       </div>
-      <input id="search" name="search" class="block w-full rounded-md border border-transparent bg-gray-100 py-1.5 pl-9 pr-3 text-sm leading-5 text-gray-900 placeholder-gray-500 transition-colors focus:border-primary-500 focus:bg-white focus:ring-2 focus:ring-primary-500/25 focus:outline-none" placeholder="Search Employee or Project" type="search" data-nav-search-target="input">
+      <input id="search" name="search" aria-label="Search employee or project" class="block w-full rounded-md border border-transparent bg-gray-100 py-1.5 pl-9 pr-3 text-sm leading-5 text-gray-900 placeholder-gray-500 transition-colors focus:border-primary-500 focus:bg-white focus:ring-2 focus:ring-primary-500/25 focus:outline-none" placeholder="Search Employee or Project" type="search" data-nav-search-target="input">
     </div>
     <div class="relative">
       <div class="absolute left-0 z-10 block w-full mt-2 origin-top-right overflow-hidden bg-white rounded-lg shadow-lg border border-gray-200 has-[ul:empty]:hidden focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">

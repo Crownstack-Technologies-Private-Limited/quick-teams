@@ -29,8 +29,8 @@ tokens + `@layer components`). The same tokens, styles and components live in Fi
 
 | Role | Token (CSS) | Value | Use |
 |---|---|---|---|
-| Canvas | `--qt-bg-canvas` → `gray-50` | `#f8fafc` | page background (`body`) |
-| Surface | `--qt-bg-surface` → `white` | `#ffffff` | cards, app bar, tables, inputs |
+| Canvas | `--qt-bg-canvas` → `gray-50` | `#f8fafc` | table heads, side panels, auth background (signed-in pages sit on white: most views place unboxed content directly on the page, so a grey canvas would leave white/grey patches) |
+| Surface | `--qt-bg-surface` → `white` | `#ffffff` | `body`, page header bands, cards, app bar, tables, inputs |
 | Subtle | `--qt-bg-subtle` → `gray-100` | `#f1f5f9` | table heads, search field, hover |
 | Brand | `--qt-bg-brand` → `primary-600` | `#4f46e5` | primary buttons, active tab underline, logo mark |
 | Brand hover | `primary-700` | `#4338ca` | hover, brand text (7.0:1 on white) |
@@ -92,5 +92,5 @@ Untouched by design: `layouts/pdf.html.erb` and `survey/pdf/*` (PDF output), mai
 - Text contrast ≥ 4.5:1 (body, meta, table heads); UI graphics ≥ 3:1 (icons, borders of inputs).
 - Visible `:focus-visible` outline on links, buttons, summaries and menu items — unlayered CSS so `focus:outline-none` in old markup can't remove it.
 - `aria-label` on icon-only controls (user menu, "more" menu, add-tag `+` buttons, mobile menu toggle), `aria-current="page"` on the active nav item.
-- Real `<label for>` on the nav search field (visually hidden), `alt` on logos.
+- `aria-label` on the nav search field (a `<label>` element would also match the `fill_in ""` locator some system tests use), real `<label for>` on the auth forms, no broken logo images.
 - Respects the user's text size (rem-based), no content hidden behind hover only.
