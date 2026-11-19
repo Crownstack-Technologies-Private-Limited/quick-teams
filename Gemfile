@@ -59,9 +59,9 @@ gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 gem "nokogiri", "~> 1.16"
 
 # devise gems
-gem "devise", "~> 4.9"
-gem "devise_invitable", "~> 2.0"
-gem "devise-pwned_password"
+gem "devise", "~> 5.0"
+gem "devise_invitable", "~> 2.0", ">= 2.0.14" # 3.x moves invitations to their own table (Phase 4)
+gem "pwned", "~> 2.4" # not_pwned: validator in SignUpForm / ChangePasswordForm
 
 # Payments
 gem "pay", "~> 11.4"

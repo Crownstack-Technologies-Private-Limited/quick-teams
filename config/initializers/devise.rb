@@ -16,6 +16,11 @@ Devise.setup do |config|
   # by default. You can change it below and use your own secret key.
   # config.secret_key = '0d6e6ef1cfce5d92aa47b829c7d396873d29867c8606dc28d14064bd68249c59f48e51e309e26daee3b410a6fbef9bd44ecd9bff5060ea611e1e34b48dc8d86e'
 
+  # Devise 4 derived its token key from credentials.secret_key_base first; Devise 5 uses
+  # Rails.application.secret_key_base (ENV["SECRET_KEY_BASE"] first). Keep the Devise 4 order so
+  # password-reset, confirmation and invitation links sent before the upgrade stay valid.
+  config.secret_key = Rails.application.credentials.secret_key_base.presence || Rails.application.secret_key_base
+
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
   # config.parent_controller = 'DeviseController'
@@ -302,7 +307,7 @@ Devise.setup do |config|
   # apps is `200 OK` and `302 Found respectively`, but new apps are generated with
   # these new defaults that match Hotwire/Turbo behavior.
   # Note: These might become the new default in future versions of Devise.
-  config.responder.error_status = :unprocessable_entity
+  config.responder.error_status = :unprocessable_content
   config.responder.redirect_status = :see_other
 
   # ==> Configuration for :registerable
