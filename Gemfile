@@ -64,8 +64,8 @@ gem "devise_invitable", "~> 2.0", ">= 2.0.14" # 3.x moves invitations to their o
 gem "pwned", "~> 2.4" # not_pwned: validator in SignUpForm / ChangePasswordForm
 
 # Payments
-gem "pay", "~> 11.4"
-gem "stripe", "~> 18.0"
+gem "pay", "~> 12.5"
+gem "stripe", "~> 21.0"
 
 gem "newrelic_rpm", "~> 10.9"
 

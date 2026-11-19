@@ -8,7 +8,7 @@ class Purchase::CheckoutsController < ApplicationController
       client_reference_id: current_user.id,
       success_url: root_url + "success?session_id={CHECKOUT_SESSION_ID}",
       cancel_url: billing_url(script_name: "/#{current_user.account.id}"),
-      payment_method_types: ["card"],
+      allowed_payment_method_types: ["card"], # payment_method_types was removed from the Stripe API stripe-ruby 20+ pins
       mode: "subscription",
       line_items: [{
         quantity: 1,
