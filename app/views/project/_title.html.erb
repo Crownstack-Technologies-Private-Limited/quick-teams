@@ -35,7 +35,7 @@
         </div>
       <% end %>
     </div>
-    <div class="flex sm:mt-0 sm:ml-4">
+    <div class="flex flex-wrap gap-y-2 mt-3 sm:mt-0 sm:ml-4">
       <% if current_user.admin? %>
         <div id="project-status" class="flex">
           <%= render partial: "project/status", locals: { project: project } %>
