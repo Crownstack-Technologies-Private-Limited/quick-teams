@@ -32,7 +32,7 @@
           <div class="absolute right-0 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg w-60 border border-gray-200 z-10" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
             <div>
               <% if policy(comment).edit? %>
-                <a href=<%= edit_message_comment_path(comment) %> class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"  role= "menuitem" tabindex="-1">Edit</a>
+                <a href=<%= edit_message_comment_path(comment) %> class="dropdown-item"  role= "menuitem" tabindex="-1">Edit</a>
               <% end %>
               <% if policy(comment).destroy? %>
                 <%= styled_delete_button(comment_path(comment), "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100") %>

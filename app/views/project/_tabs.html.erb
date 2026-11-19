@@ -1,5 +1,5 @@
 <div id="project-tabs">
-  <div class="sm:hidden">
+  <div class="hidden">
     <label for="tabs" class="sr-only">Select a tab</label>
     <select id="tabs" name="tabs" class="block w-full py-2 pl-3 pr-10 text-base border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
       <option>Team</option>
@@ -8,9 +8,9 @@
       <option>Schedule</option>
     </select>
   </div>
-  <div class="hidden sm:block">
+  <div>
     <div class="border-b border-gray-200">
-      <nav class="flex -mb-px space-x-8 lg:px-6" aria-label="Tabs">
+      <nav class="tab-bar" aria-label="Tabs">
         <% if current_user.admin? %>
           <a href="<%= project_timeline_path %>" class="<%= current_page?(project_timeline_path) ? "selected-tab" : "unselected-tab" %>">
             Timeline
