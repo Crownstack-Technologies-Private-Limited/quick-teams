@@ -45,7 +45,7 @@ gem "solid_queue", "~> 1.7"
 gem "solid_cable", "~> 4.1"
 
 # Reduces boot times through caching; required in config/boot.rb
-gem "acts_as_tenant"
+gem "acts_as_tenant", "~> 2.2"
 gem "aws-sdk-s3", "~> 1.170"
 gem "bootsnap", "~> 1.18", require: false
 gem "draper"
