@@ -53,7 +53,6 @@ gem "wicked_pdf", github: "mileszs/wicked_pdf", branch: "master"
 gem "wkhtmltopdf-binary", "0.12.6.7"
 gem "csv"
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "pg_search"
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 gem "nokogiri", "~> 1.16"
 
@@ -87,7 +86,5 @@ end
 group :test do
   gem "capybara"
   gem "selenium-webdriver"
-  gem "webmock"
-  gem "vcr"
   gem "mocha"
 end
