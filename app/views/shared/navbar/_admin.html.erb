@@ -2,22 +2,22 @@
 <div class="hidden sm:ml-4 sm:flex sm:items-center">
   <div class="flex items-center gap-1">
     <% if policy(:home).index? %>
-      <a href=<%= home_path %> class= <%= current_page?(home_path) ? "nav-selected" : "nav-unselected" %> <%= 'aria-current=page' if current_page?(home_path) %>>Dashboard</a>
+      <%= render Ui::NavItemComponent.new("Dashboard", home_path) %>
     <% end %>
     <% if policy(:team).index? %>
-      <a href=<%= employees_path %> class= "<%= current_page?(employees_path) ? "nav-selected" : "nav-unselected" %>" <%= 'aria-current=page' if current_page?(employees_path) %>>Team</a>
+      <%= render Ui::NavItemComponent.new("Team", employees_path) %>
     <% end %>
     <% if policy(:projects).index? %>
-      <a href=<%= projects_path %> class= "<%= current_page?(projects_path) ? "nav-selected" : "nav-unselected" %>" <%= 'aria-current=page' if current_page?(projects_path) %>>Projects</a>
+      <%= render Ui::NavItemComponent.new("Projects", projects_path) %>
     <% end %>
     <% if policy(:schedules).index? %>
-      <a href=<%= schedules_path %> class= "<%= current_page?(schedules_path) ? "nav-selected" : "nav-unselected" %>" <%= 'aria-current=page' if current_page?(schedules_path) %>>Schedules</a>
+      <%= render Ui::NavItemComponent.new("Schedules", schedules_path) %>
     <% end %>
     <% if policy(:spaces).index? %>
-      <a href=<%= spaces_path %> class= "<%= current_page?(spaces_path) ? "nav-selected" : "nav-unselected" %>" <%= 'aria-current=page' if current_page?(spaces_path) %>>Spaces</a>
+      <%= render Ui::NavItemComponent.new("Spaces", spaces_path) %>
     <% end %>
     <% if policy(:reports).index? %>
-      <a href=<%= reports_path %> class= "<%= current_page?(reports_path) ? "nav-selected" : "nav-unselected" %>" <%= 'aria-current=page' if current_page?(reports_path) %>>Reports</a>
+      <%= render Ui::NavItemComponent.new("Reports", reports_path) %>
     <% end %>
 
     <%= render "shared/navbar/dropdown" %>
@@ -27,10 +27,7 @@
   <div class="w-full">
     <div class="relative">
       <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-        <!-- Heroicon name: solid/search -->
-        <svg class="h-4 w-4 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-          <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-        </svg>
+        <%= render Ui::IconComponent.new(:search, class: "h-4 w-4 text-gray-400") %>
       </div>
       <input id="search" name="search" aria-label="Search employee or project" class="block w-full rounded-md border border-transparent bg-gray-100 py-1.5 pl-9 pr-3 text-sm leading-5 text-gray-900 placeholder-gray-500 transition-colors focus:border-primary-500 focus:bg-white focus:ring-2 focus:ring-primary-500/25 focus:outline-none" placeholder="Search Employee or Project" type="search" data-nav-search-target="input">
     </div>

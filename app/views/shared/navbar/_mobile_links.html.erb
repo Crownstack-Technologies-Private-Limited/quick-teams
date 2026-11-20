@@ -1,5 +1,5 @@
 <%# Same links and policy checks as the desktop bar (admin/lead/member partials + "more" dropdown). %>
-<% link = ->(label, path) { link_to label, path, class: "mobile-nav-link #{"bg-primary-50 text-primary-700" if current_page?(path)}", "aria-current": (current_page?(path) ? "page" : nil) } %>
+<% link = ->(label, path) { render Ui::NavItemComponent.new(label, path, mobile: true) } %>
 <nav class="flex flex-col gap-0.5" aria-label="Main (mobile)">
   <% if current_user.admin? %>
     <%= link.("Dashboard", home_path) if policy(:home).index? %>

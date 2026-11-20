@@ -1,25 +1,10 @@
 <div class="relative flex items-center">
-  <!-- More menu -->
-  <div class="relative z-10" data-controller="dropdown" data-action="click@window->dropdown#hide keydown.escape@window->dropdown#hide">
-    <div>
-      <button data-action="click->dropdown#toggle" data-dropdown-target="button" class="nav-unselected inline-flex items-center gap-1" id="user-menu" aria-haspopup="true" aria-label="More">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-          <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-        </svg>
-      </button>
-    </div>
-    <div data-dropdown-target="menu" class="hidden absolute right-0 w-48 mt-2 origin-top-right transition ease-out duration-100">
-      <div class="dropdown-panel absolute right-0 mt-2 w-60 origin-top-right" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
-        <div>
-          <div>
-            <% if policy(:ticket).index? %>
-              <a href=<%= tickets_path %>  class= "dropdown-item", role= "menuitem"> Tickets </a>
-            <% end %>
-            <%= link_to "Surveys & KPIs", surveys_path, class: "dropdown-item", role: "menuitem" %>
-            <%= link_to "Report Templates", templates_path, class: "dropdown-item", role: "menuitem" %>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <%= render Ui::DropdownComponent.new(button_id: "user-menu", label: "More", button_variant: :nav, chevron: false, width: "w-60", wrapper_class: "z-10") do |menu| %>
+    <% menu.with_trigger { render Ui::IconComponent.new(:dots_horizontal) } %>
+    <% if policy(:ticket).index? %>
+      <% menu.with_item("Tickets", tickets_path) %>
+    <% end %>
+    <% menu.with_item("Surveys & KPIs", surveys_path) %>
+    <% menu.with_item("Report Templates", templates_path) %>
+  <% end %>
 </div>

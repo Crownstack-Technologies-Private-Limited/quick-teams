@@ -32,8 +32,8 @@
       <%= render "shared/navbar/navbar" %>
       <div id="modal"></div>
     <% end %>
-    <p class="notice flash-notice empty:hidden" role="status"><%= notice %></p>
-    <p class="alert flash-alert empty:hidden" role="alert"><%= alert %></p>
+    <%= render Ui::FlashComponent.new(:notice, notice) %>
+    <%= render Ui::FlashComponent.new(:alert, alert) %>
     <main class="pb-12">
       <%= yield %>
     </main>
