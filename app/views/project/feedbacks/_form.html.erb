@@ -5,7 +5,7 @@
     <%= form.text_field :title, "Title" %>
     <%= form.rich_text_area :body, "Feedback" %>
     <div class="flex justify-end">
-      <%= form.submit "Add Feedback", class: "btn-primary" %>
+      <%= render Ui::SubmitButtonComponent.new(form, "Add Feedback") %>
     </div>
   </main>
 <% end %>

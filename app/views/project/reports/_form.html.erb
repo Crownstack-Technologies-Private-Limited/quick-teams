@@ -8,7 +8,7 @@
         <%= form.rich_text_area :body, "Description" %>
         <div class="flex justify-between">
           <div class="">
-            <%= link_to "Cancel", project_reports_path(@project), class: "btn-secondary" %>
+            <%= render Ui::ButtonComponent.new("Cancel", href: project_reports_path(@project), variant: :secondary) %>
           </div>
           <div class="">
             <%= form.submit "Save As Draft", :name => "draft", class: "btn-secondary" %>

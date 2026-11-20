@@ -10,10 +10,10 @@
         </div>
         <div class="flex justify-end mt-4">
           <div class="ml-1">
-            <%= form.submit "Save", class: "btn-primary justify-end" %>
+            <%= render Ui::SubmitButtonComponent.new(form, "Save", class: "justify-end") %>
           </div>
           <div class="ml-1">
-            <%= link_to "Cancel", project_about_index_path, class: "btn-secondary" %>
+            <%= render Ui::ButtonComponent.new("Cancel", href: project_about_index_path, variant: :secondary) %>
           </div>
         </div>
       </div>

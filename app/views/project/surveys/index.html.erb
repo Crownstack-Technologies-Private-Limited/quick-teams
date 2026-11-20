@@ -9,33 +9,15 @@
           <section aria-labelledby="participants_section">
             <div class="overflow-hidden bg-white" data-controller="infinite-scroll">
               <div>
-                <table class="table">
-                  <thead class="bg-gray-50">
-                    <tr>
-                      <th scope="col" class="w-full table-head">
-                        Survey
-                      </th>
-                      <th scope="col" class="table-head">
-                        Taken By
-                      </th>
-                      <th scope="col" class="table-head">
-                        On Date
-                      </th>
-                      <th scope="col" class="table-head">
-                        Score
-                      </th>
-                      <th scope="col" class="table-head">
-                        Status
-                      </th>
-                      <th scope="col" class="table-head">
-                        Action
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody class="table-body" id="filled_surveys" data-infinite-scroll-target="entries">
-                    <%= render partial: "filled_survey", collection: @filled_surveys, as: :attempt, cached: false %>
-                  </tbody>
-                </table>
+                <%= render Ui::TableComponent.new(body_options: { id: "filled_surveys", data: { "infinite-scroll-target": "entries" } }) do |table| %>
+                  <% table.with_column("Survey", class: "w-full") %>
+                  <% table.with_column("Taken By") %>
+                  <% table.with_column("On Date") %>
+                  <% table.with_column("Score") %>
+                  <% table.with_column("Status") %>
+                  <% table.with_column("Action") %>
+                  <%= render partial: "filled_survey", collection: @filled_surveys, as: :attempt, cached: false %>
+                <% end %>
                 <div class="flex justify-end mt-2 mb-6 mr-2 invisible" data-infinite-scroll-target="pagination">
                   <%== render partial: "shared/paginator", locals: { pagy: @pagy } %>
                 </div>
