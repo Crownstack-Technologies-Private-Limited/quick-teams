@@ -5,7 +5,7 @@
       <div class="flex-shrink-0">
         <%= display_medium_avatar(employee) %>
       </div>
-      <a href="<%= employee_schedules_path(employee) %>" class="truncate hover:text-gray-600 hover:underline">
+      <%= render Ui::TextLinkComponent.new(nil, employee_schedules_path(employee), tone: :row) do %>
         <div class="ml-4">
           <div class="text-sm font-medium text-gray-900">
             <%= employee.display_name %>
@@ -14,7 +14,7 @@
             <%= employee.email %>
           </div>
         </div>
-      </a>
+      <% end %>
     </div>
   </td>
   <td class="table-cell whitespace-nowrap">
@@ -22,9 +22,9 @@
     <div class="text-sm text-gray-500"><%= employee.display_discipline_title %></div>
   </td>
   <td class="table-cell  whitespace-nowrap">
-    <a href="<%= employee_team_path(employee.manager) if !employee.manager.nil? %>" class="truncate hover:text-gray-600 hover:underline">
+    <%= render Ui::TextLinkComponent.new(nil, (employee_team_path(employee.manager) if !employee.manager.nil?), tone: :row) do %>
       <%= employee.display_manager_name %>
-    </a>
+    <% end %>
   </td>
   <td class="table-cell whitespace-nowrap">
     <% unless employee.status.nil? %>

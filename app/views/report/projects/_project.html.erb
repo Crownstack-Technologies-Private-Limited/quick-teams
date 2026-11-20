@@ -3,12 +3,12 @@
   <td class="w-full table-cell whitespace-nowrap">
     <div class="flex items-center font-medium">
       <%= render Ui::StatusDotComponent.new(color: project.status.nil? ? "white" : project.status.color) %>
-      <a href="<%= project_schedules_path(project) %>" class="truncate hover:text-gray-600 hover:underline">
+      <%= render Ui::TextLinkComponent.new(nil, project_schedules_path(project), tone: :row) do %>
         <span>
           <%= project.name %>
           <span class="font-normal text-gray-500"><%= project.display_discipline %></span>
         </span>
-      </a>
+      <% end %>
     </div>
   </td>
   <td class="table-cell whitespace-nowrap">
@@ -24,9 +24,9 @@
     <% end %>
   </td>
   <td class="table-cell whitespace-nowrap">
-    <a href="<%= employee_team_path(project.manager) if !project.manager.nil? %>" class="truncate hover:text-gray-600 hover:underline">
+    <%= render Ui::TextLinkComponent.new(nil, (employee_team_path(project.manager) if !project.manager.nil?), tone: :row) do %>
       <%= project.display_manager_name %>
-    </a>
+    <% end %>
   </td>
   <td class="table-cell whitespace-nowrap">
     <%= display_created_at(project) %>

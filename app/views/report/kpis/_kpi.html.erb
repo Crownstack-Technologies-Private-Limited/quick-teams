@@ -34,7 +34,7 @@
   </td>
   <td class="table-cell whitespace-nowrap">
   <% if kpi.comment.present? %>
-    <button data-reflex="click->EmployeeKpi#view_comment" data-comment=<%= "#{kpi.id}" %> class="btn-inline-edit underline mt-2 text-xs" >View</button>
+    <%= render Ui::ButtonComponent.new("View", variant: :inline_edit, class: "underline mt-2 text-xs", data: { reflex: "click->EmployeeKpi#view_comment", comment: kpi.id.to_s }) %>
   </td>
   <% end %>
 </tr>

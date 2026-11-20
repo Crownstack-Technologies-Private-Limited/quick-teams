@@ -4,7 +4,7 @@
     <div class="flex items-center">
       <%= render Ui::BillableAvatarComponent.new(employee) %>
       <div class="ml-4">
-        <a href="<%= employee_schedules_path(employee) %>" class="truncate hover:text-gray-600 hover:underline">
+        <%= render Ui::TextLinkComponent.new(nil, employee_schedules_path(employee), tone: :row) do %>
           <div class="text-sm font-medium text-gray-900">
             <%= employee.display_name %>
             <% unless employee.status.nil? %>
@@ -14,7 +14,7 @@
           <div class="text-sm text-gray-500">
             <%= employee.display_position %>
           </div>
-        </a>
+        <% end %>
       </div>
     </div>
   </td>
