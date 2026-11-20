@@ -1,6 +1,4 @@
-<div class="page max-w-xl">
-  <h2 class="page-title"><%= t "devise.invitations.new.header" %></h2>
-
+<%= render Ui::FormPageComponent.new(title: t("devise.invitations.new.header"), max_width: "max-w-xl") do %>
   <%= form_for(resource, as: resource_name, url: invitation_path(resource_name), html: { method: :post, class: "card card-body mt-6 space-y-5" }) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
 
@@ -15,4 +13,4 @@
       <%= f.submit t("devise.invitations.new.submit_button"), class: "btn-primary" %>
     </div>
   <% end %>
-</div>
+<% end %>

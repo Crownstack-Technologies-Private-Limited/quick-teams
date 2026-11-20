@@ -1,10 +1,6 @@
 <%= turbo_frame_tag dom_id(@client) do %>
   <%= form_with(model: @client, id: dom_id(@client), url: account_client_path(@client)) do |form| %>
-    <% if local_assigns[:messages] && defined?(messages) && !messages.nil? %>
-      <% messages.each do |message| %>
-        <p class="mt-2 text-sm text-red-600"><%= message %></p>
-      <% end %>
-    <% end %>
+    <%= render Ui::InlineErrorsComponent.new(local_assigns[:messages]) %>
     <li class="flex w-full py-4 border-b border-gray-200">
       <div class="w-full">
         <%= form.text_field :name, class: "form-text-field", autocomplete: "off" %>
@@ -13,7 +9,7 @@
         <%= form.text_field :email, class: "ml-3 form-text-field", autocomplete: "off" %>
       </div>
       <div class="flex ml-3">
-        <%= form.submit "Save", class: "btn-primary ml-2 justify-end" %>
+        <%= render Ui::SubmitButtonComponent.new(form, "Save", class: "ml-2 justify-end") %>
       </div>
     </li>
   <% end %>

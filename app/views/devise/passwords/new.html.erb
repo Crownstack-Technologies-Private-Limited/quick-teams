@@ -1,39 +1,17 @@
-<div class="flex min-h-screen flex-col justify-center bg-linear-to-b from-primary-50/60 to-gray-50 px-4 py-12 sm:px-6 lg:px-8">
-  <div class="sm:mx-auto sm:w-full sm:max-w-md">
-    <div class="mx-auto flex w-fit items-center gap-2.5">
-      <a href="http://teams.quicklabs.in" class="rounded-xl" aria-label="Quick Teams website">
-        <span class="brand-mark h-10 w-10 rounded-xl text-base" aria-hidden="true">Q</span>
-      </a>
-      <span class="brand-name text-lg">Quick Teams</span>
-    </div>
-    <h2 class="mt-8 text-center text-2xl font-semibold tracking-tight text-gray-900">
-      Forgot your password?
-    </h2>
-  </div>
+<%= render Ui::AuthPageComponent.new(title: "Forgot your password?", heading_tag: :h2) do %>
   <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <%= render "devise/shared/error_messages", resource: resource %>
-      <div class="card mt-4 space-y-5 px-5 py-8 shadow-sm sm:px-10">
-        <div>
-          <label for="user_email" class="form-label">
-            Email Address
-          </label>
-          <div class="mt-1">
-            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-text-field" %>
-          </div>
-        </div>
-        <div>
-          <%= f.submit "Send me reset password instructions", class: "btn-primary w-full py-2.5" %>
-        </div>
-        <div>
-          <% -if controller_name != "sessions" %>
-            <div class="text-sm text-center">
-              <a href="<%= new_session_path(resource_name) %>" class="font-medium text-primary-700 hover:text-primary-800 hover:underline">
-                Log in
-              </a>
-            </div>
-          <% end %>
-        </div>
+    <%= render Ui::AuthCardComponent.new(resource: resource, class: "mt-4") do %>
+      <%= render Ui::FormFieldComponent.new(label: "Email Address", for_id: "user_email") do %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-text-field" %>
+      <% end %>
+      <div>
+        <%= f.submit "Send me reset password instructions", class: "btn-primary w-full py-2.5" %>
       </div>
+      <% if controller_name != "sessions" %>
+        <div class="text-sm text-center">
+          <%= render Ui::TextLinkComponent.new("Log in", new_session_path(resource_name)) %>
+        </div>
+      <% end %>
     <% end %>
-  </div>
+  <% end %>
+<% end %>

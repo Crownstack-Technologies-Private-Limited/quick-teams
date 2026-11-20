@@ -1,0 +1,10 @@
+<div class="page <%= @max_width %>">
+  <div class="page-header">
+    <div>
+      <h2 class="page-title"><%= @title %></h2>
+      <% if @subtitle.present? %><p class="page-subtitle"><%= @subtitle %></p><% end %>
+    </div>
+    <%= actions %>
+  </div>
+  <%= content %>
+</div>

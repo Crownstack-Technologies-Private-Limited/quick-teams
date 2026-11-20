@@ -1,0 +1,8 @@
+<div class="flex flex-wrap items-center gap-y-2" role="radiogroup">
+  <% @colors.each_with_index do |color, index| %>
+    <div class="flex items-center <%= index.zero? ? "ml-2" : "ml-4" %> text-sm">
+      <%= radio_button_tag @name, color, @selected == color, id: radio_id(color), class: "w-4 h-4 text-#{color}-600 border-#{color}-400 cursor-pointer focus:ring-#{color}-500" %>
+      <%= tag.label(color.capitalize, for: radio_id(color), class: "ml-1 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-#{color}-100 text-#{color}-800 cursor-pointer") %>
+    </div>
+  <% end %>
+</div>

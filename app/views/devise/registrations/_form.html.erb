@@ -1,66 +1,33 @@
-  <%= turbo_frame_tag "sign_up_form", target: "_top" do %>
+<%= turbo_frame_tag "sign_up_form", target: "_top" do %>
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <%= render "devise/shared/error_messages", resource: resource %>
-      <div class="card space-y-5 px-5 py-8 shadow-sm sm:px-10">
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div>
-            <label for="user_first_name" class="form-label">
-              First Name
-            </label>
-            <div class="mt-1">
-              <%= f.text_field :first_name, autofocus: true, class: "form-text-field" %>
-            </div>
-          </div>
-          <div>
-            <label for="user_last_name" class="form-label">
-              Last Name
-            </label>
-            <div class="mt-1">
-              <%= f.text_field :last_name, autofocus: true, class: "form-text-field" %>
-            </div>
-          </div>
-        </div>
-        <div>
-          <label for="user_email" class="form-label">
-            Email Address
-          </label>
-          <div class="mt-1">
-            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-text-field" %>
-          </div>
-        </div>
-        <div>
-          <label for="user_company" class="form-label">
-            Company Name
-          </label>
-          <div class="mt-1">
-            <%= f.text_field :company, autofocus: true, class: "form-text-field" %>
-          </div>
-        </div>
-        <div>
-          <label for="user_new_password" class="form-label">
-            Password
-          </label>
-          <div class="mt-1">
-            <em class="form-help mt-0 mb-1 block not-italic">(6 characters minimum)</em>
-            <%= f.password_field :new_password, autocomplete: "new_password", class: "form-text-field" %>
-          </div>
-        </div>
-        <div>
-          <label for="user_new_password_confirmation" class="form-label">
-            Password Confirmation
-          </label>
-          <div class="mt-1">
-            <%= f.password_field :new_password_confirmation, autocomplete: "new_password_confirmation", class: "form-text-field" %>
-          </div>
-        </div>
-        <div class="actions">
-          <%= f.submit "Sign up", class: "btn-primary w-full py-2.5" %>
-        </div>
+    <%= render Ui::AuthCardComponent.new(resource: resource) do %>
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <%= render Ui::FormFieldComponent.new(label: "First Name", for_id: "user_first_name") do %>
+          <%= f.text_field :first_name, autofocus: true, class: "form-text-field" %>
+        <% end %>
+        <%= render Ui::FormFieldComponent.new(label: "Last Name", for_id: "user_last_name") do %>
+          <%= f.text_field :last_name, autofocus: true, class: "form-text-field" %>
+        <% end %>
+      </div>
+      <%= render Ui::FormFieldComponent.new(label: "Email Address", for_id: "user_email") do %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-text-field" %>
       <% end %>
-      <div class="text-sm text-center">
-        <a href="<%= new_session_path(resource_name) %>" class="font-medium text-primary-700 hover:text-primary-800 hover:underline">
-          Log in
-        </a>
+      <%= render Ui::FormFieldComponent.new(label: "Company Name", for_id: "user_company") do %>
+        <%= f.text_field :company, autofocus: true, class: "form-text-field" %>
+      <% end %>
+      <%= render Ui::FormFieldComponent.new(label: "Password", for_id: "user_new_password") do %>
+        <em class="form-help mt-0 mb-1 block not-italic">(6 characters minimum)</em>
+        <%= f.password_field :new_password, autocomplete: "new_password", class: "form-text-field" %>
+      <% end %>
+      <%= render Ui::FormFieldComponent.new(label: "Password Confirmation", for_id: "user_new_password_confirmation") do %>
+        <%= f.password_field :new_password_confirmation, autocomplete: "new_password_confirmation", class: "form-text-field" %>
+      <% end %>
+      <div class="actions">
+        <%= f.submit "Sign up", class: "btn-primary w-full py-2.5" %>
       </div>
     <% end %>
+    <div class="text-sm text-center">
+      <%= render Ui::TextLinkComponent.new("Log in", new_session_path(resource_name)) %>
+    </div>
+  <% end %>
+<% end %>

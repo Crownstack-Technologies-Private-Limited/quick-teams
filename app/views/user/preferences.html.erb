@@ -1,7 +1,4 @@
-<main class="pb-10 mx-auto max-w-7xl lg:py-12 lg:px-8">
-  <div class="lg:grid lg:grid-cols-12 lg:gap-x-5">
-    <%= render "shared/settings_menu" %>
-    <main class="max-w-xl px-4 pb-12 lg:col-span-6">
+<%= render Ui::SettingsLayoutComponent.new(menu: :settings) do %>
       <%= render "shared/form_header", title: "Personal Preferences", subtitle: "Setup your personal preferences." %>
       <ul class="mt-2 divide-y divide-gray-200">
         <li class="flex items-center py-4">
@@ -16,6 +13,5 @@
           </div>
         </ul>
       </li>
-    </main>
-  </div>
-</main>
+    
+<% end %>

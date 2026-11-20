@@ -1,9 +1,9 @@
-<div id="modal">
-  <div class="fixed inset-0 z-10 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true" data-controller="modal" data-action="keyup@document->modal#escClose">
+<%= tag.div(id: ("modal" if @dismissible)) do %>
+  <%= tag.div(**dialog_attributes) do %>
     <div class="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
       <div class="fixed inset-0 transition-opacity bg-gray-900/50" aria-hidden="true"></div>
       <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-      <div class="relative inline-block <%= panel_padding %> overflow-hidden text-left align-bottom transition-all transform bg-white rounded-xl shadow-xl sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+      <div class="relative inline-block <%= panel_padding %> overflow-hidden text-left align-bottom transition-all transform bg-white rounded-xl shadow-xl sm:my-8 sm:align-middle <%= max_width %> sm:w-full">
         <% if @title %>
           <div class="sm:flex sm:items-start">
             <% if @icon %>
@@ -23,5 +23,5 @@
         <% end %>
       </div>
     </div>
-  </div>
-</div>
+  <% end %>
+<% end %>

@@ -1,6 +1,4 @@
-<div class="page max-w-md">
-  <h2 class="page-title">Resend unlock instructions</h2>
-
+<%= render Ui::FormPageComponent.new(title: "Resend unlock instructions", max_width: "max-w-md") do %>
   <%= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post, class: "card card-body mt-6 space-y-5" }) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
 
@@ -17,4 +15,4 @@
   <div class="mt-4 space-y-1 text-center text-sm [&_a]:font-medium [&_a]:text-primary-700 [&_a:hover]:underline">
     <%= render "devise/shared/links" %>
   </div>
-</div>
+<% end %>

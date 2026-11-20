@@ -1,15 +1,9 @@
 <%= turbo_frame_tag dom_id(client) do %>
-  <li class="flex py-4 border-b border-gray-200">
-    <%= image_tag "male-placeholder-image.png", class: "w-10 h-10 rounded-full" %>
-    <div class="flex flex-wrap w-full gap-y-3 ml-3 sm:flex-nowrap">
-      <div class="w-full">
-        <p class="w-full text-sm font-medium text-gray-900"><%= client.name.titleize %></p>
-        <p class="text-sm text-gray-500"><%= client.email %></p>
-      </div>
-      <div class="flex justify-end space-x-2">
-        <%= edit_button(edit_account_client_path(client)) %>
-        <%= delete_button(account_client_path(client)) %>
-      </div>
-    </div>
-  </li>
+  <%= render Ui::ListRowComponent.new(title: client.name.titleize, subtitle: client.email) do |row| %>
+    <% row.with_leading { image_tag "male-placeholder-image.png", class: "w-10 h-10 rounded-full", alt: "" } %>
+    <% row.with_actions do %>
+      <%= edit_button(edit_account_client_path(client)) %>
+      <%= delete_button(account_client_path(client)) %>
+    <% end %>
+  <% end %>
 <% end %>
