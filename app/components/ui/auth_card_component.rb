@@ -14,7 +14,8 @@ module Ui
     end
 
     def card_options
-      @html_options.merge(class: ["card space-y-5 px-5 py-8 shadow-sm sm:px-10", @html_options[:class]].compact.join(" "))
+      gap = "mt-4" if @resource&.errors&.any? # keep the validation box and the card apart
+      @html_options.merge(class: ["card space-y-5 px-5 py-8 shadow-sm sm:px-10", gap, @html_options[:class]].compact.join(" "))
     end
   end
 end

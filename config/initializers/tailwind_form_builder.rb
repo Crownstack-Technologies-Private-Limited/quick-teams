@@ -42,4 +42,19 @@ class TailwindFormBuilder < ActionView::Helpers::FormBuilder
       end)
     end
   end
+
+  # Selects in these forms have no visible <label>; name them for assistive tech (prompt text, else the attribute).
+  def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
+    super(method, collection, value_method, text_method, options, { "aria-label": accessible_name(method, options) }.merge(html_options))
+  end
+
+  def select(method, choices = nil, options = {}, html_options = {}, &block)
+    super(method, choices, options, { "aria-label": accessible_name(method, options) }.merge(html_options), &block)
+  end
+
+  private
+
+  def accessible_name(method, options)
+    options[:prompt].presence&.to_s&.delete_prefix("Select ") || method.to_s.humanize.delete_suffix(" id")
+  end
 end

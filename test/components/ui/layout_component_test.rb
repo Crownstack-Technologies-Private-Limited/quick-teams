@@ -111,3 +111,13 @@ class Ui::StatAndSearchTest < UiComponentTestCase
     assert_selector "input[type=submit].btn-primary.ml-2[value=Save]"
   end
 end
+
+class Ui::AuthCardTest < UiComponentTestCase
+  Resource = Struct.new(:errors)
+
+  test "card gets a top gap only when the resource has errors" do
+    render_inline(Ui::AuthCardComponent.new) { "x" }
+    assert_no_selector "div.card.mt-4"
+    assert_selector "div.card.space-y-5", text: "x"
+  end
+end
