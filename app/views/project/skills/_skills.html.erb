@@ -1,5 +1,6 @@
-  <% skills.uniq.each do |skill| %>
-  <span class="ml-2 mb-2 inline-flex rounded items-center py-0.5 pl-2.5 pr-1 text-sm font-medium bg-gray-100 text-gray-700">
+<% skills.uniq.each do |skill| %>
+  <%= render Ui::TagComponent.new(color: "gray", size: :md, class: "ml-2 mb-2",
+        remove: { id: "remove-skill", data: { reflex: "click->ProjectSkills#remove", "skill-id": skill.id, "project-id": project.id } }) do %>
     <% if user.admin? %>
       <a href="<%= skills_reports_path(ids: skill.id, script_name: "/#{user.account.id}") %>" class="hover:underline whitespace-nowrap">
         <%= skill.name %>
@@ -7,8 +8,5 @@
     <% else %>
       <%= skill.name %>
     <% end %>
-    <button id="remove-skill" data-reflex="click->ProjectSkills#remove" data-skill-id=<%= skill.id %> data-project-id=<%= project.id %> type="button" class="flex-shrink-0 ml-0.5 h-4 w-4 rounder inline-flex items-center justify-center text-gray-400 hover:bg-gray-200 hover:text-gray-500 focus:outline-none focus:bg-gray-500 focus:text-white">
-      <%= render Ui::IconComponent.new(:x_small, class: "h-2 w-2") %>
-    </button>
-  </span>
+  <% end %>
 <% end %>
