@@ -24,11 +24,11 @@
       </div>
       <div class="flex  inline-flex">
         <%= render Ui::SubmitButtonComponent.new(form, "Save as draft", variant: :secondary, class: "mr-2", name: "draft") %>
-        <%= form.submit "Publish", class: "btn-primary", data: {
+        <%= render Ui::SubmitButtonComponent.new(form, "Publish", data: {
                                      controller: "confirmation",
                                      "confirmation-message-value": "Are you sure you want to submit it? After this members added to this space will be able to see this thread.",
                                      action: "confirmation#confirm",
-                                   } %>
+                                   }) %>
       </div>
     </div>
   <% end %>

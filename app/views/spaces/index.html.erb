@@ -37,16 +37,7 @@
     <% end %>
    
     <% if !(@my_spaces.size > 0 or @pinned_spaces.size > 0 or @shared_spaces.size > 0 ) %>
-      <div class="w-full text-center sm:rounded-lg">
-        <div class="px-4 py-5 sm:p-6">
-          <h3 class="text-lg font-medium leading-6 text-center text-gray-600">
-            No result found
-          </h3>
-          <div class="mt-2 text-sm text-center text-gray-500">
-            <p>No space has been created yet.</p>
-          </div>
-        </div>
-      </div>
+      <%= render Ui::EmptyStateComponent.new(title: "No result found", message: "No space has been created yet.") %>
     <% end %>
   </div>
 </main>
