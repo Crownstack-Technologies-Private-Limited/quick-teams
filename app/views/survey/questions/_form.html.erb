@@ -1,15 +1,15 @@
 <%= form_with(model: question, id: dom_id(question), url: survey_questions_path(survey)) do |form| %>
-  <main class="max-w-lg px-4 pt-6 pb-12 mx-auto space-y-4 lg:pb-16">
+  <%= render Ui::FormContainerComponent.new do %>
     <%= render "shared/form_messages", resource: question, message: local_assigns[:message] %>
     <%= render "shared/form_header", title: "Add New Question", subtitle: "Please fill in detail of new question" %>
     <div>
-      <label for="Question" class="block text-sm font-medium text-gray-700">
+      <label for="Question" class="form-label">
         Question 
       </label>
       <%= form.text_area :text, required: true, class: "form-text-field mt-1" %>
     </div>
     <div>
-      <label for="Question Description" class="block text-sm font-medium text-gray-700">
+      <label for="Question Description" class="form-label">
         Question Description (optional)
       </label>
       <%= form.text_area :description, class: "form-text-field mt-1", autocomplete: "off" %>
@@ -17,7 +17,7 @@
     </div>
     <% if survey.kpi? %>
       <div>
-        <label for="Question Explanation" class="block text-sm font-medium text-gray-700">
+        <label for="Question Explanation" class="form-label">
           Question Explanation (optional)
         </label>
         <%= form.text_area :explanation, class: "form-text-field mt-1", autocomplete: "off" %>
@@ -25,7 +25,7 @@
       </div>
     <% end %>
     <div>
-      <label for="Category " class="block text-sm font-medium text-gray-700">
+      <label for="Category " class="form-label">
         Category 
       </label>
       <%= form.collection_select(:question_category_id, question_categories, :id, :name, { :prompt => "Select Category", :selected => params[:question_category_id] }, :class => "form-text-field mt-1", :required => true) %>
@@ -35,5 +35,5 @@
     </div>
     <div class="flex justify-end mt-4">
       <%= render Ui::SubmitButtonComponent.new(form, "Add Question", class: "ml-2") %>
-    </main>
+    <% end %>
   <% end %>

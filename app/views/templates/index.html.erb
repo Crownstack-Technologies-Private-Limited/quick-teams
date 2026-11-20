@@ -1,4 +1,4 @@
-<div class="relative z-0 flex-1 overflow-y-auto focus:outline-none">
+<%= render Ui::PageComponent.new(tag: :div) do %>
   <%= render Ui::PageHeaderComponent.new(title: "Templates", subtitle: "(" + @templates.count.to_s + " Templates)") do |header| %>
     <% if current_user.admin? || current_user.lead? %>
       <% header.with_actions do %>
@@ -6,7 +6,7 @@
       <% end %>
     <% end %>
   <% end %>
-</div>
+<% end %>
 <div class="flex w-full overflow-hidden bg-white">
   <div class="flex w-full">
     <div class="w-full overflow-hidden" data-controller="infinite-scroll">
@@ -17,9 +17,7 @@
           <% table.with_column("Created by") %>
           <%= render partial: "template", collection: @templates, as: :template, cached: true %>
         <% end %>
-        <div class="flex justify-end invisible mt-2 mb-6 mr-2" data-infinite-scroll-target="pagination">
-          <%== render partial: "shared/paginator", locals: { pagy: @pagy } %>
-        </div>
+        <%= render Ui::PaginationComponent.new(@pagy, class: "invisible", data: { "infinite-scroll-target": "pagination" }) %>
       <% else %>
         <%= render partial: "shared/no_result_found", cached: true %>
       <% end %>

@@ -19,7 +19,7 @@
     </div>
     <div class="">
       <%= turbo_frame_tag "survey_questions", src: "/#{Current.account.id}/surveys/#{@attempt.survey.id}/attempts/#{@attempt.id}/questions", target: "_top", loading: :lazy do %>
-        <p class="pb-2 px-8 mt-1 text-sm text-gray-500 truncate">Hold on a sec while I fetch questions...</p>
+        <%= render Ui::LoadingComponent.new("Hold on a sec while I fetch questions...") %>
       <% end %>
       <div class=" flex justify-end py-12">
         <% if @attempt.submitted? %>

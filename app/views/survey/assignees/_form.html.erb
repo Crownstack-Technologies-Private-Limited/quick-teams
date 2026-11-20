@@ -1,12 +1,12 @@
 <section aria-labelledby="add-participant-section" id="add-assignee">
   <div class="bg-white">
     <div class="px-4">
-      <main class="max-w-lg px-4 pt-6 pb-12 mx-auto space-y-4 lg:pb-16 z-10">
+      <%= render Ui::FormContainerComponent.new(class: "z-10") do %>
         <%= render "shared/form_header", title: "Assign KPI to #{survey.survey_for == "user" ? "Employee" : "Project"}", subtitle: "" %>
         <%= render "shared/form_messages", resource: survey, message: local_assigns[:message] %>
         <div class="flex justify-center w-full max-w-sm lg:justify-end" >
           <div class="w-full max-w-sm lg:max-w-sm">
-            <label for="skill" class="block text-sm font-medium text-gray-700"></label>
+            <label for="skill" class="form-label"></label>
             <div class="mt-1">
               <%= tailwind_form_with(url: survey_assignees_path(survey), method: "post") do |f| %>
                 <%= f.collection_select(:assign_id, assigns.decorate, :id, :full_display_name, { :prompt => "Select Assignee" }, :class => "form-text-field mt-1") %>
@@ -25,7 +25,7 @@
             </div>
           </div>
         </div>
-      </main>
+      <% end %>
     </div>
   </div>
 </section>

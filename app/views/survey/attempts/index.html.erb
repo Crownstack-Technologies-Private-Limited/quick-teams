@@ -18,9 +18,7 @@
                     <% table.with_column("Action") %>
                     <%= render partial: "attempt", collection: @attempts, as: :attempt, cached: true %>
                   <% end %>
-                  <div class="flex justify-end mt-2 mb-6 mr-2 invisible" data-infinite-scroll-target="pagination">
-                    <%== render partial: "shared/paginator", locals: { pagy: @pagy } %>
-                  </div>
+                  <%= render Ui::PaginationComponent.new(@pagy, class: "invisible", data: { "infinite-scroll-target": "pagination" }) %>
                 </div>
               </div>
             </div>
@@ -29,8 +27,8 @@
             <section aria-labelledby="add-participant-section">
               <div class="bg-white">
                 <div class="px-4">
-                  <main class="max-w-lg px-4 pt-6 pb-12 mx-auto space-y-4 lg:pb-16 z-10">
-                  </main>
+                  <%= render Ui::FormContainerComponent.new(class: "z-10") do %>
+                  <% end %>
                 </div>
               </div>
             </section>
