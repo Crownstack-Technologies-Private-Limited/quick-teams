@@ -44,11 +44,11 @@ Views = number of view templates that render the component directly; "via" lists
 | `Ui::PageHeaderComponent` | Page title row: &lt;h1> + optional meta (count / position) on the left, actions on the right.<br>`render Ui::PageHeaderComponent.new(title: "Projects", subtitle: "(12 projects)") do \|header\|` | 23 (23 uses) | – |
 | `Ui::SectionHeadingComponent` | Heading + supporting text for a form or section (title/subtitle block above a form).<br>`render Ui::SectionHeadingComponent.new(title: "Profile", subtitle: "Update your details")` | 1 (1 uses) | – |
 | `Ui::SplitLayoutComponent` | The main page body of detail pages: a wide primary column (lists, tables) and a secondary column (forms, stats) that sits beside it on large screens and below it on small ones.<br>`render Ui::SplitLayoutComponent.new do \|layout\|` | 26 (26 uses) | – |
-| `Ui::SettingsLayoutComponent` | Two-column settings page: side menu on the left, content on the right.<br>`render Ui::SettingsLayoutComponent.new(menu: :account) { ...content... }` | 23 (23 uses) | – |
+| `Ui::SettingsLayoutComponent` | Two-column settings page: side menu on the left, content on the right.<br>`render Ui::SettingsLayoutComponent.new(menu: :account) do` | 23 (23 uses) | – |
 | `Ui::FormPageComponent` | Centered page for a single card form (account edit, invitations): title row, optional subtitle and actions.<br>`render Ui::FormPageComponent.new(title: "Edit User", subtitle: "Change your sign-in details.", max_width: "max-w-2xl") do \|page\|` | 3 (3 uses) | – |
 | `Ui::FormContainerComponent` | Centered narrow column that holds a form page (heading, fields, buttons) with consistent spacing.<br>`render Ui::FormContainerComponent.new { ...form fields... }` | 66 (66 uses) | – |
 | `Ui::AuthPageComponent` | Signed-out page shell: gradient background, brand mark, title (+ optional subtitle), then the form.<br>`render Ui::AuthPageComponent.new(title: "Sign in to your account", heading_tag: :h1) do \|page\|` | 6 (6 uses) | – |
-| `Ui::AuthCardComponent` | The white card holding an auth form, with validation errors above it. Render it inside `form_for` so the card's fields belong to the form.<br>`render Ui::AuthCardComponent.new(resource: resource, class: "mt-4") { ...fields... }` | 6 (6 uses) | – |
+| `Ui::AuthCardComponent` | The white card holding an auth form, with validation errors above it. Render it inside `form_for` so the card's fields belong to the form.<br>`render Ui::AuthCardComponent.new(resource: resource, class: "mt-4") do` | 6 (6 uses) | – |
 | `Ui::TabsComponent` | Horizontal tab bar of links; the current page is selected (aria-current="page").<br>`render Ui::TabsComponent.new(id: "ticket-tabs") do \|tabs\|` | 4 (4 uses) | – |
 | `Ui::SideMenuComponent` | Vertical settings/account menu (aside). Items are links with an icon; the current page is highlighted.<br>`render Ui::SideMenuComponent.new(id: "menu") do \|menu\|` | 3 (3 uses) | – |
 | `Ui::NavItemComponent` | Top-bar link (desktop) or mobile-menu link. Selected when it points at the current page.<br>`render Ui::NavItemComponent.new("Projects", projects_path)` | 4 (15 uses) | – |
@@ -77,7 +77,7 @@ Views = number of view templates that render the component directly; "via" lists
 | Component | Variants / API | Views | Also used by |
 |---|---|---|---|
 | `Ui::FormFieldComponent` | Label + control + help/error text, for controls the form builder does not wrap (selects, checkboxes, custom controls). The control is the block content.<br>`render Ui::FormFieldComponent.new(label: "Discipline", for_id: "employee_discipline_id", help: "Optional") do` | 6 (14 uses) | – |
-| `Ui::CheckboxFieldComponent` | Checkbox with its explanatory label on one row. The checkbox itself (from the form builder) is the block.<br>`render Ui::CheckboxFieldComponent.new(label: "Billable", for_id: "employee_billable") { form.check_box(:billable, class: Ui::CheckboxFieldComponent::I` | 1 (2 uses) | – |
+| `Ui::CheckboxFieldComponent` | Checkbox with its explanatory label on one row. The checkbox itself (from the form builder) is the block.<br>`render Ui::CheckboxFieldComponent.new(label: "Billable", for_id: "employee_billable") do` | 1 (2 uses) | – |
 | `Ui::FormActionsComponent` | Row of form buttons aligned to the end (Back + Save).<br>`render Ui::FormActionsComponent.new do` | 41 (41 uses) | – |
 | `Ui::ColorPickerComponent` | Radio group for choosing a tag colour; each option shows a coloured chip.<br>`render Ui::ColorPickerComponent.new(name: "people_tag[color]", selected: tag.color, id_prefix: "people_tag")` | 10 (10 uses) | – |
 | `Ui::SearchFieldComponent` | Search input with a live results panel, driven by the Stimulus `nav-search` controller (it fetches `url` as you type and fills the `results` list).<br>`render Ui::SearchFieldComponent.new(url: "/search/surveys", placeholder: "Search Survey")` | 5 (5 uses) | – |
@@ -92,7 +92,7 @@ Views = number of view templates that render the component directly; "via" lists
 | `Ui::EmptyStateComponent` | "Nothing here" block. Title + message, optional icon and action.<br>`render Ui::EmptyStateComponent.new(title: "No result found", message: "No project has been created yet.")` | 3 (3 uses) | – |
 | `Ui::LoadingComponent` | Placeholder text shown inside a lazy turbo-frame until its content arrives.<br>`turbo_frame_tag "events", src: events_path, loading: :lazy do` | 5 (8 uses) | – |
 | `Ui::ModalComponent` | Modal dialog rendered into &lt;div id="modal"> (the Stimulus `modal` controller closes it).<br>`render Ui::ModalComponent.new(title: "Deactivate?", icon: :exclamation) do \|modal\|` | 5 (5 uses) | – |
-| `Ui::IconComponent` | Inline SVG icon (Heroicons v1 paths already used across the app).<br>`render Ui::IconComponent.new(:search, class: "h-4 w-4 text-gray-400")` | 34 (62 uses) | `alert`, `dropdown`, `empty_state`, `kebab_menu`, `modal`, `search_field`, `side_menu`, `tag` |
+| `Ui::IconComponent` | Inline SVG icon (Heroicons v1 paths already used across the app).<br>`render Ui::IconComponent.new(:search, class: "h-4 w-4 text-gray-400")` | 34 (62 uses) | `alert`, `button`, `dropdown`, `empty_state`, `kebab_menu`, `modal`, `search_field`, `side_menu`, `tag` |
 
 ## Reference
 
@@ -104,7 +104,9 @@ Views = number of view templates that render the component directly; "via" lists
 #
 #   render Ui::ButtonComponent.new("New Project", href: new_project_path)
 #   render Ui::ButtonComponent.new("Cancel", href: projects_path, variant: :secondary, size: :sm)
-#   render Ui::ButtonComponent.new(href: edit_path, variant: :icon, "aria-label": "Edit") { icon }
+#   render Ui::ButtonComponent.new(href: edit_path, variant: :icon, "aria-label": "Edit") do
+#     render Ui::IconComponent.new(:search)
+#   end
 #   render Ui::ButtonComponent.new("Delete", href: path, variant: :inline_delete, data: { ... })
 #
 # With `href:` it renders an <a> (through link_to, so data-turbo-method etc. work); otherwise a <button>.
@@ -224,7 +226,9 @@ Views = number of view templates that render the component directly; "via" lists
 # app/components/ui/settings_layout_component.rb
 # Two-column settings page: side menu on the left, content on the right.
 #
-#   render Ui::SettingsLayoutComponent.new(menu: :account) { ...content... }
+#   render Ui::SettingsLayoutComponent.new(menu: :account) do
+#     ...content...
+#   end
 #
 # menu: :account | :settings | :archive (the matching shared/*_menu partial)
 # width: :narrow (6 of 12 columns, default) or :wide (8 of 12)
@@ -271,7 +275,9 @@ Views = number of view templates that render the component directly; "via" lists
 # The white card holding an auth form, with validation errors above it.
 # Render it inside `form_for` so the card's fields belong to the form.
 #
-#   render Ui::AuthCardComponent.new(resource: resource, class: "mt-4") { ...fields... }
+#   render Ui::AuthCardComponent.new(resource: resource, class: "mt-4") do
+#     ...fields...
+#   end
 ```
 
 ### `Ui::TabsComponent`
@@ -480,7 +486,9 @@ Views = number of view templates that render the component directly; "via" lists
 # app/components/ui/checkbox_field_component.rb
 # Checkbox with its explanatory label on one row. The checkbox itself (from the form builder) is the block.
 #
-#   render Ui::CheckboxFieldComponent.new(label: "Billable", for_id: "employee_billable") { form.check_box(:billable, class: Ui::CheckboxFieldComponent::INPUT_CLASS) }
+#   render Ui::CheckboxFieldComponent.new(label: "Billable", for_id: "employee_billable") do
+#     form.check_box(:billable, class: Ui::CheckboxFieldComponent::INPUT_CLASS)
+#   end
 ```
 
 ### `Ui::FormActionsComponent`
@@ -554,7 +562,7 @@ Views = number of view templates that render the component directly; "via" lists
 # "Nothing here" block. Title + message, optional icon and action.
 #
 #   render Ui::EmptyStateComponent.new(title: "No result found", message: "No project has been created yet.")
-#   render Ui::EmptyStateComponent.new(title: "No tickets", icon: :ticket) { link_button }
+#   render(Ui::EmptyStateComponent.new(title: "No tickets", icon: :ticket)) { link_button }
 ```
 
 ### `Ui::LoadingComponent`
@@ -599,3 +607,51 @@ Views = number of view templates that render the component directly; "via" lists
 #
 # Decorative by default (aria-hidden); pass `label:` to expose it to assistive tech.
 ```
+
+
+## Pattern inventory
+
+What was repeated across `app/views/**` (479 templates) before the library, and which component replaced it.
+"Before" counts come from `grep` on the merged redesign branch; "now" is the number of component renders.
+
+| Repeated pattern | Before | Component |
+|---|---|---|
+| `btn-primary` / `btn-secondary` / `btn-red` / `btn-inline-*` links and buttons | 133 + 73 + 5 + 15 in ~140 files | `ButtonComponent` (links, `<button>`), `ButtonHelper` |
+| `form.submit ... class: "btn-..."` | 111 | `SubmitButtonComponent` |
+| "Back" `javascript:history.back()` button | 29 | `BackButtonComponent` |
+| Inline SVG icons (Heroicons pasted into views) | 109 `<svg>` in 37 files | `IconComponent` (38 icons), 0 left in views |
+| Page title row (`h1` + count + action) | 32 | `PageHeaderComponent` (+ `SectionHeadingComponent` for form headings: 66 via `shared/_form_header`) |
+| Page wrapper `relative z-0 flex-1 overflow-y-auto` | 62 | `PageComponent` |
+| Two-column detail page body (`lg:col-span-2` + `xl:border-l`) | 32 | `SplitLayoutComponent` |
+| Settings / account / archive page with side menu | 23 | `SettingsLayoutComponent`, `SideMenuComponent` (3 menus, 30 items) |
+| Tab bars (project, employee, survey, tickets) | 4 partials, 100 links | `TabsComponent` |
+| Top bar links (desktop + mobile) and "more" / profile menus | 14 + 3 menus | `NavItemComponent`, `DropdownComponent` |
+| Tables with header row | 54 | `TableComponent` |
+| Pagination wrapper around the Pagy nav | 46 | `PaginationComponent` |
+| Status / tag chips (`bg-<color>-100 text-<color>-800`), with and without remove button | 40 | `TagComponent` (+ `StatusDotComponent`, `BadgeComponent`) |
+| Avatars, avatar rows, billable dot | 84 files | `AvatarComponent`, `AvatarGroupComponent`, `BillableAvatarComponent` via `AvatarHelper` |
+| Activity feed entries (home, employee and project timelines) | 47 | `TimelineItemComponent` |
+| Narrow form page `main.max-w-lg ... space-y-4` | 66 | `FormContainerComponent` |
+| Auth pages (sign in, sign up, password, confirmation, invitation) | 6 | `AuthPageComponent`, `AuthCardComponent`, `FormFieldComponent`, `TextLinkComponent` |
+| Account list rows, inline edit errors, colour radio group | 13 + 12 + 10 | `ListRowComponent`, `InlineErrorsComponent`, `ColorPickerComponent` |
+| Modals (`shared/_modal`, `_comment`, `_assessment`, expired / success billing dialogs) | 5 | `ModalComponent` |
+| Flash messages, validation / success boxes | 2 + 2 | `FlashComponent`, `AlertComponent` |
+| Empty and loading states | 5 + 5 | `EmptyStateComponent`, `LoadingComponent` |
+| "More actions" kebab menus | 4 | `KebabMenuComponent` |
+| Live search boxes (`nav-search` controller) | 5 | `SearchFieldComponent` |
+| Report totals strip, timesheet stats, score bar | 3 + 2 + 1 | `StatStripComponent`, `StatCardComponent`, `ProgressBarComponent` |
+| Cards (danger zone), form button rows, form fields | 1 + 41 + 14 | `CardComponent`, `FormActionsComponent`, `FormFieldComponent`, `CheckboxFieldComponent` |
+
+## Intentional exceptions
+
+Markup that is still hand-written because no reusable pattern exists or because a system test depends on the exact element:
+
+- **Table row cells** (`td.table-cell`, ~200): they use the design-system class; rows are rendered by cached collection partials.
+- **Split buttons with a dropdown** (`tickets/show_buttons/_assignee`, `_user`, `shared/comments/_ticket`, `_add`): bespoke colour-coded control, used four times.
+- **Reflex toggles and segmented groups** that carry colour by state (`project|employee/todos/show`, `employee/feedbacks/show`, `*/reports/show`,
+  `project|employee/timesheets/index`, `employee/kpis/index`, `survey/attempts/_score_question`, `space/messages/show` scroll buttons,
+  `message_comments/_new`, `report/timesheets/index`). The `data-reflex` attributes are untouched.
+- **Radio groups** (`shared/comments/_ticket`, `_add`, `_report`, `comments/edit`, `survey/attempts/_option`, `user/notifications`).
+- **`button_to` forms** (billing portal, cancel my account) and `a[data-reflex]` "Invite" (`employees/_employee`; tests look for an `a` element).
+- **Avatar uploader** (`user/forms/_avatar`) and the static mock-up `accounts/clients.html.erb`.
+- **Untouched on purpose**: mailers, `layouts/pdf.html.erb`, `survey/pdf/*`, and the Pagy markup in `shared/_paginator` (wrapped by `PaginationComponent`).

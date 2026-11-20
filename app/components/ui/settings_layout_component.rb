@@ -3,7 +3,9 @@
 module Ui
   # Two-column settings page: side menu on the left, content on the right.
   #
-  #   render Ui::SettingsLayoutComponent.new(menu: :account) { ...content... }
+  #   render Ui::SettingsLayoutComponent.new(menu: :account) do
+  #     ...content...
+  #   end
   #
   # menu: :account | :settings | :archive (the matching shared/*_menu partial)
   # width: :narrow (6 of 12 columns, default) or :wide (8 of 12)

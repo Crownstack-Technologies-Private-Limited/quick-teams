@@ -5,7 +5,9 @@ module Ui
   #
   #   render Ui::ButtonComponent.new("New Project", href: new_project_path)
   #   render Ui::ButtonComponent.new("Cancel", href: projects_path, variant: :secondary, size: :sm)
-  #   render Ui::ButtonComponent.new(href: edit_path, variant: :icon, "aria-label": "Edit") { icon }
+  #   render Ui::ButtonComponent.new(href: edit_path, variant: :icon, "aria-label": "Edit") do
+  #     render Ui::IconComponent.new(:search)
+  #   end
   #   render Ui::ButtonComponent.new("Delete", href: path, variant: :inline_delete, data: { ... })
   #
   # With `href:` it renders an <a> (through link_to, so data-turbo-method etc. work); otherwise a <button>.

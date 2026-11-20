@@ -4,7 +4,9 @@ module Ui
   # The white card holding an auth form, with validation errors above it.
   # Render it inside `form_for` so the card's fields belong to the form.
   #
-  #   render Ui::AuthCardComponent.new(resource: resource, class: "mt-4") { ...fields... }
+  #   render Ui::AuthCardComponent.new(resource: resource, class: "mt-4") do
+  #     ...fields...
+  #   end
   class AuthCardComponent < ViewComponent::Base
     def initialize(resource: nil, **html_options)
       @resource = resource
