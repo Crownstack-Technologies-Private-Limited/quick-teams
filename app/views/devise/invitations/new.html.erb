@@ -10,7 +10,7 @@
     <% end -%>
 
     <div class="actions flex justify-end">
-      <%= f.submit t("devise.invitations.new.submit_button"), class: "btn-primary" %>
+      <%= render Ui::SubmitButtonComponent.new(f, t("devise.invitations.new.submit_button")) %>
     </div>
   <% end %>
 <% end %>

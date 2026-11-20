@@ -12,7 +12,7 @@
         <%= f.password_field :password_confirmation, autofocus: true, autocomplete: "new-password", class: "form-text-field" %>
       <% end %>
       <div>
-        <%= f.submit "Change my password", class: "btn-primary w-full py-2.5" %>
+        <%= render Ui::SubmitButtonComponent.new(f, "Change my password", class: "w-full py-2.5") %>
       </div>
       <% if controller_name != "sessions" %>
         <div class="text-sm text-center">

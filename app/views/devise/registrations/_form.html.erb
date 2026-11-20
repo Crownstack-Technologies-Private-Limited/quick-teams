@@ -23,7 +23,7 @@
         <%= f.password_field :new_password_confirmation, autocomplete: "new_password_confirmation", class: "form-text-field" %>
       <% end %>
       <div class="actions">
-        <%= f.submit "Sign up", class: "btn-primary w-full py-2.5" %>
+        <%= render Ui::SubmitButtonComponent.new(f, "Sign up", class: "w-full py-2.5") %>
       </div>
     <% end %>
     <div class="text-sm text-center">

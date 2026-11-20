@@ -23,7 +23,7 @@
         <% end %>
       </div>
       <div>
-        <%= f.submit "Log In", class: "btn-primary w-full py-2.5" %>
+        <%= render Ui::SubmitButtonComponent.new(f, "Log In", class: "w-full py-2.5") %>
       </div>
       <% if devise_mapping.confirmable? && controller_name != "confirmations" %>
         <div class="text-xs text-center">

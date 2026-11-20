@@ -8,7 +8,7 @@
     </div>
 
     <div class="actions">
-      <%= f.submit "Resend unlock instructions", class: "btn-primary w-full" %>
+      <%= render Ui::SubmitButtonComponent.new(f, "Resend unlock instructions", class: "w-full") %>
     </div>
   <% end %>
 

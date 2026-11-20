@@ -5,7 +5,7 @@
         <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-text-field", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
       <% end %>
       <div>
-        <%= f.submit "Resend confirmation instructions", class: "btn-primary w-full py-2.5" %>
+        <%= render Ui::SubmitButtonComponent.new(f, "Resend confirmation instructions", class: "w-full py-2.5") %>
       </div>
       <% if controller_name != "sessions" %>
         <div class="text-sm text-center">

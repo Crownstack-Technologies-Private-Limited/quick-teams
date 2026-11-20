@@ -25,7 +25,7 @@
       <%= f.password_field :current_password, autocomplete: "current-password", class: "form-text-field mt-1" %>
     </div>
     <div class="actions flex justify-end">
-      <%= f.submit "Update", class: "btn-primary" %>
+      <%= render Ui::SubmitButtonComponent.new(f, "Update") %>
     </div>
   <% end %>
   <div class="card card-body mt-6 border-red-200">
