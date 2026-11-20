@@ -18,6 +18,7 @@ module Ui
       icon: "icon-btn",
       inline_edit: "btn-inline-edit",
       inline_delete: "btn-inline-delete",
+      plain: nil, # caller supplies every class
     }.freeze
     SIZES = { md: nil, sm: "btn-sm" }.freeze
 

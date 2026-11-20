@@ -1,5 +1,5 @@
 <aside class="px-2 py-6 sm:px-6 lg:py-0 lg:px-0 lg:col-span-3">
-  <nav class="space-y-1" id="<%= @id %>" aria-label="<%= @label %>">
+  <%= tag.nav(class: "space-y-1", id: @id, "aria-label": @label) do %>
     <% items.each do |item| %><%= item %><% end %>
-  </nav>
+  <% end %>
 </aside>

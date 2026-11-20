@@ -9,7 +9,7 @@ module Ui
   class SideMenuComponent < ViewComponent::Base
     renders_many :items, "Ui::SideMenuComponent::Item"
 
-    def initialize(id: "menu", label: "Settings")
+    def initialize(id: nil, label: "Settings")
       @id = id
       @label = label
     end
