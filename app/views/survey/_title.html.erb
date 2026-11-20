@@ -8,7 +8,7 @@
   </div>
   <div class="flex mt-4 sm:mt-0 sm:ml-4">
     <div class="mr-4">
-      <%= link_to "Attempt", new_survey_attempt_path(@survey), class: " btn-secondary" %>
+      <%= render Ui::ButtonComponent.new("Attempt", href: new_survey_attempt_path(@survey), variant: :secondary) %>
     </div>
     <div id="employee-status" class="flex">
       <%= confirm_button(clone_survey_path(@survey), "Clone", "Are you sure? This will create a new survey by copying everything from this survey?", "inline-block mr-4  text-left mr-4 btn-secondary") %>

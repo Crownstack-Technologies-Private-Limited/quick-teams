@@ -67,24 +67,12 @@
     </div>
     <% if employees_count > 0 %>
       <div class="w-full overflow-hidden" data-controller="infinite-scroll">
-        <table class="table">
-          <thead class="bg-gray-50">
-            <tr>
-              <th scope="col" class="table-head">
-                Name
-              </th>
-              <th scope="col" class="table-head">
-                Projects
-              </th>
-              <th scope="col" class="table-head">
-                Occupancy Now
-              </th>
-            </tr>
-          </thead>
-          <tbody class="table-body" data-infinite-scroll-target="entries">
-            <%= render partial: "schedules/schedule", collection: @employees, as: :employee, cached: false %>
-          </tbody>
-        </table>
+        <%= render Ui::TableComponent.new(body_options: { data: { "infinite-scroll-target": "entries" } }) do |table| %>
+          <% table.with_column("Name") %>
+          <% table.with_column("Projects") %>
+          <% table.with_column("Occupancy Now") %>
+          <%= render partial: "schedules/schedule", collection: @employees, as: :employee, cached: false %>
+        <% end %>
         <div class="flex justify-end invisible mt-2 mb-6 mr-2" data-infinite-scroll-target="pagination">
           <%== render partial: "shared/paginator", locals: { pagy: @pagy } %>
         </div>

@@ -8,8 +8,8 @@
         <%= form.hidden_field :user_id, value: current_user.id %>
         <%= form.rich_text_area :body, "Contents of Report", class: "form-text-field" %>
         <div class="flex justify-end">
-          <%= link_to "Back", "javascript:history.back()", class: "btn-secondary" %>
-          <%= form.submit "Save Template", class: "btn-primary ml-2" %>
+          <%= render Ui::BackButtonComponent.new() %>
+          <%= render Ui::SubmitButtonComponent.new(form, "Save Template", class: "ml-2") %>
         </div>
       </main>
     <% end %>

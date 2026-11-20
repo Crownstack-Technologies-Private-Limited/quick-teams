@@ -9,8 +9,8 @@
         <%= form.text_area :description, "Survey Description", required: true, class: "form-text-field h-24" %>
       </div>
       <div class="flex justify-end pt-5">
-        <%= link_to "Back", "javascript:history.back()", class: "btn-secondary" %>
-        <%= form.submit "Edit Survey", class: "btn-primary ml-2" %>
+        <%= render Ui::BackButtonComponent.new() %>
+        <%= render Ui::SubmitButtonComponent.new(form, "Edit Survey", class: "ml-2") %>
       </div>
     </div>
   </main>

@@ -8,21 +8,11 @@
           <section aria-labelledby="participants_section">
             <div class="overflow-hidden bg-white">
               <div id="employee-assignees" class="flex  flex-wrap " data-controller="infinite-scroll">
-                <table class="table">
-                  <thead class="bg-gray-50">
-                    <tr>
-                      <th scope="col" class=" w-full table-head">
-                        assignee
-                      </th>
-                      <th scope="col" class="table-head">
-                        Action
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody class="table-body" id="assignees" data-infinite-scroll-target="entries">
-                    <%= render partial: "assignee", collection: @assignees, as: :assignee, cached: false %>
-                  </tbody>
-                </table>
+                <%= render Ui::TableComponent.new(body_options: { id: "assignees", data: { "infinite-scroll-target": "entries" } }) do |table| %>
+                  <% table.with_column("assignee", class: "w-full") %>
+                  <% table.with_column("Action") %>
+                  <%= render partial: "assignee", collection: @assignees, as: :assignee, cached: false %>
+                <% end %>
                 <div class="flex justify-end invisible mt-2 mb-6 mr-2" data-infinite-scroll-target="pagination">
                   <%== render partial: "shared/paginator", locals: { pagy: @pagy } %>
                 </div>

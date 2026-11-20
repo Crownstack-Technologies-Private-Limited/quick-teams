@@ -23,12 +23,12 @@
       <% end %>
       <div class=" flex justify-end py-12">
         <% if @attempt.submitted? %>
-          <%= link_to "See Report", survey_report_preview_path, class: "btn-primary" %>
+          <%= render Ui::ButtonComponent.new("See Report", href: survey_report_preview_path) %>
         <% else %>
           <% unless survey.kpi? %>
-            <%= link_to "Finish it Later", "javascript:history.back()", class: "btn-secondary" %>
+            <%= render Ui::ButtonComponent.new("Finish it Later", href: "javascript:history.back()", variant: :secondary) %>
           <% end %>
-          <%= link_to "Preview and Submit", survey_report_preview_path, class: "btn-primary ml-2" %>
+          <%= render Ui::ButtonComponent.new("Preview and Submit", href: survey_report_preview_path, class: "ml-2") %>
         <% end %>
       </div>
     </div>
