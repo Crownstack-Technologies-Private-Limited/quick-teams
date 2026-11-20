@@ -13,9 +13,7 @@
                 <p class="text-sm font-medium text-gray-900 ">
                   <span class="truncate"><%= schedule.user.display_name %></span>
                   <% unless schedule.user.status.nil? %>
-                    <span class="inline-flex px-2 text-xs font-semibold leading-5 text-<%= schedule.user.status.color %>-800 bg-<%= schedule.user.status.color %>-100 rounded-full">
-                      <%= schedule.user.status.name.titleize %>
-                    </span>
+                    <%= render Ui::TagComponent.new(schedule.user.status.name.titleize, color: schedule.user.status.color) %>
                   <% end %>
                 </p>
                 <p class="flex items-center mt-1 text-sm text-gray-500">

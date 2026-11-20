@@ -1,4 +1,4 @@
-<main class="relative z-0 flex-1 overflow-y-auto focus:outline-none">
+<%= render Ui::PageComponent.new do %>
   <%= render Ui::PageHeaderComponent.new(title: "Projects", subtitle: "(" + @projects.count.to_s + " projects)") do |header| %>
     <% if current_user.admin? %>
       <% header.with_actions do %>
@@ -42,4 +42,4 @@
       </div>
     </div>
   <% end %>
-</main>
+<% end %>

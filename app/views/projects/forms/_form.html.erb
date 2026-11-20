@@ -1,21 +1,21 @@
 <%= tailwind_form_with(model: project, id: dom_id(project)) do |form| %>
-  <main class="max-w-lg px-4 pt-10 pb-12 mx-auto space-y-4 lg:pb-16">
+  <%= render Ui::FormContainerComponent.new do %>
     <%= render "shared/form_messages", resource: project, message: local_assigns[:message] %>
     <%= render "shared/form_header", title: local_assigns[:title], subtitle: local_assigns[:subtitle] %>
     <%= form.text_field :name, "Project Name", autocomplete: "off" %>
     <%= form.text_area :description, "Description", autocomplete: "off" %>
     <div>
-      <label for="discipline" class="block mt-4 text-sm font-medium text-gray-700">Select Discipline</label>
+      <label for="discipline" class="form-label mt-4">Select Discipline</label>
       <%= form.collection_select(:discipline_id, Discipline.all, :id, :name, { :prompt => "Select Discipline" }, :selected => project.discipline_id, :class => "form-text-field mt-1") %>
     </div>
     <div>
-      <label for="manager" class="block mt-4 text-sm font-medium text-gray-700">
+      <label for="manager" class="form-label mt-4">
         Select Manager
       </label>
       <%= form.collection_select(:manager_id, User.all_users.decorate, :id, :display_name_position, { :prompt => "Select Manager" }, :selected => project.manager_id, :class => "form-text-field mt-1") %>
     </div>
     <div>
-      <label for="manager" class="block mt-4 text-sm font-medium text-gray-700">
+      <label for="manager" class="form-label mt-4">
         Select Observers
       </label>
       <select name="project[observers][]" id="project_observers" multiple="multiple" data-controller="slimselect" class="form-text-field mt-1">
@@ -34,5 +34,5 @@
       <%= render Ui::BackButtonComponent.new() %>
       <%= render Ui::SubmitButtonComponent.new(form, "Save", class: "ml-2") %>
     </div>
-  </main>
+  <% end %>
 <% end %>

@@ -1,6 +1,6 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <% @report = @report.decorate %>
-<main class="max-w-4xl px-4 pt-10 pb-12 mx-auto space-y-4 lg:pb-16">
+<%= render Ui::FormContainerComponent.new(width: "max-w-4xl") do %>
   <div class="px-4 py-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8"  id="report-detail">
     <div class="flex-1 min-w-0">
       <h3 class="text-xl font-semibold tracking-tight text-gray-900">
@@ -12,7 +12,7 @@
         </div>
         <div>
           <div class="text-sm">
-            <a href="<%= project_reports_path(@report.reportable) %>" class="font-medium text-gray-900 hover:underline"><%= @report.reportable.decorate.display_name %></a>
+            <%= render Ui::TextLinkComponent.new(@report.reportable.decorate.display_name, project_reports_path(@report.reportable), tone: :strong) %>
           </div>
           <div class="mt-1 space-x-2 text-sm">
             <span class="font-medium text-gray-500"> Created On <%= display_created_at(@report) %> By <%= @report.user.display_name %></span>
@@ -84,4 +84,4 @@
       <% end %>
     </div>
   </section>
-</main>
+<% end %>
