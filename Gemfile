@@ -87,3 +87,5 @@ group :test do
   gem "selenium-webdriver"
   gem "mocha", ">= 3.1" # 2.x uses CGI.parse, removed in Ruby 4
 end
+
+gem "view_component", ">= 4.24"

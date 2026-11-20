@@ -1,0 +1,5 @@
+<div class="flex items-center gap-4">
+  <% %i[xs sm md lg].each do |size| %>
+    <%= render Ui::AvatarComponent.new(person, size: size) %>
+  <% end %>
+</div>

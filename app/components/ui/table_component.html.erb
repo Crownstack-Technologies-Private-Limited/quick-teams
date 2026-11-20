@@ -1,0 +1,12 @@
+<div class="<%= @wrapper_class %>">
+  <div class="inline-block min-w-full align-middle border-b border-gray-200">
+    <%= tag.table(**@table_options, class: ["table", @table_class].compact.join(" ")) do %>
+      <thead>
+        <tr class="border-gray-200 bg-gray-50 border-b">
+          <% columns.each do |column| %><%= column %><% end %>
+        </tr>
+      </thead>
+      <%= tag.tbody(class: "table-body", id: @body_id) { content } %>
+    <% end %>
+  </div>
+</div>

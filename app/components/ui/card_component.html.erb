@@ -1,0 +1,12 @@
+<%= tag.div(**wrapper_options) do %>
+  <% if @title.present? || actions? %>
+    <div class="card-header">
+      <h2 class="card-title"><%= @title %></h2>
+      <%= actions %>
+    </div>
+  <% end %>
+  <div class="<%= "card-body" if @padded %>"><%= content %></div>
+  <% if footer? %>
+    <div class="border-t border-gray-200 px-5 py-3"><%= footer %></div>
+  <% end %>
+<% end %>

@@ -1,0 +1,9 @@
+<%= tag.div(**wrapper_options) do %>
+  <dl>
+    <dt class="text-sm font-medium text-gray-500 truncate"><%= @label %></dt>
+    <dd class="mt-1 text-2xl font-semibold tracking-tight text-gray-900">
+      <% if @href %><%= link_to @value, @href, class: "hover:text-primary-700" %><% else %><%= @value %><% end %>
+    </dd>
+    <% if @hint.present? %><dd class="mt-1 text-xs text-gray-500"><%= @hint %></dd><% end %>
+  </dl>
+<% end %>

@@ -1,0 +1,6 @@
+<div class="flex items-center space-x-2">
+  <div class="flex flex-shrink-0 -space-x-1" <%= tag.attributes(title: @title) if @title %>>
+    <% @people.each do |person| %><%= render Ui::AvatarComponent.new(person, size: @size) %><% end %>
+  </div>
+  <% if @overflow.present? %><span class="flex-shrink-0 text-xs font-medium leading-5"><%= @overflow %></span><% end %>
+</div>

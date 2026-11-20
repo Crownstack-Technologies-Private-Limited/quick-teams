@@ -1,0 +1,7 @@
+<div class="flex flex-wrap items-center gap-3">
+  <% %i[gray brand green amber red].each do |color| %>
+    <%= render Ui::BadgeComponent.new(color.to_s.capitalize, color: color) %>
+  <% end %>
+  <%= render Ui::TagComponent.new("Design", color: "blue") %>
+  <%= render Ui::StatusDotComponent.new(color: "green") %> status dot
+</div>

@@ -1,0 +1,11 @@
+<div class="flex flex-wrap items-center gap-3">
+  <%= render Ui::ButtonComponent.new("Primary", href: "#") %>
+  <%= render Ui::ButtonComponent.new("Secondary", href: "#", variant: :secondary) %>
+  <%= render Ui::ButtonComponent.new("Danger", href: "#", variant: :danger) %>
+  <%= render Ui::ButtonComponent.new("Ghost", href: "#", variant: :ghost) %>
+  <%= render Ui::ButtonComponent.new("Small", href: "#", size: :sm) %>
+  <%= render Ui::ButtonComponent.new("Edit", href: "#", variant: :inline_edit) %>
+  <%= render Ui::ButtonComponent.new("Delete", href: "#", variant: :inline_delete) %>
+  <%= render Ui::ButtonComponent.new(href: "#", variant: :icon, "aria-label": "Search") { render Ui::IconComponent.new(:search) } %>
+  <%= render Ui::ButtonComponent.new("Disabled", variant: :primary, disabled: true) %>
+</div>

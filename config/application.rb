@@ -21,5 +21,8 @@ module Skia
     # config.eager_load_paths << Rails.root.join("extras")
     config.middleware.use AccountMiddleware
     config.autoload_paths << "#{Rails.root}/lib"
+
+    # Component previews at /rails/view_components (development only). See docs/ui-audit/components.md.
+    config.view_component.previews.default_layout = "component_preview"
   end
 end

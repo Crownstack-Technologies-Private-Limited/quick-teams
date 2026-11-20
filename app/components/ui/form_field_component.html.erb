@@ -1,0 +1,6 @@
+<div>
+  <% if @label.present? %><%= tag.label(@label, for: @for_id, class: "form-label") %><% end %>
+  <div class="<%= "mt-1" if @label.present? %>"><%= content %></div>
+  <% if @help.present? %><p class="form-help mt-1"><%= @help %></p><% end %>
+  <% if @error.present? %><p class="mt-1 text-sm text-red-700" role="alert"><%= @error %></p><% end %>
+</div>

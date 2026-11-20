@@ -1,0 +1,15 @@
+<%= tag.div(**wrapper_options) do %>
+  <div class="flex flex-wrap items-baseline -mt-2 -ml-2">
+    <h1 class="text-2xl font-semibold tracking-tight text-gray-900">
+      <%= @title %>
+    </h1>
+    <% if @subtitle.present? %>
+      <p class="mt-1 ml-2 text-sm text-gray-500 truncate"><%= @subtitle %></p>
+    <% end %>
+    <%= meta %>
+  </div>
+  <% if actions? %>
+    <div class="flex flex-wrap gap-y-2 mt-4 sm:mt-0 sm:ml-4"><%= actions %></div>
+  <% end %>
+  <%= content %>
+<% end %>
