@@ -70,3 +70,44 @@ class Ui::LayoutComponentTest < UiComponentTestCase
     assert_selector "p.text-red-600", text: "can't be blank"
   end
 end
+
+class Ui::StatAndSearchTest < UiComponentTestCase
+  test "stat strip" do
+    render_inline(Ui::StatStripComponent.new(columns: 5)) do |strip|
+      strip.with_stat("Total", 12)
+      strip.with_stat("Done", 3)
+    end
+    assert_selector "dl.md\\:grid-cols-5 dt", count: 2
+    assert_selector "dt", text: "Total"
+    assert_text "12"
+  end
+
+  test "search field wires the nav-search controller" do
+    render_inline Ui::SearchFieldComponent.new(url: "/search/surveys", placeholder: "Search Survey", aria_label: "Search surveys", wrapper_class: "flex")
+    assert_selector "div.flex[data-behavior=autocomplete][data-controller=nav-search][data-nav-search-url-value='/search/surveys']"
+    assert_selector "input#search[type=search][name=search][aria-label='Search surveys'][data-nav-search-target=input]"
+    assert_selector "ul[data-nav-search-target=results]"
+    assert_selector "svg"
+  end
+
+  test "labelled search field without icon" do
+    render_inline Ui::SearchFieldComponent.new(url: "/x", id: "search-skills", label: "Search to add new skill", icon: false)
+    assert_selector "label.form-label[for=search-skills]", text: "Search to add new skill"
+    assert_no_selector "svg"
+  end
+
+  test "progress bar colours" do
+    render_inline Ui::ProgressBarComponent.new(title: "Comms", score: 9.0, scale: 10)
+    assert_selector "div.bg-green-400"
+    render_inline Ui::ProgressBarComponent.new(title: "Comms", score: 6.0, scale: 10)
+    assert_selector "div.bg-yellow-400"
+    render_inline Ui::ProgressBarComponent.new(title: "Comms", score: 2.0, scale: 10)
+    assert_selector "[role=progressbar][aria-valuenow='2.0'] div.bg-red-400"
+  end
+
+  test "submit button renders a form-builder submit" do
+    form = ActionView::Helpers::FormBuilder.new(:user, nil, vc_test_controller.view_context, {})
+    render_inline Ui::SubmitButtonComponent.new(form, "Save", class: "ml-2")
+    assert_selector "input[type=submit].btn-primary.ml-2[value=Save]"
+  end
+end

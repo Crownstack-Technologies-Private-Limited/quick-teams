@@ -1,0 +1,19 @@
+<%= tag.div(class: @wrapper_class, data: { behavior: "autocomplete", controller: "nav-search", "nav-search-url-value": @url }) do %>
+  <div class="w-full">
+    <% if @label %><%= tag.label(@label, for: @id, class: "form-label") %><% end %>
+    <% if @sr_label %><%= tag.label(@sr_label, for: @id, class: "sr-only") %><% end %>
+    <div class="relative <%= "mt-1" if @label %>">
+      <% if @icon %>
+        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+          <%= render Ui::IconComponent.new(:search, class: icon_class) %>
+        </div>
+      <% end %>
+      <%= tag.input(type: "search", name: "search", id: @id, class: input_class, placeholder: @placeholder, "aria-label": @aria_label, data: { "nav-search-target": "input" }) %>
+    </div>
+    <div class="relative">
+      <div class="absolute left-0 z-10 block w-full mt-2 origin-top-right overflow-hidden bg-white rounded-lg shadow-lg border border-gray-200 has-[ul:empty]:hidden focus:outline-none" role="menu" aria-orientation="vertical">
+        <ul data-nav-search-target="results"></ul>
+      </div>
+    </div>
+  </div>
+<% end %>
