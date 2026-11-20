@@ -1,12 +1,12 @@
 <%= tailwind_form_with(model: @space, id: dom_id(@space), url: url, method: method) do |form| %>
-  <main class="max-w-lg px-4 pt-10 pb-12 mx-auto space-y-4 lg:pb-16">
+  <%= render Ui::FormContainerComponent.new do %>
     <%= render "shared/form_messages", resource: @space, message: local_assigns[:message] %>
     <%= render "shared/form_header", title: local_assigns[:title], subtitle: local_assigns[:subtitle] %>
     <%= form.text_field :title, "Title", autocomplete: "off" %>
     <%= form.text_area :description, "Description", autocomplete: "off" %>
     <input type="hidden" name="space[user_id]" value="<%= current_user.id %>">
     <div>
-      <label for="label" class="block mt-4 text-sm font-medium text-gray-700">
+      <label for="label" class="form-label mt-4">
         Select people who can see this space
       </label>
       <select name="space[users][]" class="form-text-field mt-1 capitalize" data-controller="slimselect" multiple>
@@ -17,5 +17,5 @@
       <%= render Ui::BackButtonComponent.new() %>
       <%= render Ui::SubmitButtonComponent.new(form, "Save", class: "ml-2") %>
     </div>
-  </main>
+  <% end %>
 <% end %>

@@ -11,9 +11,7 @@
                 <%= render partial: "spaces/archived_space", collection: @spaces, as: :space, cached: true %>
               </tbody>
             </table>
-            <div class="flex justify-end invisible mt-2 mb-6 mr-2" data-infinite-scroll-target="pagination">
-              <%== render partial: "shared/paginator", locals: { pagy: @pagy } %>
-            </div>
+            <%= render Ui::PaginationComponent.new(@pagy, class: "invisible", data: { "infinite-scroll-target": "pagination" }) %>
           </div>
         
 <% end %>
