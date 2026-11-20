@@ -1,8 +1,8 @@
 <%= render Ui::SplitLayoutComponent.new do |layout| %>
   <% layout.with_primary do %>
-    <%= render Ui::CardComponent.new(title: "Todos") { "Primary column" } %>
+    <%= render(Ui::CardComponent.new(title: "Todos")) { "Primary column" } %>
   <% end %>
   <% layout.with_secondary do %>
-    <%= render Ui::CardComponent.new(title: "Add todo") { "Secondary column" } %>
+    <%= render(Ui::CardComponent.new(title: "Add todo")) { "Secondary column" } %>
   <% end %>
 <% end %>
