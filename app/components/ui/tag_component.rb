@@ -13,6 +13,7 @@ module Ui
       xs: "inline-flex px-2 text-xs font-semibold leading-5",
       sm: "inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium",
       md: "inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium",
+      badge: "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium",
     }.freeze
 
     def initialize(label = nil, color: "gray", size: :xs, remove: nil, **html_options)
