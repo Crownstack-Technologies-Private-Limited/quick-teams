@@ -14,8 +14,8 @@
       <label for="project_tag_color" class="text-sm">Appearance</label>
       <%= render Ui::ColorPickerComponent.new(name: "project_tag[color]", selected: "gray", id_prefix: "new_project_tag") %>
     </div>
-    <div class="flex justify-end">
+    <%= render Ui::FormActionsComponent.new do %>
       <%= render Ui::SubmitButtonComponent.new(form, "Save") %>
-    </div>
+    <% end %>
   </div>
 <% end %>

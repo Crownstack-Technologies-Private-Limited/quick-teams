@@ -7,9 +7,9 @@
       <%= form.text_field :first_name, "First Name" %>
       <%= form.text_field :last_name, "Last Name" %>
       <%= form.text_field :email, "Email" %>
-      <div class="flex justify-end">
+      <%= render Ui::FormActionsComponent.new do %>
         <%= render Ui::SubmitButtonComponent.new(form, "Save") %>
-      </div>
+      <% end %>
     </div>
   </div>
 <% end %>

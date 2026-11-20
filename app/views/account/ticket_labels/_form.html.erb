@@ -15,8 +15,8 @@
       </label>
       <%= form.collection_select("user_id", User.all_users.decorate, :id, :display_name_position, { :prompt => "Select Assignee" }, :class => "form-text-field mt-1") %>
     </div>
-    <div class="flex justify-end">
+    <%= render Ui::FormActionsComponent.new do %>
       <%= render Ui::SubmitButtonComponent.new(form, "Save") %>
-    </div>
+    <% end %>
   </div>
 <% end %>

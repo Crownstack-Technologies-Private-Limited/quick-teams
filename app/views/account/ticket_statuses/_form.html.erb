@@ -7,8 +7,8 @@
       <label for="ticket_status_color" class="text-sm">Appearance</label>
       <%= render Ui::ColorPickerComponent.new(name: "ticket_status[color]", selected: "gray", id_prefix: "new_ticket_status") %>
     </div>
-    <div class="flex justify-end">
+    <%= render Ui::FormActionsComponent.new do %>
       <%= render Ui::SubmitButtonComponent.new(form, "Save") %>
-    </div>
+    <% end %>
   </div>
 <% end %>

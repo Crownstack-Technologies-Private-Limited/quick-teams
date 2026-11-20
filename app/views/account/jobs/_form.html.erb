@@ -3,8 +3,8 @@
     <%= render "shared/form_messages", resource: job, message: local_assigns[:message] %>
     <%= render "shared/form_header", title: "Job Profiles", subtitle: "You can define various Job profiles of your organization. Examples include, Android Developer, iOS Developer." %>
     <%= form.text_field :name, "Add New Job", autocomplete: "off" %>
-    <div class="flex justify-end">
+    <%= render Ui::FormActionsComponent.new do %>
       <%= render Ui::SubmitButtonComponent.new(form, "Save") %>
-    </div>
+    <% end %>
   </div>
 <% end %>

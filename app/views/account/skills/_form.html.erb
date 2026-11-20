@@ -3,8 +3,8 @@
     <%= render "shared/form_messages", resource: skill, message: local_assigns[:message] %>
     <%= render "shared/form_header", title: "Skills", subtitle: "You can define skills which can be assigned to your team. Like RxJava, Typecript, Figma. " %>
     <%= form.text_field :name, "Add New Skill", autocomplete: "off" %>
-    <div class="flex justify-end">
+    <%= render Ui::FormActionsComponent.new do %>
       <%= render Ui::SubmitButtonComponent.new(form, "Save") %>
-    </div>
+    <% end %>
   </div>
 <% end %>

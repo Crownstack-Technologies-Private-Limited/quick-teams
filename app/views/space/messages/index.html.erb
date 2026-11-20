@@ -14,7 +14,7 @@
               <h1 id="message-heading" class="font-bold line-clamp-1 text-2xl leading-tight text-align-center"><%= highlight_hashtag(@space.title.upcase_first) %></h1>
             </a>
           </div>
-          <div class="flex justify-end">
+          <%= render Ui::FormActionsComponent.new do %>
             <% if policy(@space).edit? || policy(@space).unpin? || policy(@space).pin? || policy(@space).destroy? %>
               <%= render Ui::KebabMenuComponent.new(button_id: "space-menu", label: "Space actions", icon: :dots_horizontal_lg, icon_class: "w-7 h-7", bordered: true) do %>
                 <% if policy(@space).unpin? %>
@@ -35,7 +35,7 @@
                 <% end %>
               <% end %>
             <% end %>
-          </div>
+          <% end %>
         </div>
         <div class="flex justify-center">
           <p class="font-normal text-sm line-clamp-2 text-gray-500"> <%= highlight_hashtag(@space.description.upcase_first) %></p>

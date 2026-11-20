@@ -13,9 +13,9 @@
         <%= options_for_select(users.map { |user| [user.decorate.display_name, user.id] }, space_users) %>
       </select>
     </div>
-    <div class="flex justify-end">
+    <%= render Ui::FormActionsComponent.new do %>
       <%= render Ui::BackButtonComponent.new() %>
       <%= render Ui::SubmitButtonComponent.new(form, "Save", class: "ml-2") %>
-    </div>
+    <% end %>
   <% end %>
 <% end %>

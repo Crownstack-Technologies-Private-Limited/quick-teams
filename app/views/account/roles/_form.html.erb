@@ -3,8 +3,8 @@
     <%= render "shared/form_messages", resource: role, message: local_assigns[:message] %>
     <%= render "shared/form_header", title: "Roles", subtitle: "Role indicates the level or title of the person within the organization. Examples include junior, senior, associate, and director." %>
     <%= form.text_field :name, "New Role", autocomplete: "off" %>
-    <div class="flex justify-end">
+    <%= render Ui::FormActionsComponent.new do %>
       <%= render Ui::SubmitButtonComponent.new(form, "Save") %>
-    </div>
+    <% end %>
   </div>
 <% end %>

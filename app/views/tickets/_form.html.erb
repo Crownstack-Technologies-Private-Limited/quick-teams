@@ -16,9 +16,9 @@
                                                                                                            data: { select_target: "select" }) %>
         </div>
       </div>
-      <div class="flex justify-end">
+      <%= render Ui::FormActionsComponent.new do %>
         <%= render Ui::SubmitButtonComponent.new(form, "Add Ticket") %>
-      </div>
+      <% end %>
     <% else %>
       <% if current_user.admin? %>
         <div>

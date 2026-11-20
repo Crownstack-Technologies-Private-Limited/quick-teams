@@ -10,9 +10,9 @@
       <%= form.collection_select("ticket_label_id", TicketLabel.all, :id, :name, { :prompt => "Select labels" }, { :class => "form-text-field" }) %>
     </div>
   </div>
-  <div class="flex justify-end">
+  <%= render Ui::FormActionsComponent.new do %>
     <%= render Ui::ButtonComponent.new("Cancel", href: "javascript:history.back()", variant: :secondary) %>
     <%= render Ui::SubmitButtonComponent.new(form, "Save", class: "ml-2") %>
-  </div>
+  <% end %>
 <% end %>
 <% end %>
