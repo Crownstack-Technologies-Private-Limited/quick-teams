@@ -11,8 +11,8 @@
     </div>
   </div>
   <div class="flex justify-end">
-    <%= link_to "Cancel", "javascript:history.back()", class: "btn-secondary" %>
-    <%= form.submit "Save", class: "btn-primary ml-2" %>
+    <%= render Ui::ButtonComponent.new("Cancel", href: "javascript:history.back()", variant: :secondary) %>
+    <%= render Ui::SubmitButtonComponent.new(form, "Save", class: "ml-2") %>
   </div>
 </main>
 <% end %>

@@ -21,36 +21,16 @@
     <div class="overflow-hidden bg-white">
       <% if @tickets.size > 0 %>
         <div class="w-full overflow-hidden" data-controller="infinite-scroll">
-          <table class="table">
-            <thead class="bg-gray-50">
-              <tr>
-                <th scope="col" class="w-full table-head">
-                  description
-                </th>
-                <th scope="col" class="table-head">
-                  Created By
-                </th>
-                <th scope="col" class="table-head">
-                  Label
-                </th>
-                <th scope="col" class="table-head">
-                  Created On
-                </th>
-                <th scope="col" class="table-head">
-                  Last Updated
-                </th>
-                <th scope="col" class="table-head">
-                  Status
-                </th>
-                <th scope="col" class="table-head">
-                  Assigned To
-                </th>
-              </tr>
-            </thead>
-            <tbody class="table-body" id="tickets" data-infinite-scroll-target="entries">
-              <%= render partial: "open_ticket", collection: @tickets, as: :ticket, cached: true %>
-            </tbody>
-          </table>
+          <%= render Ui::TableComponent.new(body_options: { id: "tickets", data: { "infinite-scroll-target": "entries" } }) do |table| %>
+            <% table.with_column("description", class: "w-full") %>
+            <% table.with_column("Created By") %>
+            <% table.with_column("Label") %>
+            <% table.with_column("Created On") %>
+            <% table.with_column("Last Updated") %>
+            <% table.with_column("Status") %>
+            <% table.with_column("Assigned To") %>
+            <%= render partial: "open_ticket", collection: @tickets, as: :ticket, cached: true %>
+          <% end %>
           <div class="flex justify-end invisible mt-2 mb-6 mr-2" data-infinite-scroll-target="pagination">
             <%== render partial: "shared/paginator", locals: { pagy: @pagy } %>
           </div>

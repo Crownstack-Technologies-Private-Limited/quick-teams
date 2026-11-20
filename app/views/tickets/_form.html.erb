@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="flex justify-end">
-        <%= form.submit "Add Ticket", class: "btn-primary" %>
+        <%= render Ui::SubmitButtonComponent.new(form, "Add Ticket") %>
       </div>
     <% else %>
       <% if current_user.admin? %>

@@ -1,17 +1,5 @@
-<div id="ticket-tabs">
-  <div>
-    <div class="border-b border-gray-200">
-      <nav class="tab-bar" aria-label="Tabs">
-        <a href="<%= ticket_open_path %>" class="<%= current_page?(ticket_open_path) ? "selected-tab" : "unselected-tab" %>">
-          Open Tickets
-        </a>
-        <a href="<%= ticket_closed_path %>" class="<%= current_page?(ticket_closed_path) ? "selected-tab" : "unselected-tab" %>">
-          Closed Tickets
-        </a>
-        <a href="<%= tickets_path %>" class="<%= current_page?(tickets_path) ? "selected-tab" : "unselected-tab" %>">
-          My Tickets
-        </a>
-      </nav>
-    </div>
-  </div>
-</div>
+<%= render Ui::TabsComponent.new(id: "ticket-tabs") do |tabs| %>
+  <% tabs.with_tab("Open Tickets", ticket_open_path) %>
+  <% tabs.with_tab("Closed Tickets", ticket_closed_path) %>
+  <% tabs.with_tab("My Tickets", tickets_path) %>
+<% end %>
