@@ -25,9 +25,9 @@
       </div>
     </td>
     <td class="table-cell">
-      <div class="flex justify-end">
+      <%= render Ui::FormActionsComponent.new do %>
         <%= render Ui::ButtonComponent.new("Activate", href: activate_user_path(employee), variant: :inline_edit, class: "mr-2") %>
         <%= delete_button(employee_path(employee)) %>
-      </div>
+      <% end %>
     </div>
   </tr>

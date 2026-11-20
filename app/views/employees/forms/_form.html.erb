@@ -43,9 +43,9 @@
         </label>
       </div>
     </div>
-    <div class="flex justify-end">
+    <%= render Ui::FormActionsComponent.new do %>
       <%= render Ui::BackButtonComponent.new() %>
       <%= render Ui::SubmitButtonComponent.new(form, "Save", class: "ml-2") %>
-    </div>
+    <% end %>
   <% end %>
 <% end %>

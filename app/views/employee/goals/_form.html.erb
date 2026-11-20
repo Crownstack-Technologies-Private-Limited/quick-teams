@@ -16,8 +16,8 @@
         Allow <%= @employee.decorate.display_name %> to comment on the goal
       </span>
     </div>
-    <div class="flex justify-end">
+    <%= render Ui::FormActionsComponent.new do %>
       <%= render Ui::SubmitButtonComponent.new(form, "Add Goal") %>
-    </div>
+    <% end %>
   <% end %>
 <% end %>

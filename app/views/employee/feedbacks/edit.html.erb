@@ -6,10 +6,10 @@
         <%= render "shared/form_header", title: "Edit Feedback for #{@employee.decorate.display_name}", subtitle: "A feedback can be added for employee which might be useful in performace review later. Feedback will be visible to employee after approval from Admin." %>
         <%= form.text_field :title, "Title", autocomplete: "off" %>
         <%= form.rich_text_area :body, "Description" %>
-        <div class="flex justify-end">
+        <%= render Ui::FormActionsComponent.new do %>
           <%= render Ui::BackButtonComponent.new() %>
           <%= render Ui::SubmitButtonComponent.new(form, "Edit Feedback", class: "ml-2") %>
-        </div>
+        <% end %>
       </main>
     <% end %>
   </div>

@@ -9,10 +9,10 @@
           <%= form.text_field :link, "Link", autocomplete: "off" %>
         </div>
         <%= form.text_area :comments, "Comments (optional)", class: "h-32 form-text-field", autocomplete: "off" %>
-        <div class="flex justify-end">
+        <%= render Ui::FormActionsComponent.new do %>
           <%= render Ui::BackButtonComponent.new() %>
           <%= render Ui::SubmitButtonComponent.new(form, "Edit Document", class: "ml-2") %>
-        </div>
+        <% end %>
       </main>
     <% end %>
   </div>
