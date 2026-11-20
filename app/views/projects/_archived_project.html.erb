@@ -25,10 +25,10 @@
       </div>
     </td>
     <td class="table-cell whitespace-nowrap">
-      <div class="flex justify-end">
+      <%= render Ui::FormActionsComponent.new do %>
         <%= render Ui::ButtonComponent.new("Restore", href: unarchive_project_path(project), variant: :inline_edit, class: "mr-2") %>
         <%= delete_button(project_path(project)) %>
-      </div>
+      <% end %>
     </div>
   </td>
 </tr>

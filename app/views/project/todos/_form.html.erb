@@ -11,8 +11,8 @@
       </label>
       <%= form.date_field :deadline, class: "form-text-field mt-1", value: Date.today.to_formatted_s(:db) %>
     </div>
-    <div class="flex justify-end">
+    <%= render Ui::FormActionsComponent.new do %>
       <%= render Ui::SubmitButtonComponent.new(form, "Add Todo") %>
-    </div>
+    <% end %>
   <% end %>
 <% end %>

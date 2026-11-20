@@ -6,9 +6,9 @@
         <%= "Edit Note" %>
       </label>
       <%= form.text_area :body, class: "resize-y form-text-field h-48" %>
-      <div class="flex justify-end">
+      <%= render Ui::FormActionsComponent.new do %>
         <%= render Ui::SubmitButtonComponent.new(form, "Edit Note") %>
-      </div>
+      <% end %>
     </main>
   <% end %>
 <% end %>

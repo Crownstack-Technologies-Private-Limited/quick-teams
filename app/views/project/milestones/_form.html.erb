@@ -10,8 +10,8 @@
       <%= form.date_field :deadline, class: "form-text-field mt-1" %>
     </div>
     <%= form.rich_text_area :body, "Description" %>
-    <div class="flex justify-end">
+    <%= render Ui::FormActionsComponent.new do %>
       <%= render Ui::SubmitButtonComponent.new(form, "Add Milestone") %>
-    </div>
+    <% end %>
   <% end %>
 <% end %>

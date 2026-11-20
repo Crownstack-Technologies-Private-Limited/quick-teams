@@ -3,8 +3,8 @@
     <%= render "shared/form_messages", resource: risk, message: local_assigns[:message] %>
     <%= render "shared/form_header", title: "Add New Risk", subtitle: "If there is a risk to this project, please add here." %>
     <%= form.text_area :body, class: "resize-y form-text-field h-24" %>
-    <div class="flex justify-end">
+    <%= render Ui::FormActionsComponent.new do %>
       <%= render Ui::SubmitButtonComponent.new(form, "Add Risk") %>
-    </div>
+    <% end %>
   <% end %>
 <% end %>
