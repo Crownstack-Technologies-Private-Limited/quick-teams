@@ -23,18 +23,4 @@
     <%= render "shared/navbar/dropdown" %>
   </div>
 </div>
-<div class="order-3 w-full sm:order-none sm:ml-auto sm:w-64 lg:w-80" data-behavior="autocomplete" data-controller="nav-search" data-nav-search-url-value="/search/people-projects">
-  <div class="w-full">
-    <div class="relative">
-      <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-        <%= render Ui::IconComponent.new(:search, class: "h-4 w-4 text-gray-400") %>
-      </div>
-      <input id="search" name="search" aria-label="Search employee or project" class="block w-full rounded-md border border-transparent bg-gray-100 py-1.5 pl-9 pr-3 text-sm leading-5 text-gray-900 placeholder-gray-500 transition-colors focus:border-primary-500 focus:bg-white focus:ring-2 focus:ring-primary-500/25 focus:outline-none" placeholder="Search Employee or Project" type="search" data-nav-search-target="input">
-    </div>
-    <div class="relative">
-      <div class="absolute left-0 z-10 block w-full mt-2 origin-top-right overflow-hidden bg-white rounded-lg shadow-lg border border-gray-200 has-[ul:empty]:hidden focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-        <ul data-nav-search-target="results"></ul>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render Ui::SearchFieldComponent.new(url: "/search/people-projects", placeholder: "Search Employee or Project", aria_label: "Search employee or project", variant: :navbar, wrapper_class: "order-3 w-full sm:order-none sm:ml-auto sm:w-64 lg:w-80") %>

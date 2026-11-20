@@ -27,11 +27,11 @@
     </div>
   <% end %>
   <div class="mt-6 flex justify-center">
-    <%= link_to "Remove Photo", destroy_avatar_path, class: "btn-inline-delete text-red-600", data: {
+    <%= render Ui::ButtonComponent.new("Remove Photo", href: destroy_avatar_path, variant: :inline_delete, class: "text-red-600", data: {
                                                        controller: "confirmation",
                                                        "turbo-method": :delete,
                                                        "confirmation-message-value": "Are you sure you want to delete your profile pic?",
                                                        action: "confirmation#confirm",
-                                                     } %>
+                                                     }) %>
   </div>
 </div>
