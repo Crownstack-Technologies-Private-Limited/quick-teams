@@ -8,7 +8,7 @@
       <p class="mt-1 ml-2 text-sm text-gray-500 truncate"><%= "(" + @employees.count.to_s + " employees)" %></p>
     </div>
    <% if @employees.size > 0 %>
-     <%= link_to "Download CSV", overburdened_schedules_reports_path(format: :csv), class: "btn-primary" %>
+     <%= render Ui::ButtonComponent.new("Download CSV", href: overburdened_schedules_reports_path(format: :csv)) %>
   <% end %>
   </div>
 </div>
@@ -16,27 +16,13 @@
   <div class="flex w-full">
     <% if @employees.size > 0 %>
       <div class="w-full overflow-hidden">
-        <table class="table">
-          <thead class="bg-gray-50">
-            <tr>
-              <th scope="col" class="table-head">
-                Name
-              </th>
-              <th scope="col" class="table-head">
-                Projects
-              </th>
-              <th scope="col" class="table-head">
-                Occupancy
-              </th>
-              <th scope="col" class="table-head">
-                Status
-              </th>
-            </tr>
-          </thead>
-          <tbody class="table-body">
-            <%= render partial: "schedule", collection: @employees, as: :employee, cached: true %>
-          </tbody>
-        </table>
+        <%= render Ui::TableComponent.new do |table| %>
+          <% table.with_column("Name") %>
+          <% table.with_column("Projects") %>
+          <% table.with_column("Occupancy") %>
+          <% table.with_column("Status") %>
+          <%= render partial: "schedule", collection: @employees, as: :employee, cached: true %>
+        <% end %>
       </div>
     <% else %>
       <%= render partial: "shared/no_result_found", cached: true %>

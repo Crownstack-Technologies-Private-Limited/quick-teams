@@ -8,7 +8,7 @@
     </div>
     <% if @kpis.size > 0 and params[:participant_id].present? %>
       <div>
-        <%= link_to "Download PDF", performance_report_path(survey_type: params[:survey_type], participant_id: params[:participant_id], from_date: params[:from_date], to_date: params[:to_date], format: :pdf), target: "_blank", class: "btn-primary" %>
+        <%= render Ui::ButtonComponent.new("Download PDF", href: performance_report_path(survey_type: params[:survey_type], participant_id: params[:participant_id], from_date: params[:from_date], to_date: params[:to_date], format: :pdf), target: "_blank") %>
       </div>
     <% end %>
   </div>
@@ -19,36 +19,16 @@
     <!-- This example requires Tailwind CSS v2.0+ -->
     <% if @kpis.size > 0 %>
       <div class="w-full overflow-auto" data-controller="infinite-scroll">
-        <table class="table">
-          <thead class="bg-gray-50">
-            <tr>
-              <th scope="col" class="w-6/12 table-head">
-                KPI
-              </th>
-              <th scope="col" class=" table-head">
-                Participant
-              </th>
-              <th scope="col" class="  table-head">
-                score
-              </th>
-              <th scope="col" class=" table-head">
-                Taken by
-              </th>
-              <th scope="col" class=" table-head px-10">
-                Status
-              </th>
-              <th scope="col" class=" table-head">
-                created at
-              </th>
-              <th scope="col" class=" table-head">
-                Comment
-              </th>
-            </tr>
-          </thead>
-          <tbody class="table-body" data-infinite-scroll-target="entries">
-            <%= render partial: "kpi", collection: @kpis, as: :kpi %>
-          </tbody>
-        </table>
+        <%= render Ui::TableComponent.new(body_options: { data: { "infinite-scroll-target": "entries" } }) do |table| %>
+          <% table.with_column("KPI", class: "w-6/12") %>
+          <% table.with_column("Participant") %>
+          <% table.with_column("score") %>
+          <% table.with_column("Taken by") %>
+          <% table.with_column("Status", class: "px-10") %>
+          <% table.with_column("created at") %>
+          <% table.with_column("Comment") %>
+          <%= render partial: "kpi", collection: @kpis, as: :kpi %>
+        <% end %>
         <div class="flex justify-end invisible mt-2 mb-6 mr-2" data-infinite-scroll-target="pagination">
           <%= render partial: "shared/paginator", locals: { pagy: @pagy } %>
         </div>

@@ -28,8 +28,8 @@
                 <%= form.date_field :to_date, class: "form-text-field mt-1", value: params["to_date"].blank? ? Date.today.to_formatted_s(:db) : params["to_date"] %>
               </div>
               <div class="flex justify-end mt-6">
-                <%= link_to "Reset", kpis_reports_path, class: "btn-secondary" %>
-                <%= form.submit "Search", class: "btn-primary ml-2" %>
+                <%= render Ui::ButtonComponent.new("Reset", href: kpis_reports_path, variant: :secondary) %>
+                <%= render Ui::SubmitButtonComponent.new(form, "Search", class: "ml-2") %>
               </div>
             </main>
           <% end %>

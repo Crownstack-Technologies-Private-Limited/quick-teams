@@ -1,12 +1,5 @@
 <div class="relative z-0 flex-1 overflow-y-auto focus:outline-none">
-  <!-- Page title & actions -->
-  <div class="px-4 py-5 bg-white border-b border-gray-200 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8">
-    <div class="flex flex-wrap items-baseline -mt-2 -ml-2">
-      <h1 class="text-2xl font-semibold tracking-tight text-gray-900">
-        Employee Jobs, Roles and Disciplines
-      </h1>
-    </div>
-  </div>
+  <%= render Ui::PageHeaderComponent.new(title: "Employee Jobs, Roles and Disciplines") %>
 </div>
 <div class="flex w-full overflow-hidden bg-white">
   <div class="flex w-full">
@@ -15,27 +8,13 @@
       <div class="w-full overflow-hidden" data-controller="infinite-scroll">
         <%= render partial: "report/employees/stats", locals: { stats: @stats } %>
         <!-- This example requires Tailwind CSS v2.0+ -->
-        <table class="table">
-          <thead class="bg-gray-50 ">
-            <tr>
-              <th scope="col" class="table-head">
-                Name
-              </th>
-              <th scope="col" class="table-head">
-                Title
-              </th>
-              <th scope="col" class="table-head">
-                Occupancy
-              </th>
-              <th class="table-head">
-                Status
-              </th>
-            </tr>
-          </thead>
-          <tbody class="table-body" data-infinite-scroll-target="entries">
-            <%= render partial: "schedule", collection: @employees, as: :employee, cached: true %>
-          </tbody>
-        </table>
+        <%= render Ui::TableComponent.new(body_options: { data: { "infinite-scroll-target": "entries" } }) do |table| %>
+          <% table.with_column("Name") %>
+          <% table.with_column("Title") %>
+          <% table.with_column("Occupancy") %>
+          <% table.with_column("Status") %>
+          <%= render partial: "schedule", collection: @employees, as: :employee, cached: true %>
+        <% end %>
         <div class="flex justify-end invisible mt-2 mb-6 mr-2" data-infinite-scroll-target="pagination">
           <%== render partial: "shared/paginator", locals: { pagy: @pagy } %>
         </div>
