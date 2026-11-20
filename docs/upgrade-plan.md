@@ -283,8 +283,8 @@ A–D touch disjoint files and can run in parallel; E–H likewise except H depe
 
 ## 12. Execution status (branch `claude/upgrade-phases-6f2b15`, 2026-11-19)
 
-Test numbers: baseline on `upgrade-base` — unit 120/0/0, system 855 runs / 24 F / 12 E. Latest full system run
-(`fdefdb42`, Ruby 4.0.9 + load_defaults 8.1): 855 runs / 1 F / 0 E; unit now 157/0/0. bundle-audit: 158 advisories → **0**.
+Test numbers: baseline on `upgrade-base` — unit 120/0/0, system 855 runs / 24 F / 12 E. Final full run (`a2683aa0`,
+Ruby 4.0.9, Rails 8.1.4.1, StimulusReflex replaced): **unit 163/0/0, system 855 runs / 0 F / 0 E**. bundle-audit: 158 advisories → **0**.
 brakeman: 13 mass-assignment warnings, unchanged.
 
 | Item | Status |
@@ -309,7 +309,7 @@ brakeman: 13 mass-assignment warnings, unchanged.
 | §7 wkhtmltopdf replacement | **deferred**: every replacement changes the PDFs users get or the hosting: Grover needs Node (removed by this upgrade), Ferrum/Chrome PDF needs Chrome on every host and renders differently from wkhtmltopdf's old WebKit, Prawn means rewriting the templates. wicked_pdf 2.8.2 (maintained) stays; `test/controllers/report/kpis_pdf_test.rb` guards PDF output. Needs a decision on engine + hosting. |
 | §8 CI, renovate | done (`92d76544`, `89c9c470`, `ca50f063`) |
 
-Remaining failing system test: `EmployeeSpacesPermissionsTest#test_space_participant_can_not_delete_a_thread` (intermittent).
+Intermittently failing system test: `EmployeeSpacesPermissionsTest#test_space_participant_can_not_delete_a_thread` (passed in the final run; fails when the unordered fixture query picks a thread the user may delete).
 It contradicts `Space::MessagePolicy#destroy?` (any participant may delete a thread since 2023) and only passed while two
 `SpacesTest` classes shared a setup. Product must decide whether the policy or the test is right.
 
