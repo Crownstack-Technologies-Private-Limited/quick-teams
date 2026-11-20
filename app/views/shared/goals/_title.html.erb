@@ -8,7 +8,7 @@
     </div>
     <div>
       <div class="text-sm">
-        <a href="<%= goal_path(goal) %>" class="font-medium text-gray-900 hover:underline"><%= goal.goalable.decorate.name %></a>
+        <%= render Ui::TextLinkComponent.new(goal.goalable.decorate.name, goal_path(goal), tone: :strong) %>
         <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium <%= goal_status_color(goal) %>">
           <%= goal.status.to_s.titleize %>
         </span>
