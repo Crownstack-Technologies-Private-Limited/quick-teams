@@ -5,21 +5,7 @@
         </div>
         <% if @projects.load.size > 0 %>
           <div class=" flex space-x-4 ml-4">
-            <div class="flex-1 min-w-0 "  data-behavior="autocomplete" data-controller="nav-search" data-nav-search-url-value="/search/archived" >
-              <label for="search" class="sr-only">Search</label>
-              <div class="relative rounded-md shadow-sm"   >
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <%= render Ui::IconComponent.new(:search, class: "h-5 w-5 text-gray-400") %>
-                </div>
-                <input type="search" name="search" id="search" class="pl-10 form-text-field " placeholder="Search" data-nav-search-target="input"  >
-              </div>
-              <div class="relative"   >
-                <div  class="absolute left-0 z-10 block w-full mt-1 origin-top-right bg-white rounded-md shadow-lg   focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                  <ul data-nav-search-target="results" >
-                  </ul>
-                </div>
-              </div>
-            </div>
+            <%= render Ui::SearchFieldComponent.new(url: "/search/archived", placeholder: "Search", sr_label: "Search", wrapper_class: "flex-1 min-w-0") %>
           </div>
         <% end %>
         <div class="overflow-hidden bg-white " data-controller="infinite-scroll">

@@ -64,7 +64,7 @@
             </div>
             <div class="flex col-span-1">
               <div class="whitespace-nowrap">
-                <div class="text-sm text-gray-900"><%= link_to "Edit", edit_project_schedule_path(@project, schedule), class: "btn-inline-edit" %></div>
+                <div class="text-sm text-gray-900"><%= render Ui::ButtonComponent.new("Edit", href: edit_project_schedule_path(@project, schedule), variant: :inline_edit) %></div>
                 <div class="text-sm text-gray-900"><%= delete_button([@project, schedule]) %></div>
               </div>
             </div>

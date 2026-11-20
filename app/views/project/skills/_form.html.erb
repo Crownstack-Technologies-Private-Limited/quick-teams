@@ -23,22 +23,7 @@
           <div class="px-4">
             <%= render Ui::FormContainerComponent.new(class: "z-10") do %>
               <%= render "shared/form_header", title: "Add New Skill", subtitle: "" %>
-              <div class="flex justify-center w-full max-w-sm lg:justify-end"  data-behavior="autocomplete" data-controller="nav-search" data-nav-search-url-value="/search/project/skills?id=<%= project.id %>">
-                <div class="w-full max-w-sm lg:max-w-sm">
-                  <div>
-                    <label for="skill" class="form-label">Search to add new skill</label>
-                    <div class="mt-1">
-                      <input type="search" name="search" id="search-skills" class="form-text-field" data-nav-search-target="input">
-                    </div>
-                  </div>
-                  <div class="relative">
-                    <div class="absolute left-0 z-10 block w-full mt-2 origin-top-right bg-white rounded-md shadow-lg ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                      <ul data-nav-search-target="results">
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <%= render Ui::SearchFieldComponent.new(url: "/search/project/skills?id=#{project.id}", id: "search-skills", label: "Search to add new skill", icon: false, wrapper_class: "flex justify-center w-full max-w-sm lg:justify-end") %>
             <% end %>
           </div>
         </div>

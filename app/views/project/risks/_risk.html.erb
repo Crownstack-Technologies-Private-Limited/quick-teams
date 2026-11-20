@@ -25,9 +25,9 @@
     <div class="space-x-2 inline-flex">
       <% if policy([@project, risk]).edit? %>
         <% if risk.status? %>
-          <%= link_to "Mitigate", project_risk_path(@project, risk), data: { "turbo-method": :patch }, class: "btn-inline-edit" %>
+          <%= render Ui::ButtonComponent.new("Mitigate", href: project_risk_path(@project, risk), variant: :inline_edit, data: { "turbo-method": :patch }) %>
         <% else %>
-          <%= link_to "Reopen", project_risk_path(@project, risk), data: { "turbo-method": :patch }, class: "btn-inline-edit" %>
+          <%= render Ui::ButtonComponent.new("Reopen", href: project_risk_path(@project, risk), variant: :inline_edit, data: { "turbo-method": :patch }) %>
         <% end %>
         <%= delete_button(project_risk_path(@project, risk)) %>
       <% end %>

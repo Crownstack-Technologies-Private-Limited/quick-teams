@@ -2,22 +2,7 @@
   <%= render "shared/form_header", title: "Project Observers", subtitle: "Project observers are project stakeholders who are not working on project but need access to see updates." %>
   <% if policy([project, :about]).add_observer? %>
     <%= render "devise/shared/success_message", message: message %>
-    <div class="flex justify-center w-full lg:justify-end"   data-behavior="autocomplete" data-controller="nav-search" data-nav-search-url-value="/search/users?project_id=<%= project.id %>">
-      <div class="w-full ">
-        <div>
-          <label for="skill" class="form-label">Search to add new observer</label>
-          <div class="mt-1">
-            <input type="search" name="search" id="search-observers" class="form-text-field" data-nav-search-target="input">
-          </div>
-        </div>
-        <div class="relative">
-          <div class="absolute left-0 z-10 block w-full mt-2 origin-top-right bg-white rounded-md shadow-lg ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-            <ul data-nav-search-target="results">
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+    <%= render Ui::SearchFieldComponent.new(url: "/search/users?project_id=#{project.id}", id: "search-observers", label: "Search to add new observer", icon: false, wrapper_class: "flex justify-center w-full lg:justify-end") %>
   <% end %>
   <ul class="divide-y divide-gray-200 " id="project-observers">
     <% observers.each do |employee| %>
@@ -50,12 +35,12 @@
               </div>
               <% if policy([project, :about]).destroy_observer? %>
                 <div class="flex justify-end mb-6">
-                  <%= link_to "Remove", "/#{project.account_id}/projects/#{project.id}/observers/#{employee.id}", class: "btn-inline-delete", data: {
+                  <%= render Ui::ButtonComponent.new("Remove", href: "/#{project.account_id}/projects/#{project.id}/observers/#{employee.id}", variant: :inline_delete, data: {
                                                                                                                     controller: "confirmation",
                                                                                                                     "turbo-method": :delete,
                                                                                                                     "confirmation-message-value": "Are you sure you want to remove this observer?",
                                                                                                                     action: "confirmation#confirm", target: "_top",
-                                                                                                                  } %>
+                                                                                                                  }) %>
                 </div>
               <% end %>
             </div>
