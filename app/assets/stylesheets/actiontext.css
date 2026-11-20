@@ -44,15 +44,41 @@ trix-toolbar .trix-button--icon-highlight::before{
 
 trix-editor ul { list-style-type: disc !important; margin-left: 1rem !important; }
 trix-editor ol { list-style-type: decimal !important; margin-left: 1rem !important; }
-trix-editor a { text-decoration: underline !important; color: blue }
+trix-editor a { text-decoration: underline !important; color: var(--color-primary-700, #4338ca) }
 trix-toolbar .trix-button--icon { width: 2.2em !important;}
 trix-editor {
   min-height: 10rem;
   height: auto;
+  border: 1px solid var(--color-gray-300, #cbd5e1) !important;
+  border-radius: 0.5rem !important;
+  background-color: #fff;
+  padding: 0.5rem 0.75rem !important;
+  box-shadow: 0 1px 2px 0 rgb(15 23 42 / 0.05);
+}
+
+trix-editor:focus {
+  outline: none;
+  border-color: var(--color-primary-500, #6366f1) !important;
+  box-shadow: 0 0 0 3px rgb(99 102 241 / 0.25);
+}
+
+/* Design-system toolbar: light buttons, brand active state. */
+trix-toolbar .trix-button-group {
+  border-color: var(--color-gray-200, #e2e8f0) !important;
+  border-radius: 0.5rem !important;
+  overflow: hidden;
+}
+
+trix-toolbar .trix-button {
+  border-color: var(--color-gray-200, #e2e8f0) !important;
+}
+
+trix-toolbar .trix-button.trix-active {
+  background: var(--color-primary-50, #eef2ff) !important;
 }
 
 .trix-content ul { list-style-type: disc !important; margin-left: 1rem !important; }
 .trix-content ol { list-style-type: decimal !important; margin-left: 1rem !important; }
-.trix-content a { text-decoration: underline !important; color: blue }
+.trix-content a { text-decoration: underline !important; color: var(--color-primary-700, #4338ca) }
 
 .trix-content div:first-letter { text-transform: capitalize; }

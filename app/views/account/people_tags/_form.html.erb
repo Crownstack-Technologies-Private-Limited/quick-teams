@@ -3,7 +3,7 @@
     <%= render "shared/form_messages", resource: people_tag, message: local_assigns[:message] %>
     <%= render "shared/form_header", title: "People Tags", subtitle: "You can define custom tags which can be applied to your team members. Examples include star performer, pending performance review." %>
     <%= form.text_field :name, "Add New Tag", autocomplete: "off" %>
-    <div class="flex">
+    <div class="flex flex-wrap items-center gap-y-2">
       <label for="people_tag_color" class="text-sm">Appearance</label>
       <div class="flex items-center ml-2 text-sm ">
         <input checked type="radio" name="people_tag[color]" value="gray" class="w-4 h-4 text-gray-600 border-gray-400 cursor-pointer focus:ring-gray-500" aria-labelledby="pricing-plans-0-label" aria-describedby="pricing-plans-0-description-0 pricing-plans-0-description-1">

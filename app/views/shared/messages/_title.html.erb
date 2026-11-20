@@ -21,7 +21,7 @@
           <div class="absolute right-0 py-1 mt-2 origin-top-right bg-white rounded-md shadow-lg w-60 border border-gray-200 z-10" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
             <div>
               <% if policy([@space, @message]).edit? %>
-                <a href=<%= edit_space_message_path(@space, @message) %> class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"  role= "menuitem">Edit</a>
+                <a href=<%= edit_space_message_path(@space, @message) %> class="dropdown-item"  role= "menuitem">Edit</a>
               <% end %>
               <% if policy([@space, @message]).destroy? %>
                 <%= styled_delete_button(space_message_path(@space, @message), "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100") %>
