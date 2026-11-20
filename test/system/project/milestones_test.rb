@@ -75,6 +75,8 @@ class ProjectMilestonesTest < ApplicationSystemTestCase
     visit page_url
     milestone = @project.milestones.first
     find("tr", id: dom_id(milestone)).click_link("Edit")
+    # The index has the new-record form with the same fields; wait for the edit form.
+    assert_button "Edit Milestone"
     title = "Some Random Milestone Title Edited"
     fill_in "Title", with: title
     fill_in "goal_deadline", with: Time.now
@@ -91,6 +93,8 @@ class ProjectMilestonesTest < ApplicationSystemTestCase
     visit page_url
     milestone = @project.milestones.first
     find("tr", id: dom_id(milestone)).click_link("Edit")
+    # The index has the new-record form with the same fields; wait for the edit form.
+    assert_button "Edit Milestone"
     fill_in "Title", with: nil
     click_on "Edit Milestone"
     assert_selector "p.alert", text: "Failed to update. Please try again."

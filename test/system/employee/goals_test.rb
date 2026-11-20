@@ -85,6 +85,8 @@ class EmployeeGoalsTest < ApplicationSystemTestCase
     visit page_url
     goal = @employee.goals.first
     find("tr", id: dom_id(goal)).click_link("Edit")
+    # The index has the new-record form with the same fields; wait for the edit form.
+    assert_button "Edit Goal"
     title = "Some Random Goal Title Edited"
     fill_in "", with: title
     fill_in "Title", with: title
@@ -102,6 +104,8 @@ class EmployeeGoalsTest < ApplicationSystemTestCase
     visit page_url
     goal = @employee.goals.first
     find("tr", id: dom_id(goal)).click_link("Edit")
+    # The index has the new-record form with the same fields; wait for the edit form.
+    assert_button "Edit Goal"
     fill_in "Title", with: nil
     click_on "Edit Goal"
     assert_selector "p.alert", text: "Failed to update. Please try again."

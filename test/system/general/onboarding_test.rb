@@ -38,6 +38,8 @@ class OnboardingTest < ApplicationSystemTestCase
     admin = users(:lead)
     visit new_user_session_path
     click_on "Forgot your password?"
+    # Same user_email field id as the sign-in page: wait for the new page before filling it in.
+    assert_selector "h2", text: "Forgot your password?"
     fill_in "user_email", with: admin.email
 
     assert_emails 1 do
@@ -101,6 +103,8 @@ class OnboardingTest < ApplicationSystemTestCase
   test "user can confirm email" do
     visit new_user_session_path
     click_on "Didn't receive email confirmation instructions?"
+    # Same user_email field id as the sign-in page: wait for the new page before filling it in.
+    assert_selector "h2", text: "Resend confirmation instructions"
     fill_in "user_email", with: users(:unconfirmed).email
     assert_emails 1 do
       click_on "Resend confirmation instructions"
