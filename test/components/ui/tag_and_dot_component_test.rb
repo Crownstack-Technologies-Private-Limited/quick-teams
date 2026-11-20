@@ -11,3 +11,11 @@ class Ui::TagAndDotComponentTest < UiComponentTestCase
     assert_selector "span.bg-green-400.rounded-full"
   end
 end
+
+class Ui::TagComponentRemovableTest < UiComponentTestCase
+  test "removable chip keeps its id and data attributes" do
+    render_inline Ui::TagComponent.new("Star", color: "red", size: :sm, remove: { id: "remove", data: { reflex: "click->EmployeeTags#remove", "tag-id": 3 } })
+    assert_selector "span.text-red-800.bg-red-100", text: "Star"
+    assert_selector "button#remove[type=button][aria-label='Remove Star'][data-reflex='click->EmployeeTags#remove'][data-tag-id='3'] svg"
+  end
+end
