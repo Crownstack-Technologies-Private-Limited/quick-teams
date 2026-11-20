@@ -9,7 +9,7 @@
     </div>
     <div>
       <p class="text-right pr-10">
-        <%= link_to "Back", employee_skills_path(@employee), class: "btn-secondary " %>
+        <%= render Ui::ButtonComponent.new("Back", href: employee_skills_path(@employee), variant: :secondary) %>
       </p>
     </div>
   </div>

@@ -17,7 +17,7 @@
       </span>
     </div>
     <div class="flex justify-end">
-      <%= form.submit "Add Goal", class: "btn-primary" %>
+      <%= render Ui::SubmitButtonComponent.new(form, "Add Goal") %>
     </div>
   </main>
 <% end %>

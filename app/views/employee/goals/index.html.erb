@@ -8,30 +8,14 @@
         <div class="grid grid-cols-1 gap-4 lg:col-span-2" data-controller="infinite-scroll">
           <section aria-labelledby="participants_section">
             <div class="w-full overflow-hidden">
-              <table class="table">
-                <thead class="bg-gray-50">
-                  <tr>
-                    <th scope="col" class="w-full table-head">
-                      Goal
-                    </th>
-                    <th scope="col" class="px-6 table-head">
-                      Status
-                    </th>
-                    <th scope="col" class="px-6 table-head">
-                      Added by
-                    </th>
-                    <th scope="col" class="table-head">
-                      ADDED ON
-                    </th>
-                    <th scope="col" class="table-head">
-                      Action
-                    </th>
-                  </tr>
-                </thead>
-                <tbody class="table-body" id="goals" data-infinite-scroll-target="entries">
-                  <%= render partial: "goal", collection: @goals, cached: false %>
-                </tbody>
-              </table>
+              <%= render Ui::TableComponent.new(body_options: { id: "goals", data: { "infinite-scroll-target": "entries" } }) do |table| %>
+                <% table.with_column("Goal", class: "w-full") %>
+                <% table.with_column("Status", class: "px-6") %>
+                <% table.with_column("Added by", class: "px-6") %>
+                <% table.with_column("ADDED ON") %>
+                <% table.with_column("Action") %>
+                <%= render partial: "goal", collection: @goals, cached: false %>
+              <% end %>
               <div class="flex justify-end invisible mt-2 mb-6 mr-2" data-infinite-scroll-target="pagination">
                 <%== render partial: "shared/paginator", locals: { pagy: @pagy } %>
               </div>
