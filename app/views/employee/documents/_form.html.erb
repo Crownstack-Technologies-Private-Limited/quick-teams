@@ -1,10 +1,10 @@
 <%= form_with(model: document, id: dom_id(document), url: employee_documents_path(@employee)) do |form| %>
-  <main class="max-w-lg px-4 pt-6 pb-12 mx-auto space-y-4 lg:pb-16">
+  <%= render Ui::FormContainerComponent.new do %>
     <%= render "shared/form_messages", resource: document, message: local_assigns[:message] %>
     <%= render "shared/form_header", title: "Add New Document", subtitle: "A document can be link to resume, blogs or content you have written." %>
 
     <div>
-      <label for="filename" class="block text-sm font-medium text-gray-700">
+      <label for="filename" class="form-label">
         Filename
       </label>
 
@@ -12,7 +12,7 @@
     </div>
 
     <div>
-      <label for="link" class="block text-sm font-medium text-gray-700">
+      <label for="link" class="form-label">
         Link
       </label>
 
@@ -20,7 +20,7 @@
     </div>
 
     <div>
-      <label for="comments" class="block text-sm font-medium text-gray-700">
+      <label for="comments" class="form-label">
         Comments(optional)
       </label>
 
@@ -30,5 +30,5 @@
     <div class="flex justify-end mt-6">
       <%= render Ui::SubmitButtonComponent.new(form, "Add Document") %>
     </div>
-  </main>
+  <% end %>
 <% end %>

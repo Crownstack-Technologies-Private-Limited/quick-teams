@@ -1,4 +1,4 @@
-<main class="relative z-0 flex-1 overflow-y-auto focus:outline-none">
+<%= render Ui::PageComponent.new do %>
   <%= render Ui::PageHeaderComponent.new(title: "People", subtitle: "(" + @pagy.count.to_s + " employees)") do |header| %>
     <% header.with_actions do %>
       <%= render Ui::ButtonComponent.new("Add Member", href: new_employee_path) %>
@@ -23,8 +23,6 @@
         </div>
       </div>
     </div>
-    <div class="flex justify-end mt-2 mb-6 mr-2">
-      <%== render partial: "shared/paginator", locals: { pagy: @pagy } %>
-    </div>
+    <%= render Ui::PaginationComponent.new(@pagy) %>
   </div>
-</main>
+<% end %>

@@ -1,4 +1,4 @@
-<main class="relative z-0 flex-1 overflow-y-auto focus:outline-none">
+<%= render Ui::PageComponent.new do %>
   <%= render "employee/title", employee: @employee %>
   <main class="pb-8">
     <div class="">
@@ -18,9 +18,7 @@
                   <%= render partial: "employee/timesheets/timesheet", collection: @timesheets, cached: false %>
                 <% end %>
                 <p class="pr-4 mt-2 text-sm text-right text-gray-500">Showing last 30 days' timesheets only.</p>
-                <div class="flex justify-end mt-2 mb-6 mr-2 invisible" data-infinite-scroll-target="pagination">
-                  <%== render partial: "shared/paginator", locals: { pagy: @pagy } %>
-                </div>
+                <%= render Ui::PaginationComponent.new(@pagy, class: "invisible", data: { "infinite-scroll-target": "pagination" }) %>
               </div>
             </div>
           </section>
@@ -68,4 +66,4 @@
   </main>
   <div class="pt-4 pl-16 pr-16">
   </div>
-</main>
+<% end %>

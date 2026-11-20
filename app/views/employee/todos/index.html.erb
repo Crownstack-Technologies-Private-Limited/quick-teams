@@ -1,44 +1,37 @@
-<main class="relative z-0 flex-1 overflow-y-auto focus:outline-none">
+<%= render Ui::PageComponent.new do %>
   <%= render "employee/title", employee: @employee %>
-  <main class="pb-8">
-    <div class="">
-      <!-- Main 3 column grid -->
-      <div class="grid items-start grid-cols-1 lg:grid-cols-3">
-        <!-- Left column -->
-        <div class="grid grid-cols-1 gap-4 lg:col-span-2">
-          <section aria-labelledby="participants_section">
-            <div class="overflow-hidden bg-white" data-controller="infinite-scroll">
-              <div>
-                <%= render Ui::TableComponent.new(body_options: { id: "todos", data: { "infinite-scroll-target": "entries" } }) do |table| %>
-                  <% table.with_column("Done") %>
-                  <% table.with_column("Todo") %>
-                  <% table.with_column("Project") %>
-                  <% table.with_column("Due Date") %>
-                  <% table.with_column("Action") %>
-                  <%= render partial: "employee/todos/todo", collection: @todos, cached: false %>
-                <% end %>
-                <div class="flex justify-end mt-2 mb-6 mr-2 invisible" data-infinite-scroll-target="pagination">
-                  <%== render partial: "shared/paginator", locals: { pagy: @pagy } %>
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-        <% if policy([@employee, Todo]).create? %>
-          <!-- Right column -->
-          <div class="grid grid-cols-1 gap-4 xl:border-l xl:border-gray-200">
-            <section aria-labelledby="add-participant-section">
-              <div class="overflow-hidden bg-white">
-                <div class="px-4">
-                  <%= render partial: "employee/todos/form", locals: { todo: @todo, errors: nil } %>
-                </div>
-              </div>
-            </section>
+  <%= render Ui::SplitLayoutComponent.new(inset: false) do |layout| %>
+    <% layout.with_primary do %>
+      <section aria-labelledby="participants_section">
+        <div class="overflow-hidden bg-white" data-controller="infinite-scroll">
+          <div>
+            <%= render Ui::TableComponent.new(body_options: { id: "todos", data: { "infinite-scroll-target": "entries" } }) do |table| %>
+              <% table.with_column("Done") %>
+              <% table.with_column("Todo") %>
+              <% table.with_column("Project") %>
+              <% table.with_column("Due Date") %>
+              <% table.with_column("Action") %>
+              <%= render partial: "employee/todos/todo", collection: @todos, cached: false %>
+            <% end %>
+            <%= render Ui::PaginationComponent.new(@pagy, class: "invisible", data: { "infinite-scroll-target": "pagination" }) %>
           </div>
-        <% end %>
-      </div>
-    </div>
-  </main>
+        </div>
+      </section>
+
+    <% end %>
+    <% if policy([@employee, Todo]).create? %>
+      <% layout.with_secondary do %>
+        <section aria-labelledby="add-participant-section">
+          <div class="overflow-hidden bg-white">
+            <div class="px-4">
+              <%= render partial: "employee/todos/form", locals: { todo: @todo, errors: nil } %>
+            </div>
+          </div>
+        </section>
+
+      <% end %>
+    <% end %>
+  <% end %>
   <div class="pt-4 pl-16 pr-16">
   </div>
-</main>
+<% end %>

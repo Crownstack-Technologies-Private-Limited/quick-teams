@@ -1,11 +1,11 @@
-  <main class="max-w-lg px-8 pt-6 pb-12 mx-auto space-y-4 lg:pb-16 z-10">
+  <%= render Ui::FormContainerComponent.new(class: "z-10") do %>
   <%= render "shared/form_header", title: "Observed Projects", subtitle: "You can observe projects to get updates on their progress." %>
   <% if policy([employee, :about]).add_observing_project? %>
     <%= render "devise/shared/success_message", message: message %>
     <div class="flex justify-center w-full lg:justify-end"   data-behavior="autocomplete" data-controller="nav-search" data-nav-search-url-value="/search/projects?user_id=<%= employee.id %>" >
       <div class="w-full ">
         <div>
-          <label for="skill" class="block text-sm font-medium text-gray-700">Search to add project </label>
+          <label for="skill" class="form-label">Search to add project </label>
           <div class="mt-1">
             <input type="search" name="search" id="search-observers" class="form-text-field" data-nav-search-target="input">
           </div>
@@ -45,4 +45,4 @@
       <% end %>
     <% end %>
   </ul>
-</main>
+<% end %>

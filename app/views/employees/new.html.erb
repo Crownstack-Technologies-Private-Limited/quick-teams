@@ -1,5 +1,5 @@
 <%= tailwind_form_with(model: @employee, url: employees_path) do |form| %>
-  <main class="max-w-lg px-4 pt-10 pb-12 mx-auto space-y-4 lg:pb-16">
+  <%= render Ui::FormContainerComponent.new do %>
     <%= render "shared/form_messages", resource: @employee, message: local_assigns[:message] %>
     <%= render "shared/form_header", title: "Add New Employee", subtitle: "Please add detail of new employee." %>
     <%= form.text_field :first_name, "First Name", autocomplete: "off" %>
@@ -29,5 +29,5 @@
       <%= render Ui::BackButtonComponent.new() %>
       <%= render Ui::SubmitButtonComponent.new(form, "Save", class: "ml-2") %>
     </div>
-  </main>
+  <% end %>
 <% end %>

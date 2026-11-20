@@ -1,4 +1,4 @@
-<main class="relative z-0 flex-1 overflow-y-auto focus:outline-none">
+<%= render Ui::PageComponent.new do %>
   <%= render "employee/title", employee: @employee %>
   <main class="pb-8">
     <div class="">
@@ -16,9 +16,7 @@
                   <% table.with_column("Action") %>
                   <%= render partial: "employee/reports/report", collection: @reports, cached: false %>
                 <% end %>
-                <div class="flex justify-end mt-2 mb-6 mr-2 invisible" data-infinite-scroll-target="pagination">
-                  <%== render partial: "shared/paginator", locals: { pagy: @pagy } %>
-                </div>
+                <%= render Ui::PaginationComponent.new(@pagy, class: "invisible", data: { "infinite-scroll-target": "pagination" }) %>
               </div>
             </div>
           </section>
@@ -80,4 +78,4 @@
         </div>
       </div>
     </main>
-  </main>
+  <% end %>
