@@ -7,22 +7,22 @@
             Filter KPIs report
           </h3>
           <%= form_with url: kpis_reports_path, method: :get do |form| %>
-            <main class="max-w-lg pt-4 pb-8 mx-auto space-y-4 lg:pb-16">
+            <%= render Ui::FormContainerComponent.new do %>
               <div>
                 <input value=2 type="hidden" name="survey_type" id="survey_type" value=2>
-                <label for="users" class="block text-sm font-medium text-gray-700">
+                <label for="users" class="form-label">
                   Select Employee
                 </label>
                 <%= form.collection_select(:participant_id, User.all_users.decorate, :id, :display_name_position, { :prompt => "Select Employee", :selected => (params["participant_id"] if !params["participant_id"].blank?) }, :class => "form-text-field mt-1") %>
               </div>
               <div>
-                <label for="date" class="block text-sm font-medium text-gray-700">
+                <label for="date" class="form-label">
                   From Date
                 </label>
                 <%= form.date_field :from_date, class: "form-text-field mt-1", value: params["from_date"].blank? ? (Date.today - 6.days).to_formatted_s(:db) : params["from_date"] %>
               </div>
               <div>
-                <label for="date" class="block text-sm font-medium text-gray-700">
+                <label for="date" class="form-label">
                   To Date
                 </label>
                 <%= form.date_field :to_date, class: "form-text-field mt-1", value: params["to_date"].blank? ? Date.today.to_formatted_s(:db) : params["to_date"] %>
@@ -31,7 +31,7 @@
                 <%= render Ui::ButtonComponent.new("Reset", href: kpis_reports_path, variant: :secondary) %>
                 <%= render Ui::SubmitButtonComponent.new(form, "Search", class: "ml-2") %>
               </div>
-            </main>
+            <% end %>
           <% end %>
         </div>
       </nav>

@@ -10,9 +10,7 @@
                 <p class="text-sm font-medium text-gray-900 truncate"><%= goal.decorate.display_owner %>, <%= display_date(goal.deadline) %></p>
               </a>
             </div>
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-<%= goal.decorate.color %>-100 text-<%= goal.decorate.color %>-800">
-              <%= goal.status.to_s %>
-            </span>
+            <%= render Ui::TagComponent.new(goal.status.to_s, color: goal.decorate.color, size: :badge) %>
           </div>
           <div class="mt-1">
             <p class="text-sm text-gray-600 line-clamp-2">

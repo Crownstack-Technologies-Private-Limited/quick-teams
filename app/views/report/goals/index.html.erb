@@ -1,6 +1,6 @@
-<div class="relative z-0 flex-1 overflow-y-auto focus:outline-none">
+<%= render Ui::PageComponent.new(tag: :div) do %>
   <%= render Ui::PageHeaderComponent.new(title: "Goals") %>
-</div>
+<% end %>
 <div class="flex w-full overflow-hidden bg-white">
   <div class="flex w-full">
     <%= render partial: "form" %>
@@ -17,9 +17,7 @@
           <% table.with_column("Status") %>
           <%= render partial: "goal", collection: @goals, as: :goal, cached: true %>
         <% end %>
-        <div class="flex justify-end invisible mt-2 mb-6 mr-2" data-infinite-scroll-target="pagination">
-          <%== render partial: "shared/paginator", locals: { pagy: @pagy } %>
-        </div>
+        <%= render Ui::PaginationComponent.new(@pagy, class: "invisible", data: { "infinite-scroll-target": "pagination" }) %>
       </div>
     <% else %>
       <%= render partial: "shared/no_result_found", cached: true %>

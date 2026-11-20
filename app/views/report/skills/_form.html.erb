@@ -13,7 +13,7 @@
             <div>
               <div class="pt-4">
                 <%= form_tag(skills_reports_path, method: "get", :name => "skill_select") do %>
-                  <main class="max-w-md mt-6 pb-12 mx-auto space-y-4 lg:pb-16">
+                  <%= render Ui::FormContainerComponent.new(width: "max-w-md", class: "mt-6") do %>
                     <div>
                       <% @skills.each do |skill| %>
                         <label class="block text-sm font-medium pb-1 text-gray-700 whitespace-nowrap">
@@ -22,7 +22,7 @@
                         </label>
                       <% end %>
                     </div>
-                  </main>
+                  <% end %>
                 <% end %>
               </div>
             </div>

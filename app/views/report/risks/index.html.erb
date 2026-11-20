@@ -1,6 +1,6 @@
-<div class="relative z-0 flex-1 overflow-y-auto focus:outline-none">
+<%= render Ui::PageComponent.new(tag: :div) do %>
   <%= render Ui::PageHeaderComponent.new(title: "Opened Risks", subtitle: "(" + @risks.count.to_s + " risks)") %>
-</div>
+<% end %>
 <div class="flex w-full overflow-hidden bg-white">
   <div class="flex w-full">
     <% if @risks.size > 0 %>

@@ -1,6 +1,6 @@
-<div class="relative z-0 flex-1 overflow-y-auto focus:outline-none">
+<%= render Ui::PageComponent.new(tag: :div) do %>
   <%= render Ui::PageHeaderComponent.new(title: "Available By Next Month", subtitle: "(" + @employees.count.to_s + " employees)") %>
-</div>
+<% end %>
 <div class="flex w-full overflow-hidden bg-white">
   <div class="flex w-full">
     <% if @employees.size > 0 %>

@@ -2,8 +2,7 @@
 <tr>
   <td class="w-full table-cell whitespace-nowrap">
     <div class="flex items-center font-medium">
-      <span class="mr-2 w-2.5 h-2.5  font-semibold leading-5 bg-<%= project.status.nil? ? "white" : project.status.color %>-400 rounded-full">
-      </span>
+      <%= render Ui::StatusDotComponent.new(color: project.status.nil? ? "white" : project.status.color) %>
       <a href="<%= project_schedules_path(project) %>" class="truncate hover:text-gray-600 hover:underline">
         <span>
           <%= project.name %>
@@ -15,9 +14,7 @@
   <td class="table-cell whitespace-nowrap">
     <% project.project_tags.uniq.each do |tag| %>
       <a href="<%= projects_reports_path(tag: tag.id) %>" class="hover:underline">
-        <span class="inline-flex px-2 text-xs font-semibold leading-5 text-<%= tag.color %>-800 bg-<%= tag.color %>-100 rounded-full">
-          <%= tag.name.upcase_first %>
-        </span>
+        <%= render Ui::TagComponent.new(tag.name.upcase_first, color: tag.color) %>
       </a>
     <% end %>
   </td>
@@ -37,9 +34,7 @@
   <td class="table-cell whitespace-nowrap">
     <% unless project.status.nil? %>
       <a href="<%= projects_reports_path(status: project.status.id) %>" class="hover:underline">
-        <span class="inline-flex px-2 text-xs font-semibold leading-5 text-<%= project.status.color %>-800 bg-<%= project.status.color %>-100 rounded-full">
-          <%= project.status.name.titleize %>
-        </span>
+        <%= render Ui::TagComponent.new(project.status.name.titleize, color: project.status.color) %>
       </a>
     <% end %>
   </td>

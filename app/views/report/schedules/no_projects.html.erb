@@ -1,4 +1,4 @@
-<div class="relative z-0 flex-1 overflow-y-auto focus:outline-none">
+<%= render Ui::PageComponent.new(tag: :div) do %>
   <!-- Page title & actions -->
   <div class="px-4 py-5 bg-white border-b border-gray-200 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8">
     <div class="flex flex-wrap items-baseline -mt-2 -ml-2">
@@ -11,7 +11,7 @@
      <%= render Ui::ButtonComponent.new("Download CSV", href: no_projects_schedules_reports_path(format: :csv)) %>
   <% end %>
   </div>
-</div>
+<% end %>
 <div class="flex w-full overflow-hidden bg-white">
   <div class="flex w-full">
     <% if @employees.size > 0 %>
@@ -21,9 +21,7 @@
           <% table.with_column("Status") %>
           <%= render partial: "no_project", collection: @employees, as: :employee, cached: true %>
         <% end %>
-        <div class="flex justify-end invisible mt-2 mb-6 mr-2" data-infinite-scroll-target="pagination">
-          <%== render partial: "shared/paginator", locals: { pagy: @pagy } %>
-        </div>
+        <%= render Ui::PaginationComponent.new(@pagy, class: "invisible", data: { "infinite-scroll-target": "pagination" }) %>
       </div>
     <% else %>
       <%= render partial: "shared/no_result_found", cached: true %>

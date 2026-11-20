@@ -7,16 +7,16 @@
             Filter reports
           </h3>
           <%= form_with url: report_reports_path, method: :get do |form| %>
-            <main class="max-w-lg pt-4 pb-8 mx-auto space-y-4 lg:pb-16">
+            <%= render Ui::FormContainerComponent.new do %>
               <div>
-                <label for="users" class="block text-sm font-medium text-gray-700">
+                <label for="users" class="form-label">
                   Users
                 </label>
                 <%= form.collection_select(:user_id, User.all_users.decorate, :id, :display_name_position, { :prompt => "Select Employee", :selected => (params["user_id"] if !params["user_id"].blank?) }, :class => "form-text-field mt-1") %>
               </div>
               <%= form.hidden_field :reportable_type, :value => "User" %>
               <div>
-                <label for="status" class="block text-sm font-medium text-gray-700">
+                <label for="status" class="form-label">
                   Status
                 </label>
                 <%= form.select(:submitted, [["Any", ""], ["Submitted", "true"], ["Draft", "false"]], { :selected => (params["submitted"] if !params["submitted"].blank?) }, :class => "form-text-field mt-1") %>
@@ -25,7 +25,7 @@
                 <%= render Ui::ButtonComponent.new("Reset", href: report_reports_path, variant: :secondary) %>
                 <%= render Ui::SubmitButtonComponent.new(form, "Search", class: "ml-2") %>
               </div>
-            </main>
+            <% end %>
           <% end %>
         </div>
       </nav>

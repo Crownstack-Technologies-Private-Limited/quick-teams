@@ -29,9 +29,7 @@
           <% table.with_column("Comment") %>
           <%= render partial: "kpi", collection: @kpis, as: :kpi %>
         <% end %>
-        <div class="flex justify-end invisible mt-2 mb-6 mr-2" data-infinite-scroll-target="pagination">
-          <%= render partial: "shared/paginator", locals: { pagy: @pagy } %>
-        </div>
+        <%= render Ui::PaginationComponent.new(@pagy, class: "invisible", data: { "infinite-scroll-target": "pagination" }) %>
       </div>
     <% else %>
       <%== render partial: "shared/no_result_found", cached: true %>
