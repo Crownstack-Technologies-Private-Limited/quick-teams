@@ -2,9 +2,9 @@
 
 pin "application", preload: true
 pin "trix-editor-overrides"
+pin "reflex_actions"
 pin_all_from "app/javascript/controllers", under: "controllers"
 pin_all_from "app/javascript/channels", under: "channels"
-pin_all_from "app/javascript/config", under: "config"
 
 # Hotwire
 pin "@hotwired/turbo-rails", to: "turbo.min.js"
@@ -20,10 +20,6 @@ pin "@rails/request.js", to: "https://ga.jspm.io/npm:@rails/request.js@0.0.13/sr
 # Trix editor
 pin "trix", to: "https://ga.jspm.io/npm:trix@2.1.19/dist/trix.esm.min.js"
 
-# StimulusReflex and CableReady
-pin "stimulus_reflex", to: "https://ga.jspm.io/npm:stimulus_reflex@3.5.5/dist/stimulus_reflex.js"
-pin "cable_ready", to: "https://ga.jspm.io/npm:cable_ready@5.0.6/dist/cable_ready.js"
-pin "morphdom", to: "https://ga.jspm.io/npm:morphdom@2.7.4/dist/morphdom-esm.js"
 
 # Slim Select
 pin "slim-select", to: "https://cdn.jsdelivr.net/npm/slim-select@2.9.2/dist/slimselect.es.js"

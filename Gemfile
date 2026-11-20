@@ -30,8 +30,6 @@ gem "turbo-rails", "~> 2.0"
 # Hotwire's modest JavaScript framework [https://github.com/hotwired/stimulus-rails]
 gem "stimulus-rails", "~> 1.3"
 
-# Build reactive applications [https://github.com/stimulusreflex/stimulus_reflex]
-gem "stimulus_reflex", "~> 3.5"
 
 # Use Active Storage variant
 gem "image_processing", "~> 2.2"

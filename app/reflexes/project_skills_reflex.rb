@@ -1,6 +1,4 @@
 class ProjectSkillsReflex < ApplicationReflex
-  delegate :current_user, to: :connection
-
   def add
     project = Project.find(element.dataset["project-id"])
     project.skills << Skill.find(element.dataset["skill-id"])

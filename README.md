@@ -7,7 +7,6 @@ Rails 8.1 app (importmap + propshaft + tailwindcss-rails, Solid Queue / Solid Ca
 ```bash
 docker compose up -d            # Postgres 16 on localhost:5433 (postgres/postgres)
 bundle install
-bin/rails dev:cache             # StimulusReflex refuses to boot without caching in development
 bin/rails db:prepare
 bin/dev                         # Rails server + Tailwind watcher (Procfile.dev)
 ```

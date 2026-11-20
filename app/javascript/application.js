@@ -1,7 +1,7 @@
 // Configure your import map in config/importmap.rb
 import "controllers"
 import "channels"
-import "config"
+import "reflex_actions"
 import "trix"
 import "@rails/actiontext"
 import "@rails/activestorage"

@@ -1,6 +1,4 @@
 class ProjectObserversReflex < ApplicationReflex
-  delegate :current_user, to: :connection
-
   def add
     @project = Project.find(element.dataset["project-id"])
     @observer = User.find(element.dataset["employee-id"])

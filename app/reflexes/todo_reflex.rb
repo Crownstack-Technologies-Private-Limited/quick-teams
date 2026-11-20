@@ -1,6 +1,4 @@
 class TodoReflex < ApplicationReflex
-  delegate :current_user, to: :connection
-
   def toggle_project_todo
     todo = Todo.find(element.dataset[:id])
     todo.update(completed: !todo.completed)

@@ -3,9 +3,6 @@
 
 import { application } from "controllers/application"
 
-import ApplicationController from "controllers/application_controller"
-application.register("application", ApplicationController)
-
 import DropdownController from "controllers/dropdown_controller"
 application.register("dropdown", DropdownController)
 

@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
+  # data-reflex actions (see app/reflexes/application_reflex.rb)
+  post "reflex_actions", to: "reflex_actions#create", as: :reflex_actions
+
   namespace :account do
     resources :roles, except: [:new, :show]
     resources :disciplines, except: [:new, :show]
