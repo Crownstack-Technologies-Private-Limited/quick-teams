@@ -31,9 +31,7 @@
             <% table.with_column("Assigned To") %>
             <%= render partial: "open_ticket", collection: @tickets, as: :ticket, cached: true %>
           <% end %>
-          <div class="flex justify-end invisible mt-2 mb-6 mr-2" data-infinite-scroll-target="pagination">
-            <%== render partial: "shared/paginator", locals: { pagy: @pagy } %>
-          </div>
+          <%= render Ui::PaginationComponent.new(@pagy, class: "invisible", data: { "infinite-scroll-target": "pagination" }) %>
         </div>
       <% end %>
     </div>

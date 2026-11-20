@@ -1,5 +1,5 @@
 <%= tailwind_form_with(model: ticket, id: dom_id(ticket), url: tickets_path) do |form| %>
-  <main class="max-w-lg px-4 pt-6 pb-12 mx-auto space-y-4 lg:pb-16">
+  <%= render Ui::FormContainerComponent.new do %>
     <%= render "shared/form_header", title: local_assigns[:title], subtitle: local_assigns[:subtitle] %>
     <% labels = TicketLabel.all.load %>
     <% if labels.size > 0 %>
@@ -9,7 +9,7 @@
       <%= form.text_area :description, "Description", class: "form-text-field h-24" %>
       <div data-controller="select" data-select-param-value="discipline_id" data-select-url-value= "tickets/labels">
         <div>
-          <label for="label" class="block mt-4 text-sm font-medium text-gray-700">
+          <label for="label" class="form-label mt-4">
             Select Label
           </label>
           <%= form.collection_select("ticket_label_id", labels, :id, :name, { :prompt => "Select Label" }, :class => "form-text-field mt-1",
@@ -33,5 +33,5 @@
       </div>
     <% end %>
   <% end %>
-</main>
+<% end %>
 <% end %>

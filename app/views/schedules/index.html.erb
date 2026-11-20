@@ -9,15 +9,15 @@
       <p class="mt-1 ml-2 text-sm text-gray-500 w-full"> (Total: <%= @total_resources %>,  Billable: <%= @billable %>,  Billed: <%= @billed %>, Free: <%= [@free_resources, 0].max.round(2) %>)</p>
       <% if params[:job] %>
         <%= turbo_frame_tag "occupancy", class: "w-full", src: "/#{current_user.account.id}/occupancy/jobs/#{params[:job]}", target: "_top", loading: :lazy do %>
-          <p class="text-right w-full pb-2 px-8 mt-1 text-sm text-gray-500 truncate">Calculating Occupancy...</p>
+          <%= render Ui::LoadingComponent.new("Calculating Occupancy...") %>
         <% end %>
       <% elsif params[:role] %>
         <%= turbo_frame_tag "occupancy", class: "w-full", src: "/#{current_user.account.id}/occupancy/roles/#{params[:role]}", target: "_top", loading: :lazy do %>
-          <p class="text-right w-full pb-2 px-8 mt-1 text-sm text-gray-500 truncate">Calculating Occupancy...</p>
+          <%= render Ui::LoadingComponent.new("Calculating Occupancy...") %>
         <% end %>
       <% else %>
         <%= turbo_frame_tag "occupancy", class: "w-full", src: "/#{current_user.account.id}/occupancy", target: "_top", loading: :lazy do %>
-          <p class="text-right w-full pb-2 px-8 mt-1 text-sm text-gray-500 truncate">Calculating Occupancy...</p>
+          <%= render Ui::LoadingComponent.new("Calculating Occupancy...") %>
         <% end %>
       <% end %>
     </div>
@@ -73,9 +73,7 @@
           <% table.with_column("Occupancy Now") %>
           <%= render partial: "schedules/schedule", collection: @employees, as: :employee, cached: false %>
         <% end %>
-        <div class="flex justify-end invisible mt-2 mb-6 mr-2" data-infinite-scroll-target="pagination">
-          <%== render partial: "shared/paginator", locals: { pagy: @pagy } %>
-        </div>
+        <%= render Ui::PaginationComponent.new(@pagy, class: "invisible", data: { "infinite-scroll-target": "pagination" }) %>
       </div>
     <% else %>
       <div class="flex  items-center justify-center w-full h-1/4">

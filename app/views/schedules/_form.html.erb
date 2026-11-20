@@ -8,26 +8,26 @@
       <div class="flex pt-2 pb-4 border-b border-gray-200">
         <div class="flex flex-wrap w-full gap-y-3 ml-3 sm:flex-nowrap">
           <div class="w-full">
-            <label for="starts" class="block text-sm font-medium text-gray-700">
+            <label for="starts" class="form-label">
               Starts At
             </label>
             <%= form.hidden_field :user_id, value: schedule.user_id %>
             <%= form.date_field :starts_at, class: "form-text-field mt-1" %>
           </div>
           <div class="w-full ml-4">
-            <label for="ends" class="block text-sm font-medium text-gray-700">
+            <label for="ends" class="form-label">
               Ends At
             </label>
             <%= form.date_field :ends_at, class: "form-text-field mt-1" %>
           </div>
           <div class="w-full ml-4">
-            <label for="ends" class="block text-sm font-medium text-gray-700">
+            <label for="ends" class="form-label">
               Occupancy(%)
             </label>
             <%= form.text_field :occupancy, class: "form-text-field mt-1", autocomplete: "off" %>
           </div>
           <div class="w-full ml-4">
-            <label for="billable" class="block text-sm font-medium text-gray-700">
+            <label for="billable" class="form-label">
               Billable
             </label>
             <%= form.select :billable, Schedule::SCHEDULE_OPTIONS, {}, class: "form-text-field mt-1" %>

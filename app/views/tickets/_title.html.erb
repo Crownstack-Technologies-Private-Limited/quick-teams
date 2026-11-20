@@ -8,9 +8,7 @@
       <div class="text-sm">
         <span class="font-medium text-gray-500">  <%= ticket.user.decorate.display_name %></span>
         <% if policy([ticket]).show? %>
-          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-<%= ticket.display_status_color %>-100 text-<%= ticket.display_status_color %>-800">
-            <%= ticket.display_status %>
-          </span>
+          <%= render Ui::TagComponent.new(ticket.display_status, color: ticket.display_status_color, size: :badge) %>
         <% end %>
       </div>
       <div class="mt-1 space-x-2 text-sm">
