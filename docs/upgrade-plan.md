@@ -305,8 +305,8 @@ brakeman: 13 mass-assignment warnings, unchanged.
 | §7 acts_as_tenant 2.2 | done (`34ec9cbf`); cross-tenant create is now a validation error (no app path does it) |
 | §7 rails-patterns → ApplicationService | done (`b48bf019`) |
 | §7 devise_invitable 3.x | **deferred**: 3.x never signs in a user who existed before the invite (this app creates employees, then invites), so after accepting they would land on the sign-in page instead of being signed in. Keeping 2.x behaviour means overriding a deliberate security change: product decision. A verified data migration (old tokens keep working), N+1 fix and tests are saved in the shared notes folder `devise_invitable3-attempt/`. |
-| §7 StimulusReflex → Turbo Streams | **not done** (usage limit). Designed: HTTP shim keeping `data-reflex` markup, allow-listed `ReflexActionsController`, `morph` → Turbo Stream replace/update with morphing, page morph via `Turbo.morphBodyElements`. 37 actions in 21 reflexes. |
-| §7 wkhtmltopdf replacement | **not done**; PDF smoke test exists (`test/controllers/report/kpis_pdf_test.rb`). Grover needs Node, Ferrum needs Chrome on the host, Prawn changes the PDF look: needs a decision. |
+| §7 StimulusReflex → Turbo Streams | done (`36538d53`): `data-reflex` markup unchanged; `reflex_actions.js` posts to an allow-listed `ReflexActionsController`; `morph` → morphing Turbo Stream, no morph → page refetch + Idiomorph. stimulus_reflex, cable_ready, redis gems gone; `dev:cache` no longer needed. |
+| §7 wkhtmltopdf replacement | **deferred**: every replacement changes the PDFs users get or the hosting: Grover needs Node (removed by this upgrade), Ferrum/Chrome PDF needs Chrome on every host and renders differently from wkhtmltopdf's old WebKit, Prawn means rewriting the templates. wicked_pdf 2.8.2 (maintained) stays; `test/controllers/report/kpis_pdf_test.rb` guards PDF output. Needs a decision on engine + hosting. |
 | §8 CI, renovate | done (`92d76544`, `89c9c470`, `ca50f063`) |
 
 Remaining failing system test: `EmployeeSpacesPermissionsTest#test_space_participant_can_not_delete_a_thread` (intermittent).
@@ -322,4 +322,5 @@ It contradicts `Space::MessagePolicy#destroy?` (any participant may delete a thr
 - Stripe Dashboard: new webhook endpoint `/pay/webhooks/stripe` on the API version stripe-ruby 21 pins (events incl. `invoice.updated`, `payment_method.automatically_updated`, `charge.updated`), test mode first; then exercise checkout, billing portal and webhooks with `stripe listen`.
 - Hosting: Ruby 4.0.9 available, ImageMagick installed (avatar variants were not exercised locally), health check on `/up` with `force_ssl` (consider `ssl_options` redirect exclude for `/up`).
 - Product sign-off: dropping nuggets/knowledge base (irreversible migrations), devise_invitable 3 sign-in change, the space-thread delete policy.
-- Follow-up security fix: `ProjectsController#index` interpolates `params[:column]`/`params[:direction]` into `order` (SQL injection; brakeman does not flag it). Reflexes perform no authorization checks.
+- Follow-up: `test/fixtures/preferences.yml` has placeholder `key: MyString` rows that make /account/preferences raise in tests (no test visits it).
+- Follow-up security fix: `ProjectsController#index` interpolates `params[:column]`/`params[:direction]` into `order` (SQL injection; brakeman does not flag it). Reflex actions (now `ReflexActionsController`) still perform no policy checks beyond sign-in + account, exactly as under StimulusReflex: add Pundit checks per action.
