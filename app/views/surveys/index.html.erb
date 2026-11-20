@@ -7,22 +7,7 @@
       </h1>
       <p class="mt-1 ml-2 text-sm text-gray-500 truncate"><%= "(" + @surveys.load.size.to_s + " Surveys)" %></p>
     </div>
-    <div class="flex  w-full max-w-3xl px-2 lg:ml-6 "  data-behavior="autocomplete" data-controller="nav-search" data-nav-search-url-value="/search/surveys">
-      <div class="w-full  ">
-        <div class="relative ">
-          <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none" >
-            <%= render Ui::IconComponent.new(:search, class: "w-5 h-5 text-gray-400") %>
-          </div>
-          <input id="search" name="search" class="pl-10 pr-3 form-text-field" placeholder="Search Survey" type="search" data-nav-search-target="input">
-        </div>
-        <div class="relative">
-          <div class="absolute left-0 z-10 block w-full mt-2 origin-top-right bg-white rounded-md shadow-lg  focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-            <ul data-nav-search-target="results">
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+    <%= render Ui::SearchFieldComponent.new(url: "/search/surveys", placeholder: "Search Survey", aria_label: "Search surveys", wrapper_class: "flex w-full max-w-3xl px-2 lg:ml-6") %>
     <div class="flex mt-4 sm:mt-0 sm:ml-4">
       <%= render Ui::ButtonComponent.new("New Survey", href: new_survey_path) %>
     </div>

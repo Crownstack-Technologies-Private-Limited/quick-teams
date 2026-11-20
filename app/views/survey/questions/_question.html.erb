@@ -9,7 +9,7 @@
         <p class="text-xs text-gray-500 mt-2"><span class="font-semibold text-gray-900">Explanation: </span><%= question.display_explanation %></p>
       <% end %>
       <div class="inline-flex">
-        <p  data-reflex="click->SurveyStats#summary" data-reflex-dataset="combined" class="btn-inline-edit underline mt-2 text-xs" >View summary</p>
+        <%= render Ui::ButtonComponent.new("View summary", variant: :inline_edit, class: "underline mt-2 text-xs", data: { reflex: "click->SurveyStats#summary", "reflex-dataset": "combined" }) %>
       </div>
       <div id=<%= "summary_" + question.id.to_s %>   >
       </div>

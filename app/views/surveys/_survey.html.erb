@@ -12,9 +12,9 @@
   </td>
   <td class="table-cell whitespace-nowrap">
     <div class="mt-1 text-sm text-gray-700">
-      <a href="<%= employee_team_path(survey.actor_id) %>" class="truncate hover:text-gray-600 hover:underline">
+      <%= render Ui::TextLinkComponent.new(nil, employee_team_path(survey.actor_id), tone: :row) do %>
         <p class=""><%= survey.actor.decorate.display_name %></p>
-      </a>
+      <% end %>
     </div>
   </td>
   <td class="table-cell">

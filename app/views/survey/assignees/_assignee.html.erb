@@ -7,7 +7,7 @@
           <%= display_medium_avatar(assignee) %>
         </div>
         <div class="ml-4">
-          <a href="<%= employee_kpis_path(assignee) %>" class="truncate hover:text-gray-600 hover:underline">
+          <%= render Ui::TextLinkComponent.new(nil, employee_kpis_path(assignee), tone: :row) do %>
             <div class="text-sm font-medium text-gray-900">
               <%= assignee_decorated.display_name %>
               <div id="employee-tags" class="inline-flex">
@@ -17,7 +17,7 @@
             <div class="text-sm text-gray-500">
               <%= assignee_decorated.display_position %>
             </div>
-          </a>
+          <% end %>
         </div>
       </div>
     </td>
@@ -30,11 +30,11 @@
     <td class="table-cell whitespace-nowrap">
       <div class="flex items-center">
         <div class="ml-4">
-          <a href="<%= project_surveys_path(assignee) %>" class="truncate hover:text-gray-600 hover:underline">
+          <%= render Ui::TextLinkComponent.new(nil, project_surveys_path(assignee), tone: :row) do %>
             <div class="text-sm font-medium text-gray-900">
               <%= assignee_decorated.display_name %>
             </div>
-          </a>
+          <% end %>
         </div>
       </div>
     </td>
