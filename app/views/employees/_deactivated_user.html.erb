@@ -4,14 +4,14 @@
     <div class="flex items-center">
       <div class="flex-1 min-w-0 sm:flex sm:items-center sm:justify-between">
         <div>
-          <a href="<%= employee_team_path(employee) %>" class="truncate hover:text-gray-600 hover:underline">
+          <%= render Ui::TextLinkComponent.new(nil, employee_team_path(employee), tone: :row) do %>
             <div class="flex text-sm font-medium text-gray-600 truncate">
               <p> <%= employee.display_name %></p>
               <p class="ml-1 font-normal text-gray-500">
                 <%= employee.display_job_title %>
               </p>
             </div>
-          </a>
+          <% end %>
           <div class="flex-1 w-full mt-2">
             <div class="flex items-center text-sm text-gray-500">
               <%= render Ui::IconComponent.new(:calendar, class: "flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400") %>
@@ -26,7 +26,7 @@
     </td>
     <td class="table-cell">
       <div class="flex justify-end">
-        <%= link_to "Activate", activate_user_path(employee), class: "btn-inline-edit mr-2" %>
+        <%= render Ui::ButtonComponent.new("Activate", href: activate_user_path(employee), variant: :inline_edit, class: "mr-2") %>
         <%= delete_button(employee_path(employee)) %>
       </div>
     </div>

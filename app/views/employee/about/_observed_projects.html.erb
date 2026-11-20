@@ -31,12 +31,12 @@
               </div>
               <% if policy([project, :about]).destroy_observer? %>
                 <div class="flex justify-end mb-2">
-                  <%= link_to "Remove", "/#{employee.account_id}/employees/#{employee.id}/observers/#{project.id}", class: "btn-inline-delete", data: {
+                  <%= render Ui::ButtonComponent.new("Remove", href: "/#{employee.account_id}/employees/#{employee.id}/observers/#{project.id}", variant: :inline_delete, data: {
                                                                                                                       controller: "confirmation",
                                                                                                                       "turbo-method": :delete,
                                                                                                                       "confirmation-message-value": "Are you sure you want to remove this observer?",
                                                                                                                       action: "confirmation#confirm", target: "_top",
-                                                                                                                    } %>
+                                                                                                                    }) %>
                 </div>
               <% end %>
             </div>
