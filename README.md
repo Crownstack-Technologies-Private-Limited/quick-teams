@@ -25,10 +25,8 @@ bundle exec bundle-audit check --update
 
 ## Deployment
 
-Production and staging need three databases: primary (`DATABASE_URL`), Solid Queue (`QUEUE_DATABASE_URL`) and
-Solid Cable (`CABLE_DATABASE_URL`). `bin/render-build.sh` runs `bin/rails db:prepare`, which loads
-`db/queue_schema.rb` and `db/cable_schema.rb` into empty databases. The queue/cable URLs fall back to `DATABASE_URL`,
-but `db:prepare` cannot set up all three schemas in one fresh database: give each its own database.
+Production and staging use one database (`DATABASE_URL`). Solid Queue and Solid Cable keep their tables in it;
+they are created by ordinary migrations in `db/migrate`, and `bin/render-build.sh` runs `db:migrate`.
 The worker process is `bin/jobs start` (see `Procfile`); `bin/rails solid_queue:check` validates its configuration.
 On macOS, forked Solid Queue workers segfault inside `pg` unless `PGGSSENCMODE=disable` is set (Linux is unaffected).
 
