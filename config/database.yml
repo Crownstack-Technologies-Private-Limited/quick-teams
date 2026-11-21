@@ -23,21 +23,11 @@ test:
   <<: *local
   database: <%= ENV.fetch("DB_NAME") { "quickteams" } %>_test
 
-# Production and staging: primary + Solid Queue + Solid Cable databases.
-# QUEUE_DATABASE_URL / CABLE_DATABASE_URL fall back to DATABASE_URL, but db:prepare cannot set up all three
-# schemas in one fresh database (it loads schema.rb, then only runs db/queue_migrate): use separate databases.
+# Production and staging: one database (DATABASE_URL). Solid Queue and Solid Cable keep their tables in it,
+# created by ordinary migrations in db/migrate (as on main, which is what production runs).
 production: &deployed
-  primary: &primary
-    <<: *default
-    url: <%= ENV["DATABASE_URL"] %>
-  queue:
-    <<: *primary
-    url: <%= ENV.fetch("QUEUE_DATABASE_URL") { ENV["DATABASE_URL"] } %>
-    migrations_paths: db/queue_migrate
-  cable:
-    <<: *primary
-    url: <%= ENV.fetch("CABLE_DATABASE_URL") { ENV["DATABASE_URL"] } %>
-    migrations_paths: db/cable_migrate
+  <<: *default
+  url: <%= ENV["DATABASE_URL"] %>
 
 staging:
   <<: *deployed
