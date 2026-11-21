@@ -1,0 +1,5 @@
+<%= tag.div(**wrapper_options) do %>
+  <div class="text-xs font-medium truncate"><%= @title %></div>
+  <% if @duration %><div class="text-xs opacity-90"><%= @duration %></div><% end %>
+  <% if @description.present? %><div class="text-xs opacity-90 mt-1 line-clamp-2"><%= @description %></div><% end %>
+<% end %>

@@ -3,6 +3,7 @@
 
 @source "../../../app/views/**/*.html.erb";
 @source "../../../app/helpers/**/*.rb";
+@source "../../../app/models/job_card.rb";
 @source "../../../app/components/**/*.{rb,erb}";
 /* Colour names that components build at runtime (tags, statuses, the colour picker). */
 @source inline("{bg,text,border,ring,focus:ring}-{gray,red,yellow,green,blue,amber,indigo,purple,pink}-{100,200,400,500,600,800}");

@@ -43,4 +43,12 @@ class Ui::LayoutPreview < ViewComponent::Preview
   def text
     render_with_template(template: "ui/layout_preview/text")
   end
+
+  def planner_header
+    render_with_template(template: "ui/layout_preview/planner")
+  end
+
+  def status_banners
+    render_with_template(template: "ui/layout_preview/status_banners")
+  end
 end

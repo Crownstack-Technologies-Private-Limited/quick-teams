@@ -7,14 +7,16 @@ module Ui
   #     header.with_actions { render Ui::ButtonComponent.new("New Project", href: new_project_path) }
   #   end
   #
+  # `heading_tag:` changes the title element (the planner pages keep an <h2> that tests and links rely on).
   # `bordered: false` drops the bottom border and white band (headers that sit inside a tab layout).
   # The block's own content (not the actions slot) is rendered under the title row, e.g. a search field.
   class PageHeaderComponent < ViewComponent::Base
     renders_one :actions
     renders_one :meta
 
-    def initialize(title:, subtitle: nil, bordered: true, **html_options)
+    def initialize(title:, subtitle: nil, bordered: true, heading_tag: :h1, **html_options)
       @title = title
+      @heading_tag = heading_tag
       @subtitle = subtitle
       @bordered = bordered
       @html_options = html_options

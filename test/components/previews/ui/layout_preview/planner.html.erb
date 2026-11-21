@@ -1,0 +1,16 @@
+<%= render Ui::SegmentedLinksComponent.new(label: "Planner view") do |links| %>
+  <% links.with_link("Daily Planner", "#", selected: true) %>
+  <% links.with_link("Weekly Planner", "#") %>
+<% end %>
+<div class="mt-6 grid grid-cols-3 gap-4">
+  <%= render Ui::TimeSlotComponent.new(session: "morning", number: 1) do %>
+    <%= render Ui::JobCardComponent.new(title: "Deep work", color_class: "bg-green-500", duration: "1 h", description: "Roadmap", style: "height: 5.25rem; z-index: 1;") %>
+  <% end %>
+  <%= render Ui::TimeSlotComponent.new(session: "morning", number: 4) %>
+</div>
+<div class="mt-6 flex gap-2">
+  <% %w[bg-green-400 bg-yellow-400 bg-blue-400 bg-gray-400 bg-red-400].each do |color| %>
+    <div class="relative h-12 w-32"><%= render Ui::JobCardComponent.new(title: color, color_class: color, variant: :weekly) %></div>
+  <% end %>
+</div>
+<div class="mt-6 max-w-md"><%= render Ui::ColorChoiceComponent.new(name: "color", selected: "gray", options: [["green", "Deep Work"], ["gray", "Breaks, Learning or fun"]]) %></div>

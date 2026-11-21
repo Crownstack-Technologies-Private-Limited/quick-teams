@@ -14,9 +14,11 @@ module Ui
     renders_one :footer
 
 
-    def initialize(title: nil, padded: true, **html_options)
+    def initialize(title: nil, padded: true, body_class: nil, heading_tag: :h2, **html_options)
       @title = title
+      @heading_tag = heading_tag
       @padded = padded
+      @body_class = body_class
       @html_options = html_options
     end
 

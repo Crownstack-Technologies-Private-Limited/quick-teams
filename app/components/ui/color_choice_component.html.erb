@@ -1,0 +1,11 @@
+<div class="flex flex-col gap-1" role="radiogroup">
+  <% @options.each do |value, description| %>
+    <div class="flex items-center">
+      <%= radio_button_tag @name, value, @selected.to_s == value.to_s, id: "#{@name}_#{value}", class: "mr-1 form-check", data: @input_data %>
+      <%= tag.label(for: "#{@name}_#{value}", class: "text-sm flex items-center") do %>
+        <span class="w-4 h-4 bg-<%= value %>-500 rounded mr-1" aria-hidden="true"></span>
+        <%= description %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
