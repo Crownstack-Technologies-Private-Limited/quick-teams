@@ -12,4 +12,18 @@ class Ui::SideMenuComponentTest < UiComponentTestCase
     assert_selector "a.selected span.truncate", text: "Job Profiles"
     assert_selector "a.unselected", text: "Roles"
   end
+
+  test "filter layout: bare nav, headings between items, ids kept" do
+    render_inline(Ui::SideMenuComponent.new(id: "menu", layout: :filter, label: "Schedule filters")) do |menu|
+      menu.with_heading("Teams", id: "teams-headline")
+      menu.with_item("All", "/schedules", selected: true)
+      menu.with_heading("Jobs")
+      menu.with_item("Engineer", "/schedules?job=1", id: "job_1", selected: false)
+    end
+    assert_no_selector "aside"
+    assert_selector "nav#menu[aria-label='Schedule filters'] h3#teams-headline", text: "Teams"
+    assert_selector "h3.uppercase", count: 2
+    assert_selector "a.selected[aria-current=page]", text: "All"
+    assert_selector "a#job_1.unselected span.truncate", text: "Engineer"
+  end
 end

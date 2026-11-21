@@ -1,5 +1,17 @@
-<aside class="px-2 py-6 sm:px-6 lg:py-0 lg:px-0 lg:col-span-3">
-  <%= tag.nav(class: "space-y-1", id: @id, "aria-label": @label) do %>
-    <% items.each do |item| %><%= item %><% end %>
-  <% end %>
-</aside>
+<% if filter? %>
+  <div class="flex flex-col pt-5 pb-4 border-r border-gray-200">
+    <div class="flex flex-col flex-1 w-64 h-0 overflow-y-auto">
+      <div class="relative inline-block px-3 text-left">
+        <%= tag.nav(id: @id, class: "px-3", "aria-label": @label) do %>
+          <div class="space-y-1" role="group"><% entries.each do |entry| %><%= entry %><% end %></div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <aside class="px-2 py-6 sm:px-6 lg:py-0 lg:px-0 lg:col-span-3">
+    <%= tag.nav(class: "space-y-1", id: @id, "aria-label": @label) do %>
+      <% entries.each do |entry| %><%= entry %><% end %>
+    <% end %>
+  </aside>
+<% end %>

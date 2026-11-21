@@ -63,3 +63,17 @@ class Ui::RemainingComponentsTest < UiComponentTestCase
     assert_no_selector "[data-dropdown-target=menu]"
   end
 end
+
+class Ui::InlineEditFormComponentTest < UiComponentTestCase
+  test "renders a titled row of fields with a submit" do
+    render_inline(Ui::InlineEditFormComponent.new(title: "Edit Ada's schedule")) do |row|
+      row.with_field { "<input id='schedule_starts_at'>".html_safe }
+      row.with_field { "<input id='schedule_ends_at'>".html_safe }
+      row.with_submit { "<input type='submit' value='Save'>".html_safe }
+    end
+    assert_selector "li p.font-bold", text: "Edit Ada's schedule"
+    assert_selector "div.flex-wrap > div.w-full", count: 2
+    assert_selector "div.w-full.ml-4 #schedule_ends_at"
+    assert_selector ".content-end input[type=submit]"
+  end
+end

@@ -1,0 +1,11 @@
+<li>
+  <p class="block mt-3 ml-3 text-sm font-bold text-gray-700"><%= @title %></p>
+  <div class="flex pt-2 pb-4 border-b border-gray-200">
+    <div class="flex flex-wrap w-full gap-y-3 ml-3 sm:flex-nowrap">
+      <% fields.each_with_index do |field, index| %>
+        <div class="w-full <%= "ml-4" if index.positive? %>"><%= field %></div>
+      <% end %>
+      <% if submit? %><div class="content-end"><%= submit %></div><% end %>
+    </div>
+  </div>
+</li>

@@ -1,70 +1,28 @@
 <% employees_count = @employees.load.size %>
-<div class="relative z-0 flex-1 overflow-y-auto focus:outline-none">
-  <!-- Page title & actions -->
-  <div class="px-4 py-4 border-b border-gray-200 sm:items-center sm:justify-between sm:px-6 lg:px-8">
-    <div class="flex w-full items-baseline -mt-2 -ml-2">
-      <h1 class="text-2xl font-semibold tracking-tight text-gray-900">
-        Schedule
-      </h1>
-      <p class="mt-1 ml-2 text-sm text-gray-500 w-full"> (Total: <%= @total_resources %>,  Billable: <%= @billable %>,  Billed: <%= @billed %>, Free: <%= [@free_resources, 0].max.round(2) %>)</p>
-      <% if params[:job] %>
-        <%= turbo_frame_tag "occupancy", class: "w-full", src: "/#{current_user.account.id}/occupancy/jobs/#{params[:job]}", target: "_top", loading: :lazy do %>
-          <%= render Ui::LoadingComponent.new("Calculating Occupancy...") %>
-        <% end %>
-      <% elsif params[:role] %>
-        <%= turbo_frame_tag "occupancy", class: "w-full", src: "/#{current_user.account.id}/occupancy/roles/#{params[:role]}", target: "_top", loading: :lazy do %>
-          <%= render Ui::LoadingComponent.new("Calculating Occupancy...") %>
-        <% end %>
-      <% else %>
-        <%= turbo_frame_tag "occupancy", class: "w-full", src: "/#{current_user.account.id}/occupancy", target: "_top", loading: :lazy do %>
-          <%= render Ui::LoadingComponent.new("Calculating Occupancy...") %>
-        <% end %>
+<%= render Ui::PageComponent.new(tag: :div) do %>
+  <%= render Ui::PageHeaderComponent.new(title: "Schedule", subtitle: "(Total: #{@total_resources}, Billable: #{@billable}, Billed: #{@billed}, Free: #{[@free_resources, 0].max.round(2)})") do |header| %>
+    <% header.with_actions do %>
+      <% occupancy_src = params[:job] ? "occupancy/jobs/#{params[:job]}" : (params[:role] ? "occupancy/roles/#{params[:role]}" : "occupancy") %>
+      <%= turbo_frame_tag "occupancy", src: "/#{current_user.account.id}/#{occupancy_src}", target: "_top", loading: :lazy do %>
+        <%= render Ui::LoadingComponent.new("Calculating Occupancy...") %>
       <% end %>
-    </div>
-  </div>
-</div>
+    <% end %>
+  <% end %>
+<% end %>
 <div class="flex w-full overflow-hidden bg-white">
   <div class="flex w-full">
-    <div class="flex flex-col pt-5 pb-4 border-r border-gray-200">
-      <div class="flex flex-col flex-1 w-64 h-0 overflow-y-auto">
-        <div class="relative inline-block px-3 text-left">
-          <nav id="menu" class="px-3">
-            <div>
-              <h3 class="px-3 text-xs font-semibold tracking-wider text-gray-500 uppercase" id="teams-headline">
-                Teams
-              </h3>
-              <div class="mt-1 space-y-1" role="group" aria-labelledby="teams-headline">
-                <a href="<%= schedules_path %>" class="<%= (request.params[:job].nil? and request.params[:role].nil?) ? "selected" : "unselected" %>">
-                  <span class="ml-2 truncate">
-                    All
-                  </span>
-                </a>
-                <div class="sticky top-0 z-10 border-t border-b border-gray-200 bg-gray-50 px-6 py-1 text-sm font-medium text-gray-500">
-                  <h3>JOBS</h3>
-                </div>
-                <% @jobs.each do |job| %>
-                  <a id="<%= dom_id(job) %>" href="<%= schedules_path(:job => job.id) %>" class="<%= request.params[:job].to_i == job.id ? "selected" : "unselected" %>">
-                    <span class="ml-2 truncate">
-                      <%= job.name %>
-                    </span>
-                  </a>
-                <% end %>
-                <div class="sticky top-0 z-10 border-t border-b border-gray-200 bg-gray-50 px-6 py-1 text-sm font-medium text-gray-500">
-                  <h3>ROLES</h3>
-                </div>
-                <% @roles.each do |role| %>
-                  <a id="<%= dom_id(role) %>" href="<%= schedules_path(:role => role.id) %>" class="<%= request.params[:role].to_i == role.id ? "selected" : "unselected" %>">
-                    <span class="ml-2 truncate">
-                      <%= role.name %>
-                    </span>
-                  </a>
-                <% end %>
-              </div>
-            </div>
-          </nav>
-        </div>
-      </div>
-    </div>
+    <%= render Ui::SideMenuComponent.new(id: "menu", layout: :filter, label: "Schedule filters") do |menu| %>
+      <% menu.with_heading("Teams", id: "teams-headline") %>
+      <% menu.with_item("All", schedules_path, selected: request.params[:job].nil? && request.params[:role].nil?) %>
+      <% menu.with_heading("Jobs") %>
+      <% @jobs.each do |job| %>
+        <% menu.with_item(job.name, schedules_path(job: job.id), id: dom_id(job), selected: request.params[:job].to_i == job.id) %>
+      <% end %>
+      <% menu.with_heading("Roles") %>
+      <% @roles.each do |role| %>
+        <% menu.with_item(role.name, schedules_path(role: role.id), id: dom_id(role), selected: request.params[:role].to_i == role.id) %>
+      <% end %>
+    <% end %>
     <% if employees_count > 0 %>
       <div class="w-full overflow-hidden" data-controller="infinite-scroll">
         <%= render Ui::TableComponent.new(body_options: { data: { "infinite-scroll-target": "entries" } }) do |table| %>
@@ -76,9 +34,7 @@
         <%= render Ui::PaginationComponent.new(@pagy, class: "invisible", data: { "infinite-scroll-target": "pagination" }) %>
       </div>
     <% else %>
-      <div class="flex  items-center justify-center w-full h-1/4">
-        <p class="mt-2 max-w-4xl text-sm text-gray-500 ">No Schedules Found</p>
-      </div>
+      <%= render Ui::EmptyStateComponent.new(title: "No Schedules Found") %>
     <% end %>
   </div>
 </div>

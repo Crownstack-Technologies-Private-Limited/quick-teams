@@ -1,1 +1,16 @@
-<%= render partial: "schedules/form", locals: { schedule: @schedule } %>
+<%# The inline edit row (Ui::InlineEditFormComponent) lives in schedules/_form, which the controllers also render as a
+    turbo stream. Inside the participant list's turbo-frame it is shown as is; opened on its own it gets a page. %>
+<% if request.headers["Turbo-Frame"].present? %>
+  <%= render partial: "schedules/form", locals: { schedule: @schedule } %>
+<% else %>
+  <%= render Ui::PageComponent.new(tag: :div) do %>
+    <%= render Ui::PageHeaderComponent.new(title: "Edit schedule", subtitle: "#{@schedule.user.first_name} on #{@project.name}") do |header| %>
+      <% header.with_actions do %>
+        <%= render Ui::BackButtonComponent.new(href: project_schedules_path(@project)) %>
+      <% end %>
+    <% end %>
+    <%= render Ui::FormContainerComponent.new(width: "max-w-5xl") do %>
+      <ul><%= render partial: "schedules/form", locals: { schedule: @schedule } %></ul>
+    <% end %>
+  <% end %>
+<% end %>
