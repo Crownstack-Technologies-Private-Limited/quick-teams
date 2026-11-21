@@ -1,5 +1,11 @@
 import { Controller } from "@hotwired/stimulus"
 
+// /:account/job_cards (the routes are inside the account scope, like the rest of the app)
+function jobCardsPath() {
+    const account = document.querySelector("meta[name='current-account']")?.content
+    return account ? `/${account}/job_cards` : "/job_cards"
+}
+
 export default class extends Controller {
     static values = { startDate: String }
     static targets = [
@@ -13,7 +19,7 @@ export default class extends Controller {
         const jobCard = event.currentTarget
         const cardId = jobCard.dataset.cardId
 
-        fetch(`/job_cards/${cardId}`)
+        fetch(`${jobCardsPath()}/${cardId}`)
             .then(response => response.json())
             .then(data => {
                 this.populateDetailsModal(data)
@@ -75,7 +81,7 @@ export default class extends Controller {
         const formData = new FormData(event.target)
         const data = Object.fromEntries(formData)
 
-        fetch('/job_cards', {
+        fetch(jobCardsPath(), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

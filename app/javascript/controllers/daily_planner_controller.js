@@ -1,5 +1,11 @@
 import { Controller } from "@hotwired/stimulus"
 
+// /:account/job_cards (the routes are inside the account scope, like the rest of the app)
+function jobCardsPath() {
+    const account = document.querySelector("meta[name='current-account']")?.content
+    return account ? `/${account}/job_cards` : "/job_cards"
+}
+
 export default class extends Controller {
     static values = { date: String }
     static targets = [
@@ -49,7 +55,7 @@ export default class extends Controller {
         const cardId = jobCard.dataset.cardId
 
         // Fetch card details
-        fetch(`/job_cards/${cardId}`)
+        fetch(`${jobCardsPath()}/${cardId}`)
             .then(response => response.json())
             .then(data => {
                 this.populateModalForEdit(data)
@@ -113,7 +119,7 @@ export default class extends Controller {
         const cardId = data.card_id
 
         const isEditing = cardId && cardId !== ''
-        const url = isEditing ? `/job_cards/${cardId}` : '/job_cards'
+        const url = isEditing ? `${jobCardsPath()}/${cardId}` : jobCardsPath()
         const method = isEditing ? 'PATCH' : 'POST'
 
         fetch(url, {
@@ -146,7 +152,7 @@ export default class extends Controller {
             return
         }
 
-        fetch(`/job_cards/${cardId}`, {
+        fetch(`${jobCardsPath()}/${cardId}`, {
             method: 'DELETE',
             headers: {
                 'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content

@@ -11,18 +11,18 @@ class ReflexActionsController < BaseController
     "EmployeeSkills" => %w[add remove select],
     "EmployeeStatus" => %w[change remove],
     "EmployeeTags" => %w[change remove],
-    "EmployeeTimesheetsStats" => %w[last_week last_month since_beginning],
+    "EmployeeTimesheetsStats" => %w[last_week last_month],
     "InviteEmployee" => %w[invite],
     "ProjectObservers" => %w[add add_project],
     "ProjectSkills" => %w[add remove],
     "ProjectStatus" => %w[change remove],
     "ProjectTags" => %w[change remove],
-    "ProjectTimesheetsStats" => %w[last_week last_month since_beginning],
+    "ProjectTimesheetsStats" => %w[last_week last_month],
     "ReportSubmit" => %w[submit],
     "SurveyParticipantStats" => %w[summary],
     "SurveyStats" => %w[summary],
     "TicketStatus" => %w[change],
-    "Todo" => %w[toggle_project_todo toggle_todo toggle_employee_todo],
+    "Todo" => %w[toggle_todo],
   }.freeze
 
   REFLEX_CLASSES = Hash.new { |hash, name| hash[name] = "#{name}Reflex".constantize if ACTIONS.key?(name) }

@@ -19,6 +19,6 @@ class PlannersController < BaseController
   private 
 
   def set_user
-    @user = User.find(params["employee_id"])
+    @user = User.for_current_account.find(params["employee_id"])
   end
 end
