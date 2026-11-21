@@ -6,11 +6,9 @@
       
         <div class="overflow-hidden bg-white " data-controller="infinite-scroll">
           <div>
-            <table class="table pt-4 border-separate">
-              <tbody class="table-body " id="spaces" data-infinite-scroll-target="entries">
-                <%= render partial: "spaces/archived_space", collection: @spaces, as: :space, cached: true %>
-              </tbody>
-            </table>
+            <%= render Ui::TableComponent.new(table_class: "border-separate pt-4", body_options: { id: "spaces", data: { "infinite-scroll-target": "entries" } }) do %>
+              <%= render partial: "spaces/archived_space", collection: @spaces, as: :space, cached: true %>
+            <% end %>
             <%= render Ui::PaginationComponent.new(@pagy, class: "invisible", data: { "infinite-scroll-target": "pagination" }) %>
           </div>
         

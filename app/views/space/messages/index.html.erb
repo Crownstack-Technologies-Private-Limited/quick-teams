@@ -59,9 +59,7 @@
           </div>
           <div class="flex">
             <% if @messages.load.size > 0 %>
-              <select class="form-text-field w-64 inline-flex ml-4" name="direction" id="sort" onchange="window.location.href = '<%= space_messages_path(@space) %>?direction=' + this.value;">
-                <%= options_for_select([["Sort Threads By Newest", "DESC"], ["Sort Threads By Oldest", "ASC"]], prompt: "DESC", :selected => (params["direction"] if !params["direction"].blank?)) %>
-              </select>
+              <%= select_tag "direction", options_for_select([["Sort Threads By Newest", "DESC"], ["Sort Threads By Oldest", "ASC"]], prompt: "DESC", :selected => (params["direction"] if !params["direction"].blank?)), id: "sort", "aria-label": "Sort threads", class: "form-text-field w-64 inline-flex ml-4", onchange: "window.location.href = '#{space_messages_path(@space)}?direction=' + this.value;" %>
             <% end %>
             <% if policy([@space, Message]).new? %>
               <%= render Ui::ButtonComponent.new("Add New Thread", href: new_space_message_path(@space.id), class: "inline-flex w-full ml-4") %>

@@ -5,14 +5,9 @@
     <%= form.text_field :title, "Title", autocomplete: "off" %>
     <%= form.text_area :description, "Description", autocomplete: "off" %>
     <input type="hidden" name="space[user_id]" value="<%= current_user.id %>">
-    <div>
-      <label for="label" class="form-label mt-4">
-        Select people who can see this space
-      </label>
-      <select name="space[users][]" class="form-text-field mt-1 capitalize" data-controller="slimselect" multiple>
-        <%= options_for_select(users.map { |user| [user.decorate.display_name, user.id] }, space_users) %>
-      </select>
-    </div>
+    <%= render Ui::FormFieldComponent.new(label: "Select people who can see this space", for_id: "space_users") do %>
+      <%= select_tag "space[users][]", options_for_select(users.map { |user| [user.decorate.display_name, user.id] }, space_users), id: "space_users", multiple: true, data: { controller: "slimselect" }, class: "form-text-field capitalize" %>
+    <% end %>
     <%= render Ui::FormActionsComponent.new do %>
       <%= render Ui::BackButtonComponent.new() %>
       <%= render Ui::SubmitButtonComponent.new(form, "Save", class: "ml-2") %>

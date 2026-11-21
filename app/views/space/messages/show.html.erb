@@ -20,7 +20,7 @@
               <div class="w-full border-t border-gray-300"></div>
             </div>
             <div class="relative flex justify-center">
-              <%= link_to "Show older Comments", "#", data: { action: "click->comments#toggleComments" }, class: "inline-flex items-center rounded-full border border-gray-300 bg-white px-4 py-1.5 text-sm font-medium leading-5 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" %>
+              <%= render Ui::ButtonComponent.new("Show older Comments", href: "#", variant: :secondary, size: :sm, class: "rounded-full", data: { action: "click->comments#toggleComments" }) %>
             </div>
           </div>
           <ul role="list" >
@@ -43,12 +43,12 @@
 </main>
 
 <div class="fixed right-8 bottom-8 hidden flex-col gap-3 md:flex">
-  <button  data-controller="scroll-to"
-  data-scroll-to-target="#message-header" data-action ="click->scroll-to#scroll" id="scroll-top"aria-label="Scroll To bottom" type="button" class="rounded-full bg-gray-200 p-2 text-gray-500 transition-all hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600">
+  <%= render Ui::ButtonComponent.new(variant: :icon, id: "scroll-top", "aria-label": "Scroll to top", class: "rounded-full bg-gray-200 p-2 text-gray-500 hover:bg-gray-300",
+        data: { controller: "scroll-to", "scroll-to-target": "#message-header", action: "click->scroll-to#scroll" }) do %>
     <%= render Ui::IconComponent.new(:arrow_up, class: "w-6 h-6") %>
-  </button>
-  <button data-controller="scroll-to"
-  data-scroll-to-target="#comment-form" data-action ="click->scroll-to#scroll" id="scroll-bottom" aria-label="Scroll To bottom" type="button" class="rounded-full bg-gray-200 p-2 text-gray-500 transition-all hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600">
+  <% end %>
+  <%= render Ui::ButtonComponent.new(variant: :icon, id: "scroll-bottom", "aria-label": "Scroll to bottom", class: "rounded-full bg-gray-200 p-2 text-gray-500 hover:bg-gray-300",
+        data: { controller: "scroll-to", "scroll-to-target": "#comment-form", action: "click->scroll-to#scroll" }) do %>
     <%= render Ui::IconComponent.new(:arrow_down, class: "w-6 h-6") %>
-  </button>
+  <% end %>
 </div>
