@@ -47,13 +47,11 @@ jobs:
         run: bin/rails db:prepare
       - name: Build Tailwind CSS
         run: bin/rails tailwindcss:build
-      - name: Validate Solid Queue configuration (production config, throwaway databases)
+      - name: Validate Solid Queue configuration (production config, throwaway database)
         env:
           RAILS_ENV: production
           SECRET_KEY_BASE: ci-only-not-a-secret
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/ci_production
-          QUEUE_DATABASE_URL: postgres://postgres:postgres@localhost:5432/ci_production_queue
-          CABLE_DATABASE_URL: postgres://postgres:postgres@localhost:5432/ci_production_cable
         run: bin/rails db:prepare && bin/rails solid_queue:check
       # Tests run in parallel: one forked worker (own database and storage directory) per core. System tests
       # drive headless Chrome (preinstalled on the runner); set HEADED=1 locally to watch one.

@@ -8,6 +8,8 @@ class Survey::SurveyDecorator < Draper::Decorator
       "green"
     elsif self.score?
       "gray"
+    elsif self.culture?
+      "blue"
     end
   end
 
@@ -25,7 +27,7 @@ class Survey::SurveyDecorator < Draper::Decorator
 
   def display_survey_type
     if self.kpi?
-      "KPIs"
+      "KRAs"
     else
       survey_type.titleize
     end

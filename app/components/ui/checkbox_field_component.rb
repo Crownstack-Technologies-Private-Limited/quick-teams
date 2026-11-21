@@ -9,9 +9,10 @@ module Ui
   class CheckboxFieldComponent < ViewComponent::Base
     INPUT_CLASS = "form-check"
 
-    def initialize(label:, for_id: nil)
+    def initialize(label:, for_id: nil, help: nil)
       @label = label
       @for_id = for_id
+      @help = help
     end
   end
 end

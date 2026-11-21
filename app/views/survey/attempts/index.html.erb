@@ -6,8 +6,8 @@
         <!-- Left column -->
         <div class="grid grid-cols-1 lg:col-span-2" >
           <section aria-labelledby="participants_section">
-            <div class="overflow-hidden bg-white">
-              <div class="overflow-hidden bg-white" data-controller="infinite-scroll">
+            <div class="overflow-x-auto bg-white">
+              <div class="bg-white" data-controller="infinite-scroll">
                 <div>
                   <%= render Ui::TableComponent.new(body_options: { id: "filled_surveys", data: { "infinite-scroll-target": "entries" } }) do |table| %>
                     <% table.with_column("Participant") %>

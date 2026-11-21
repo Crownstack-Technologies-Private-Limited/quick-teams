@@ -4,10 +4,11 @@
     <div class="ml-3 w-full">
       <p class="text-xs font-medium text-gray-500 uppercase"><%= question.display_category %></p>
       <p class="text-sm font-semibold text-gray-900"><%= question.display_text %></p>
-      <% if current_user == participant %>
-        <p class="text-sm text-gray-500"><%= question.display_explanation %></p>
-      <% else %>
-        <p class="text-sm text-gray-500"><%= question.display_description %></p>
+      <% if question.description.present? %>
+        <%= render Ui::TextComponent.new(question.display_description) %>
+      <% end %>
+      <% if question.explanation.present? %>
+        <p class="text-xs text-gray-500"><b>Explanation for receiver: </b><%= question.display_explanation %></p>
       <% end %>
       <div class= "inline-flex">
         <%= render Ui::ButtonComponent.new("View summary", variant: :inline_edit, class: "underline mt-2 text-xs", data: { reflex: "click->SurveyParticipantStats#summary", "reflex-dataset": "combined" }) %>

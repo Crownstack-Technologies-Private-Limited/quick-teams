@@ -9,12 +9,12 @@
       </label>
       <%= form.date_field :date, class: "form-text-field mt-1", value: @timesheet.date %>
     </div>
-    <div>
-      <label for="hours" class="form-label">
-        Task Description
-      </label>
-      <%= form.text_area :description, class: "resize-y form-text-field h-20 mt-1" %>
-    </div>
+    <%= render Ui::FormFieldComponent.new(label: "Task Description", for_id: "timesheet_description") do %>
+      <%= form.text_area :description, class: "resize-y form-text-field h-20" %>
+    <% end %>
+    <%= render Ui::FormFieldComponent.new(label: "Output", for_id: "timesheet_output") do %>
+      <%= form.text_area :output, class: "resize-y form-text-field h-20" %>
+    <% end %>
     <div>
       <label for="hours" class="form-label">
         Hours

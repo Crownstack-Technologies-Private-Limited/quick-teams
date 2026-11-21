@@ -1,0 +1,8 @@
+<% if report.submitted? %>
+  <%= render Ui::StatusBannerComponent.new(tone: :success) do %>This report has been submitted.<% end %>
+<% else %>
+  <%= render Ui::StatusBannerComponent.new(tone: :info) do |banner| %>
+    <% banner.with_action("Submit", data: { reflex: "click->ReportSubmit#submit", "report-id": report.id }) if show_submit_button %>
+    This report has not been submitted.
+  <% end %>
+<% end %>

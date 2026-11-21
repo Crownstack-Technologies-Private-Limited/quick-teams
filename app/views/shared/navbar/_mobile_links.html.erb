@@ -7,15 +7,17 @@
     <%= link.("Projects", projects_path) if policy(:projects).index? %>
     <%= link.("Schedules", schedules_path) if policy(:schedules).index? %>
     <%= link.("Spaces", spaces_path) if policy(:spaces).index? %>
+    <%= link.("JobCards", employee_planner_daily_path(current_user)) %>
     <%= link.("Reports", reports_path) if policy(:reports).index? %>
     <div class="my-1 border-t border-gray-100"></div>
     <%= link.("Tickets", tickets_path) if policy(:ticket).index? %>
-    <%= link.("Surveys & KPIs", surveys_path) %>
+    <%= link.("Surveys & KRAs", surveys_path) %>
     <%= link.("Report Templates", templates_path) %>
   <% else %>
     <%= link.(current_user.first_name, current_user.lead? ? employee_team_path(current_user) : employee_schedules_path(current_user)) %>
     <%= link.("Projects", projects_path) if policy(:projects).index? %>
     <%= link.("Tickets", tickets_path) if policy(:ticket).index? %>
     <%= link.("Spaces", spaces_path) if policy(:spaces).index? %>
+    <%= link.("JobCards", employee_planner_daily_path(current_user)) %>
   <% end %>
 </nav>

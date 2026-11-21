@@ -69,6 +69,10 @@ Rails.application.routes.draw do
     resources :kpis, module: "employee", only: [:index, :show, :destroy] do
       get "stats", to: "kpis#stats", as: "stats"
     end
+    resources :culture, module: "employee", only: [:index, :show, :destroy] do
+      get "stats", to: "culture#stats", as: "stats"
+    end
+
     delete "/observers/:observed_project_id", to: "employee/about#destroy_observed_project", as: "destroy_observed_project"
     get "/team", to: "employee/team#index"
     get "/timeline", to: "employee/timeline#index", as: "timeline"
@@ -77,6 +81,9 @@ Rails.application.routes.draw do
     resources :about, module: "employee", only: [:index]
     get "about/edit", to: "employee/about#edit", as: "edit"
     patch "about/update", to: "employee/about#update", as: "update"
+    get 'planner/daily', to: 'planners#daily'
+    get 'planner/weekly', to: 'planners#weekly'
+
   end
 
   post "/ticket/comment/:id", to: "tickets#comment", as: "ticket_comment"
@@ -194,6 +201,10 @@ Rails.application.routes.draw do
   namespace :purchase do
     resources :checkouts
   end
+
+
+  resources :job_cards, only: [:show, :create, :update, :destroy]
+
 
   # purchase routes
   get "success", to: "purchase/checkouts#success", as: "success"

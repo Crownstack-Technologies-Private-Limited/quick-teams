@@ -16,7 +16,7 @@
             </label>
             <%= form.text_area :description, class: "form-text-field mt-1", autocomplete: "off" %>
           </div>
-          <% if @survey.kpi? %>
+          <% if @survey.kpi? || @survey.culture? %>
             <div class="w-full px-4 py-2">
               <label for="comments" class="form-label">
                 Question Explanation (optional)

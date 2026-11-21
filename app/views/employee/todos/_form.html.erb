@@ -2,6 +2,9 @@
   <%= render Ui::FormContainerComponent.new do %>
     <%= render "shared/form_messages", resource: todo, message: local_assigns[:message] %>
     <%= render "shared/form_header", title: "Add New Todo", subtitle: "Todo are short term goals" %>
+    <%= render Ui::AlertComponent.new(:info, id: "alert-1", role: "alert") do %>
+      Open <%= @employee.first_name %>'s <%= render Ui::TextLinkComponent.new("daily or weekly planner", employee_planner_daily_path(@employee), class: "underline") %>.
+    <% end %>
     <%= form.text_field :title, "Title", autocomplete: "off" %>
     <%= form.text_area :body, "Description(optional)", class: "form-text-field h-24" %>
     <div>

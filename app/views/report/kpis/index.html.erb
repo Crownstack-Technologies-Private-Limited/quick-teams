@@ -3,7 +3,7 @@
   <div class="px-4 py-5 bg-white border-b border-gray-200 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8">
     <div class="flex flex-wrap items-baseline -mt-2 -ml-2">
       <h1 class="text-2xl font-semibold tracking-tight text-gray-900">
-        Employee KPIs Report
+        Employee KRAs Report
       </h1>
     </div>
     <% if @kpis.size > 0 and params[:participant_id].present? %>
@@ -20,7 +20,7 @@
     <% if @kpis.size > 0 %>
       <div class="w-full overflow-auto" data-controller="infinite-scroll">
         <%= render Ui::TableComponent.new(body_options: { data: { "infinite-scroll-target": "entries" } }) do |table| %>
-          <% table.with_column("KPI", class: "w-6/12") %>
+          <% table.with_column("KRA", class: "w-6/12") %>
           <% table.with_column("Participant") %>
           <% table.with_column("score") %>
           <% table.with_column("Taken by") %>

@@ -32,41 +32,9 @@
       <p><%= @report.body %></p>
     </div>
   <% end %>
-  <% if @report.submitted? %>
-    <div class="p-4 rounded-md bg-green-50">
-      <div class="flex">
-        <div class="flex-shrink-0">
-          <%= render Ui::IconComponent.new(:check_circle, class: "w-5 h-5 text-green-400") %>
-        </div>
-        <div class="flex-1 ml-3 md:flex md:justify-between">
-          <p class="text-sm font-medium text-green-800">
-            This report has been submitted. 
-          </p>
-        </div>
-      </div>
-    </div>
-  <% else %>
-    <!-- This example requires Tailwind CSS v2.0+ -->
-    <div class="p-4 rounded-md bg-blue-50">
-      <div class="flex">
-        <div class="flex-shrink-0">
-          <%= render Ui::IconComponent.new(:information_circle, class: "w-5 h-5 text-blue-400") %>
-        </div>
-        <div class="flex-1 ml-3 md:flex md:justify-between">
-          <p class="text-sm text-blue-700">
-            This report has not been submitted. 
-          </p>
-          <% if policy([@report.reportable, @report]).edit? %>
-            <p class="mt-3 text-sm md:mt-0 md:ml-6">
-              <button type="button" data-reflex="click->ReportSubmit#submit" 
-                data-report-id="<%= @report.id %>" 
-                class="font-medium text-blue-700 cursor-pointer whitespace-nowrap hover:text-blue-600">Submit</button>
-            </p>
-          <% end %>
-        </div>
-      </div>
-    </div>
-  <% end %>
+  <div id="report-status-<%= @report.id %>">
+    <%= render partial: "shared/reports/status", locals: { report: @report, show_submit_button: policy([@report.reportable, @report]).edit? } %>
+  </div>
   <!-- Comments-->
   <section aria-labelledby="notes-title">
     <div class="pb-24 bg-white sm:rounded-lg overflow">

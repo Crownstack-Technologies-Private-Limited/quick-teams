@@ -34,10 +34,20 @@ class ReflexActionsControllerTest < ActionDispatch::IntegrationTest
     assert_includes @project.reload.project_tags, project_tags(:uat)
   end
 
-  test "an action without a morph asks the browser to re-render the page" do
+  test "reflex names may carry the Reflex suffix, as main's views write them" do
     assert_changes -> { @account.reload.email_enabled } do
       perform_reflex "AccountNotificationReflex", "toggle_email_notification", { "id" => @account.id }
     end
+
+    assert_response :ok
+    assert_select "turbo-stream[target='account-email-notification'][method='morph']"
+  end
+
+  test "an action without a morph asks the browser to re-render the page" do
+    # Every action in the app morphs a selector today; the page-morph path stays for actions that do not.
+    AccountNotificationReflex.any_instance.stubs(:toggle_email_notification)
+
+    perform_reflex "AccountNotification", "toggle_email_notification", { "id" => @account.id }
 
     assert_response :no_content
   end

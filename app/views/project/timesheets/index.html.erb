@@ -8,9 +8,8 @@
             <div class="w-full overflow-hidden" data-controller="infinite-scroll">
               <%= render Ui::TableComponent.new(body_options: { data: { "infinite-scroll-target": "entries" } }) do |table| %>
                 <% table.with_column("Employee") %>
-                <% table.with_column("Task") %>
-                <% table.with_column("Date") %>
-                <% table.with_column("Hours") %>
+                <% table.with_column("Task/Output") %>
+                <% table.with_column("Hours/Date") %>
                 <% table.with_column("Action") %>
                 <%= render partial: "project/timesheets/timesheet", collection: @timesheets, cached: false %>
               <% end %>

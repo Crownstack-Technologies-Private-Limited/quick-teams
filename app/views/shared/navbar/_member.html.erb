@@ -11,5 +11,6 @@
     <% if policy(:spaces).index? %>
       <%= render Ui::NavItemComponent.new("Spaces", spaces_path) %>
     <% end %>
+    <%= render Ui::NavItemComponent.new("JobCards", employee_planner_daily_path(current_user), selected: current_page?(employee_planner_daily_path(current_user)) || current_page?(employee_planner_weekly_path(current_user))) %>
   </div>
 </div>

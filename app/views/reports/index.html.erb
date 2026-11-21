@@ -37,7 +37,7 @@
   <%= render Ui::LinkListComponent.new(title: "Employees") do |list| %>
     <% list.with_link("Employees Report", employees_reports_path) %>
     <% list.with_link("Employees Skills Report", skills_reports_path) %>
-    <% list.with_link("Employees KPIs Report", kpis_reports_path) %>
+    <% list.with_link("Employees KRAs Report", kpis_reports_path) %>
     <% list.with_link("Employees with no open goals", open_goals_reports_path(from_date: Date.today, to_date: Date.today + 90.days, type: "User")) %>
     <% list.with_link("Employee Submitted Reports", report_reports_path) %>
     <% list.with_link("Employees by Jobs, Roles and Discipline", employee_roles_reports_path) %>

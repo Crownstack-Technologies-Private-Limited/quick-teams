@@ -11,9 +11,8 @@
               <div>
                 <%= render Ui::TableComponent.new(body_options: { id: "timesheets", data: { "infinite-scroll-target": "entries" } }) do |table| %>
                   <% table.with_column("Project") %>
-                  <% table.with_column("Task") %>
-                  <% table.with_column("Date") %>
-                  <% table.with_column("Hours") %>
+                  <% table.with_column("Task/Output") %>
+                  <% table.with_column("Hours/Date") %>
                   <% table.with_column("Action") %>
                   <%= render partial: "employee/timesheets/timesheet", collection: @timesheets, cached: false %>
                 <% end %>

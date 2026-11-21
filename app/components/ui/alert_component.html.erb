@@ -4,6 +4,7 @@
     <div class="ml-3">
       <% if @title.present? %><h3 class="text-sm font-medium <%= @tone[:title] %>"><%= @title %></h3><% end %>
       <% if @message.present? %><p class="text-sm font-medium <%= @tone[:body] %>"><%= @message %></p><% end %>
+      <% if content? %><p class="text-sm <%= @tone[:body] %>"><%= content %></p><% end %>
       <% if @items.any? %>
         <div class="mt-2 text-sm <%= @tone[:body] %>">
           <ul class="pl-5 space-y-1 list-disc"><% @items.each do |item| %><li><%= item %></li><% end %></ul>

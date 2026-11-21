@@ -1,11 +1,17 @@
 // Configure your import map in config/importmap.rb
-import "controllers"
+
+// Turbo first: other modules (reflex_actions) depend on it
+import "@hotwired/turbo-rails"
 import "channels"
+import "controllers"
 import "reflex_actions"
-import "trix"
+
+// Rails libraries
 import "@rails/actiontext"
 import "@rails/activestorage"
-import "@hotwired/turbo-rails"
+
+// Trix editor
+import "trix"
 import "trix-editor-overrides"
 
 import Trix from "trix"

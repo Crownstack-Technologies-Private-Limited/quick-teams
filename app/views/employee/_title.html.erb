@@ -16,7 +16,7 @@
             <%= link_to "Add People Tags", account_people_tags_path, class: "block px-4 py-2 text-sm text-primary-700 hover:bg-gray-50 hover:underline" %>
           <% else %>
             <% @tags.each do |tag| %>
-              <% menu.with_item(tag.name, "#", data: { reflex: "click->EmployeeTags#change", "employee-id": employee.id, "tag-id": tag.id }) %>
+              <% menu.with_item(tag.name, "#", data: { action: "click->dropdown#close", reflex: "click->EmployeeTags#change", "employee-id": employee.id, "tag-id": tag.id }) %>
             <% end %>
           <% end %>
         <% end %>
@@ -33,7 +33,7 @@
           <%= link_to "Add People Status", account_people_statuses_path, class: "block px-4 py-2 text-sm text-primary-700 hover:bg-gray-50 hover:underline" %>
         <% else %>
           <% @statuses.each do |status| %>
-            <% menu.with_item(status.name, "#", data: { reflex: "click->EmployeeStatus#change", "employee-id": employee.id, "status-id": status.id }) %>
+            <% menu.with_item(status.name, "#", data: { action: "click->dropdown#close", reflex: "click->EmployeeStatus#change", "employee-id": employee.id, "status-id": status.id }) %>
           <% end %>
         <% end %>
       <% end %>

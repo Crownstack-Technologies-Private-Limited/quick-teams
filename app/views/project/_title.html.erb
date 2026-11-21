@@ -14,7 +14,7 @@
             <%= link_to "Add Project Tags", account_project_tags_path, class: "block px-4 py-2 text-sm text-primary-700 hover:bg-gray-50 hover:underline" %>
           <% else %>
             <% @tags.uniq.each do |tag| %>
-              <% menu.with_item(tag.name, "#", data: { reflex: "click->ProjectTags#change", "project-id": project.id, "tag-id": tag.id }) %>
+              <% menu.with_item(tag.name, "#", data: { action: "click->dropdown#close", reflex: "click->ProjectTags#change", "project-id": project.id, "tag-id": tag.id }) %>
             <% end %>
           <% end %>
         <% end %>
@@ -31,7 +31,7 @@
           <%= link_to "Add Project Status", account_project_statuses_path, class: "block px-4 py-2 text-sm text-primary-700 hover:bg-gray-50 hover:underline" %>
         <% else %>
           <% @statuses.each do |status| %>
-            <% menu.with_item(status.name, "#", data: { reflex: "click->ProjectStatus#change", "project-id": project.id, "status-id": status.id }) %>
+            <% menu.with_item(status.name, "#", data: { action: "click->dropdown#close", reflex: "click->ProjectStatus#change", "project-id": project.id, "status-id": status.id }) %>
           <% end %>
         <% end %>
       <% end %>

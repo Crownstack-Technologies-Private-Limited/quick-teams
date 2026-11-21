@@ -3,7 +3,7 @@
   <% owner = todo.owner %>
   <% project = todo.project %>
   <td class="table-cell whitespace-nowrap">
-    <%= check_box_tag "completed", nil, todo.completed, data: { reflex: "click->TodoReflex#toggle_project_todo", id: todo.id }, "aria-label": "Completed", class: "form-check" %>
+    <%= check_box_tag "completed", nil, todo.completed, disabled: true, "aria-label": "Completed", class: "form-check" %>
   </td>
   <td class="table-cell ">
     <a href="<%= employee_todos_path(owner, script_name: "/#{owner.account.id}") %>" class="block hover:underline" target="_top">

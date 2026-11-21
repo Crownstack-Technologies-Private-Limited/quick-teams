@@ -6,13 +6,13 @@
         <div class="p-5">
           <% if current_user.admin? %>
             <%= render Ui::TextLinkComponent.new(nil, "/#{employee.account.id}/report/kpis?survey_type=2&participant_id=#{employee.id}", tone: :plain, class: "hover:underline") do %>
-              <%= render Ui::SectionHeadingComponent.new(title: "KPIs Stats", tag: :h3) %>
+              <%= render Ui::SectionHeadingComponent.new(title: "KRAs Stats", tag: :h3) %>
             <% end %>
             <%= render Ui::TextLinkComponent.new(nil, "/#{employee.account.id}/surveys/#{kpi.id}/attempts", tone: :plain, class: "hover:underline") do %>
               <%= render Ui::TextComponent.new(kpi.name, class: "mt-2 max-w-4xl") %>
             <% end %>
           <% else %>
-            <%= render Ui::SectionHeadingComponent.new(title: "KPIs Stats", tag: :h3) %>
+            <%= render Ui::SectionHeadingComponent.new(title: "KRAs Stats", tag: :h3) %>
             <%= render Ui::TextComponent.new(kpi.name, class: "mt-2 max-w-4xl") %>
           <% end %>
         </div>

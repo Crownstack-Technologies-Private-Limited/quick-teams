@@ -3,12 +3,12 @@
 pin "application", preload: true
 pin "trix-editor-overrides"
 pin "reflex_actions"
-pin_all_from "app/javascript/controllers", under: "controllers"
+pin_all_from "app/javascript/controllers", under: "controllers", preload: true
 pin_all_from "app/javascript/channels", under: "channels"
 
 # Hotwire
-pin "@hotwired/turbo-rails", to: "turbo.min.js"
-pin "@hotwired/stimulus", to: "stimulus.min.js"
+pin "@hotwired/turbo-rails", to: "turbo.min.js", preload: true
+pin "@hotwired/stimulus", to: "stimulus.min.js", preload: true
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 
 # Rails
@@ -20,9 +20,7 @@ pin "@rails/request.js", to: "https://ga.jspm.io/npm:@rails/request.js@0.0.13/sr
 # Trix editor
 pin "trix", to: "https://ga.jspm.io/npm:trix@2.1.19/dist/trix.esm.min.js"
 
-
-# Slim Select
-pin "slim-select", to: "https://cdn.jsdelivr.net/npm/slim-select@2.9.2/dist/slimselect.es.js"
-
-# Stimulus plugins
-pin "stimulus-scroll-to", to: "https://ga.jspm.io/npm:stimulus-scroll-to@4.1.0/dist/stimulus-scroll-to.mjs"
+# Vendored copies in app/javascript: slim-select 3.2.0 (styles in app/assets/stylesheets/slim.css)
+# and stimulus-scroll-to 4.1.0.
+pin "slim-select", to: "slim-select.js"
+pin "stimulus-scroll-to", to: "stimulus-scroll-to.js"

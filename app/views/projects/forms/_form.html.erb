@@ -15,7 +15,7 @@
       <%= form.collection_select(:manager_id, User.all_users.decorate, :id, :display_name_position, { :prompt => "Select Manager" }, :selected => project.manager_id, :class => "form-text-field mt-1") %>
     </div>
     <%= render Ui::FormFieldComponent.new(label: "Select Observers", for_id: "project_observers") do %>
-      <%= select_tag "project[observers][]", options_for_select(User.all_users.decorate.map { |u| [u.display_name, u.id] }, project.observers.pluck(:id)), id: "project_observers", multiple: true, data: { controller: "slimselect" }, class: "form-text-field" %>
+      <%= select_tag "project[observers][]", options_for_select(User.all_users.decorate.map { |u| [u.display_name, u.id] }, project.observers.pluck(:id)), id: "project_observers", multiple: true, data: { controller: "slimselect" }, class: "slimselect w-full form-text-field" %>
     <% end %>
     <div class="flex items-center justify-between">
       <div class="flex items-center">

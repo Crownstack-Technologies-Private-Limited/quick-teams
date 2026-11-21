@@ -2,10 +2,10 @@
   <div class="space-y-4">
     <%= render "shared/form_messages", resource: ticket_status, message: local_assigns[:message] %>
     <%= render "shared/form_header", title: "Ticket Statuses", subtitle: "Ticket status is something this denotes status of a ticket. Open, Closed are defined already. You can add another statuses like In Progress, Action Required" %>
-    <%= form.text_field :name, "Add New Status", autocomplete: "off" %>
+    <%= form.text_field :name, placeholder: "Add New Status", autocomplete: "off" %>
     <div class="flex flex-wrap items-center gap-y-2">
       <label for="ticket_status_color" class="text-sm">Appearance</label>
-      <%= render Ui::ColorPickerComponent.new(name: "ticket_status[color]", selected: "gray", id_prefix: "new_ticket_status") %>
+      <%= render Ui::ColorPickerComponent.new(name: "ticket_status[color]", selected: ticket_status.color.presence || "gray", id_prefix: "new_ticket_status") %>
     </div>
     <%= render Ui::FormActionsComponent.new do %>
       <%= render Ui::SubmitButtonComponent.new(form, "Save") %>

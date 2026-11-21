@@ -3,11 +3,10 @@
     <%= render "shared/form_messages", resource: @ticket, message: local_assigns[:message] %>
     <%= render "shared/form_header", title: "Edit Ticket", subtitle: "Please update details of ticket to edit" %>
     <div>
-      <%= form.text_area :description, "Description", class: "form-text-field h-24" %>
-      <label for="label" class="form-label mt-4">
-        Select Label
-      </label>
-      <%= form.collection_select("ticket_label_id", TicketLabel.all, :id, :name, { :prompt => "Select labels" }, { :class => "form-text-field" }) %>
+      <%= form.text_area :description, placeholder: "Describe the issue...", class: "form-text-field h-24" %>
+      <%= render Ui::FormFieldComponent.new(label: "Select Label", for_id: "ticket_ticket_label_id") do %>
+        <%= form.collection_select :ticket_label_id, TicketLabel.all, :id, :name, { prompt: "Select labels" }, { class: "form-text-field" } %>
+      <% end %>
     </div>
   </div>
   <%= render Ui::FormActionsComponent.new do %>

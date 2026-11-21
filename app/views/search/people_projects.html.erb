@@ -3,6 +3,11 @@
     <%= result.decorate.display_name %> (<%= result.job.name if !result.job.blank? %>)
   <% end %>
 <% end %>
+<% @employees.each do |result| %>
+  <%= render Ui::SearchResultComponent.new(href: employee_planner_daily_path(result)) do %>
+    <%= result.decorate.display_name %> (<%= result.job.name if !result.job.blank? %>)'s Jobcards
+  <% end %>
+<% end %>
 <% if @projects.size > 0 && @employees.size > 0 %>
   <%= render Ui::SearchDividerComponent.new("Projects") %>
 <% end %>

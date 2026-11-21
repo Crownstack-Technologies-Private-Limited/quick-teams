@@ -1,0 +1,11 @@
+<% if feedback.published? %>
+  <%= render Ui::StatusBannerComponent.new(tone: :success) do |banner| %>
+    <% banner.with_action("Unpublish", data: { reflex: "click->EmployeeFeedback#unpublish", "feedback-id": feedback.id }) %>
+    This Feedback has been published and is visible to employee.
+  <% end %>
+<% else %>
+  <%= render Ui::StatusBannerComponent.new(tone: :info) do |banner| %>
+    <% banner.with_action("Publish", data: { reflex: "click->EmployeeFeedback#publish", "feedback-id": feedback.id }) %>
+    This feedback has not been published and employee can not see it.
+  <% end %>
+<% end %>

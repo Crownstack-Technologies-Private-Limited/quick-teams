@@ -7,7 +7,7 @@
           <%= display_medium_avatar(assignee) %>
         </div>
         <div class="ml-4">
-          <%= render Ui::TextLinkComponent.new(nil, employee_kpis_path(assignee), tone: :row) do %>
+          <%= render Ui::TextLinkComponent.new(nil, (@survey.survey_type == "culture" ? employee_culture_index_path(assignee) : employee_kpis_path(assignee)), tone: :row) do %>
             <div class="text-sm font-medium text-gray-900">
               <%= assignee_decorated.display_name %>
               <div id="employee-tags" class="inline-flex">

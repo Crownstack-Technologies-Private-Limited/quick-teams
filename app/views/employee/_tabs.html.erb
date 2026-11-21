@@ -30,7 +30,10 @@
   <% tabs.with_tab("Surveys", employee_surveys_path) %>
   <% end %>
   <% if policy([employee, :kpi]).index? %>
-  <% tabs.with_tab("KPIs", employee_kpis_path) %>
+  <% tabs.with_tab("KRAs", employee_kpis_path) %>
+  <% end %>
+  <% if policy([employee, :culture]).index? %>
+  <% tabs.with_tab("Culture", employee_culture_index_path) %>
   <% end %>
   <% if policy([employee, :report]).index? %>
   <% tabs.with_tab("Reports", employee_reports_path) %>

@@ -2,7 +2,7 @@
   <div class="bg-white">
     <div class="px-4">
       <%= render Ui::FormContainerComponent.new(class: "z-10") do %>
-        <%= render "shared/form_header", title: "Assign KPI to #{survey.survey_for == "user" ? "Employee" : "Project"}", subtitle: "" %>
+        <%= render "shared/form_header", title: "Assign #{survey.survey_type == "culture" ? "culture KRA" : "KRA"} to #{survey.survey_for == "user" ? "Employee" : "Project"}", subtitle: "" %>
         <%= render "shared/form_messages", resource: survey, message: local_assigns[:message] %>
         <div class="flex justify-center w-full max-w-sm lg:justify-end" >
           <div class="w-full max-w-sm lg:max-w-sm">

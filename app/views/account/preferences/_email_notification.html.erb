@@ -1,0 +1,7 @@
+<li class="flex items-center mt-4">
+  <%= check_box_tag "email_enabled", nil, account.email_enabled, data: { reflex: "click->AccountNotificationReflex#toggle_email_notification", id: account.id }, class: "mr-5 form-check", "aria-labelledby": "privacy-option-1-label", "aria-describedby": "privacy-option-1-description" %>
+  <div class="flex flex-col">
+    <%= render Ui::TextComponent.new("Enable Company wide email notifications", tone: :strong, id: "privacy-option-1-label") %>
+    <%= render Ui::TextComponent.new("Turning it off will disbale all email notification for all employees ignorning their personal email notification settings.", id: "privacy-option-1-description") %>
+  </div>
+</li>

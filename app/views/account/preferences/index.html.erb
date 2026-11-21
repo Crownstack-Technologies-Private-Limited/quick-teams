@@ -1,19 +1,9 @@
 <%= render Ui::SettingsLayoutComponent.new(menu: :account) do %>
-      <%= render "shared/form_header", title: "Account Preferences", subtitle: "Setup your account preferences." %>
-      <ul class="mt-2 divide-y divide-gray-200">
-        <li class="flex items-center mt-4">
-          <%= check_box_tag "email_enabled", nil, @account.email_enabled, data: { reflex: "click->AccountNotificationReflex#toggle_email_notification", id: @account.id }, class: "mr-5 form-check" %>
-          <div class="flex flex-col">
-            <p class="text-sm font-medium text-gray-900" id="privacy-option-1-label">
-              Enable Company wide email notifications
-            </p>
-            <p class="text-sm text-gray-500" id="privacy-option-1-description">
-              Turning it off will disbale all email notification for all employees ignorning their personal email notification settings.
-            </p>
-          </div>
-        </ul>
-      </li>
-      <%= render @preferences %>
+  <%= render "shared/form_header", title: "Account Preferences", subtitle: "Setup your account preferences." %>
+  <ul class="mt-2 divide-y divide-gray-200">
+    <div id="account-email-notification">
+      <%= render partial: "account/preferences/email_notification", locals: { account: @account } %>
     </div>
-  
+  </ul>
+  <%= render @preferences %>
 <% end %>

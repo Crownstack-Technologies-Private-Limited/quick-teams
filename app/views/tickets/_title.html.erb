@@ -8,13 +8,12 @@
       <div class="text-sm">
         <span class="font-medium text-gray-500">  <%= ticket.user.decorate.display_name %></span>
         <% if policy([ticket]).show? %>
-          <%= render Ui::TagComponent.new(ticket.display_status, color: ticket.display_status_color, size: :badge) %>
+          <%= render Ui::TagComponent.new(ticket.display_status, color: ticket.display_status_color, size: :badge, class: "ml-2") %>
         <% end %>
       </div>
       <div class="mt-1 space-x-2 text-sm">
-        <span class="font-medium text-gray-500">Created By <%= ticket.user.decorate.display_name %>
-          in the <%= ticket.ticket_label.name %> ticket label</span>
-        on <%= display_created_at(ticket) %> </span>
+        <span class="text-gray-500">Created by <%= ticket.user.decorate.display_name %>
+          in the <%= ticket.ticket_label.name %> ticket label on <%= display_created_at(ticket) %></span>
     </div>
   </div>
 </div>

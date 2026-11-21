@@ -1,0 +1,13 @@
+<% todo = todo.respond_to?(:decorate) && !todo.decorated? ? todo.decorate : todo %>
+
+<% if todo.completed? %>
+  <%= render Ui::StatusBannerComponent.new(tone: :success, color: todo.display_status) do |banner| %>
+    <% banner.with_action("Reopen", data: { reflex: "click->TodoReflex#toggle_todo", id: todo.id }) %>
+    This todo has been completed on <%= display_date(todo.updated_at) %>
+  <% end %>
+<% else %>
+  <%= render Ui::StatusBannerComponent.new(tone: :info, color: todo.display_status) do |banner| %>
+    <% banner.with_action("Mark As Complete", data: { reflex: "click->TodoReflex#toggle_todo", id: todo.id }) %>
+    This todo has not been completed.
+  <% end %>
+<% end %>

@@ -2,10 +2,10 @@
   <div class="space-y-4">
     <%= render "shared/form_messages", resource: people_tag, message: local_assigns[:message] %>
     <%= render "shared/form_header", title: "People Tags", subtitle: "You can define custom tags which can be applied to your team members. Examples include star performer, pending performance review." %>
-    <%= form.text_field :name, "Add New Tag", autocomplete: "off" %>
+    <%= form.text_field :name, placeholder: "Add New Tag", autocomplete: "off" %>
     <div class="flex flex-wrap items-center gap-y-2">
       <label for="people_tag_color" class="text-sm">Appearance</label>
-      <%= render Ui::ColorPickerComponent.new(name: "people_tag[color]", selected: "gray", id_prefix: "new_people_tag") %>
+      <%= render Ui::ColorPickerComponent.new(name: "people_tag[color]", selected: people_tag.color.presence || "gray", id_prefix: "new_people_tag") %>
     </div>
     <%= render Ui::FormActionsComponent.new do %>
       <%= render Ui::SubmitButtonComponent.new(form, "Save") %>

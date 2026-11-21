@@ -20,12 +20,14 @@
               <div class="w-full border-t border-gray-300"></div>
             </div>
             <div class="relative flex justify-center">
-              <%= render Ui::ButtonComponent.new("Show older Comments", href: "#", variant: :secondary, size: :sm, class: "rounded-full", data: { action: "click->comments#toggleComments" }) %>
+              <%= render Ui::ButtonComponent.new("Show older Comments", href: "#", variant: :secondary, size: :sm, class: "rounded-full", id: "toggle-old-comments", aria: { controls: "hidden-comments", expanded: "false" }, data: { action: "click->comments#toggleComments" }) %>
             </div>
           </div>
-          <ul role="list" >
-            <%= render partial: "message_comments/hidden_comment", collection: hidden_comments, as: :comment, cached: false %>
-          </ul>
+          <div id="hidden-comments" role="region" aria-labelledby="toggle-old-comments">
+            <ul role="list">
+              <%= render partial: "message_comments/hidden_comment", collection: hidden_comments, as: :comment, cached: false %>
+            </ul>
+          </div>
         </div>
         <ul role="list" class="relative z-0 divide-y divide-gray-200 " id="comments" >
           <%= render partial: "message_comments/message_comment", collection: display_comments, as: :comment, cached: false %>

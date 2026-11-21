@@ -1,7 +1,7 @@
 <%= render Ui::TabsComponent.new(id: "survey-tabs") do |tabs| %>
   <% tabs.with_tab("Questions", survey_questions_path) %>
   <% tabs.with_tab("Attempts", survey_attempts_path) %>
-  <% if @survey.kpi? && !@survey.adhoc? %>
+  <% if (@survey.kpi? && !@survey.adhoc?) or @survey.culture? %>
   <% tabs.with_tab("Assignees", survey_assignees_path) %>
   <% end %>
 <% end %>

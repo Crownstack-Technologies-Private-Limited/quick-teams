@@ -2,6 +2,10 @@
 
 _Prepared 2026-11-18 on branch `upgrade` (tip `9636210e`, "fix tests", 2025-12-05)._
 
+> **2026-11-21: `origin/main` is the base line.** main (released as v0.1.0–v0.1.7, commits to 2026-01-29) already
+> contains `upgrade` plus 81 newer commits (planner, job cards, KRAs, culture KPIs). It has been merged into this
+> branch; see §14. Sections 1–11 describe the situation on 2026-11-18 and are kept as written.
+
 ## 1. Where we are
 
 | | `dev` (production line) | `upgrade` branch (today) | Target (latest) |
@@ -317,10 +321,89 @@ It contradicts `Space::MessagePolicy#destroy?` (any participant may delete a thr
 
 - **Rotate the New Relic license key** (it is in git history); set `NEW_RELIC_LICENSE_KEY` everywhere. newrelic_rpm 10 renames ActiveJob metrics: update dashboards/alerts.
 - Before deploying the Pay migrations: `bin/rails runner 'p Pay::Customer.column_names'` on production/staging; take a DB backup.
-- Provision separate Solid Queue and Solid Cable databases; set `QUEUE_DATABASE_URL` and `CABLE_DATABASE_URL` (a shared fresh DB does not work with `db:prepare`). Remove Redis add-ons and `REDIS_URL`; run the worker as `bin/jobs start`.
+- ~~Provision separate Solid Queue and Solid Cable databases~~ (superseded by the main merge, §14): Solid Queue and Solid Cable stay in the primary database, as production already runs them. Remove Redis add-ons and `REDIS_URL`; run the worker as `bin/jobs start`.
+- Before the first deploy of this branch to an environment that runs main: `bin/rails db:migrate:status` there. Expected pending migrations: `20261118173600`–`02` (Pay) and `20261119090606` (Solid Queue batches); `render-build.sh` runs `db:migrate`. Old Sprockets files in `public/assets` are harmless (`assets:clean` runs first).
+- Product sign-off for the job card access rules (§14): a card can be read or changed only by someone who may view its owner's planner, inside the same account (main allowed any request, even signed out).
 - Check `SECRET_KEY_BASE` vs credentials: Devise is pinned to credentials first, so links stay valid, but confirm that credentials exist in each environment.
 - Stripe Dashboard: new webhook endpoint `/pay/webhooks/stripe` on the API version stripe-ruby 21 pins (events incl. `invoice.updated`, `payment_method.automatically_updated`, `charge.updated`), test mode first; then exercise checkout, billing portal and webhooks with `stripe listen`.
 - Hosting: Ruby 4.0.9 available, ImageMagick installed (avatar variants were not exercised locally), health check on `/up` with `force_ssl` (consider `ssl_options` redirect exclude for `/up`).
 - Product sign-off: dropping nuggets/knowledge base (irreversible migrations), devise_invitable 3 sign-in change, the space-thread delete policy.
 - Follow-up: `test/fixtures/preferences.yml` has placeholder `key: MyString` rows that make /account/preferences raise in tests (no test visits it).
 - Follow-up security fix: `ProjectsController#index` interpolates `params[:column]`/`params[:direction]` into `order` (SQL injection; brakeman does not flag it). Reflex actions (now `ReflexActionsController`) still perform no policy checks beyond sign-in + account, exactly as under StimulusReflex: add Pundit checks per action.
+
+## 14. Merge of `origin/main` (2026-11-21)
+
+`origin/main` (v0.1.7 + planner/job cards, tip `4ebff343`) merged into `claude/upgrade-phases-6f2b15` in `4201a9ad`,
+followed by separate fix commits. Every feature from main is kept; every upgrade on this branch is kept.
+
+**Conflicts and how they were resolved**
+
+| File(s) | Resolution |
+|---|---|
+| `.ruby-version`, `mise.toml`, `Gemfile`, `Gemfile.lock` | ours (Ruby 4.0.9, Rails 8.1.4.1, propshaft, upgraded gems). main's only Gemfile changes were Ruby 4.0.0 and sprockets-rails. |
+| `app/javascript/config/*`, `controllers/application_controller.js`, `config/initializers/stimulus_reflex.rb`, main's vendored `stimulus_reflex.js` / `cable_ready.js` / `morphdom.js` | deleted (StimulusReflex is replaced by `reflex_actions`). main's vendored `slim-select.js` (3.2.0, matching its new `slim.css`) and `stimulus-scroll-to.js` (4.1.0) kept. |
+| `application.js`, `controllers/index.js`, `controllers/application.js`, `config/importmap.rb` | main's explicit controller registration (plus the two planner controllers and `auto-dismiss`) without StimulusReflex; Turbo imported first. |
+| `app/reflexes/application_reflex.rb` | ours. `todo_reflex.rb`: main's refactor without `delegate ... to: :connection`. |
+| `survey/assignees_controller.rb` | main's culture-KPI logic with the Pagy 43 `limit:`. |
+| `shared/_modal`, `_assessment`, `_comment` | main's (already has the `relative` panel fix). `shared/_paginator`: main's markup with the Pagy 43 API. |
+| `config/environments/production.rb` | `public_file_server.enabled = true` plus main's cache headers. `bin/render-build.sh`: main's. |
+| `db/queue_schema.rb`, `db/cable_schema.rb`, `db/schema.rb` | see "Solid Queue/Cable" below; schema regenerated (`1d809953`). |
+
+**Sprockets or propshaft: propshaft.** main switched to sprockets-rails on 2025-12-06 in a run of production fixes
+("revert importmaps", "fix assets", "fix turbo error"): the switch landed in "fix turbo error" together with vendoring
+StimulusReflex/CableReady/morphdom and guarding `StimulusReflex.register`, i.e. to get StimulusReflex initialising in
+production. StimulusReflex and CableReady are gone on this branch, so that reason no longer holds; propshaft (the
+Rails 8 default) is kept, the Sprockets manifest and main's duplicate asset paths are removed (`81525593`). Checked with
+the production config: `assets:precompile` writes `application-*.js`, `reflex_actions-*.js`, `slim-select-*.js`.
+
+**Solid Queue/Cable: one database, as main.** main creates the Solid Queue and Solid Cable tables in the primary
+database through `db/migrate` (`20251206113912`, `20251206114129`) and dropped the `connects_to` settings; that is
+what production runs. This branch now does the same: `db/queue_schema.rb` / `db/cable_schema.rb` removed, the
+batches migration moved to `db/migrate`, `database.yml` production/staging is a single `DATABASE_URL`, CI's
+`solid_queue:check` uses one database. This removes the "separate databases" human action. Checked against a
+throwaway production database: `db:prepare`, `solid_queue:check` and Solid Cable all work.
+
+**Schema.** Migrating from zero is impossible (2021 data migrations use removed models), and Rails 8.1 loads
+`schema.rb` when `db:migrate` hits an empty database. So main's `schema.rb` was loaded and this branch's own
+migrations (Pay ×3, Solid Queue batches) run on top. Result = this branch's schema + main's `job_cards`,
+`feedbacks.feedback_type/is_kpi`, `users.culture_kpi_id`, `timesheets.output` and the Solid Queue/Cable tables.
+
+**What had to change in main's code** (`39e1c739`, `518494f8`)
+
+- Reflexes: main's views name reflexes with the `Reflex` suffix (`click->TodoReflex#toggle_todo`); the endpoint already strips it. Allow-list updated (main's TodoReflex only has `toggle_todo`); it now matches the views exactly (35 actions). main's reflexes use only `element.dataset`, `morph` and `render`, which the shim supports.
+- Job cards: `JobCardsController` had no sign-in, account or policy check on main (any card id could be read, changed or deleted, also signed out). It now inherits `BaseController`; `JobCardPolicy` allows a card to whoever may view its owner's planner (`UserPolicy#view_planner?`), within the account; `user_id` is only read on create; errors are JSON 403/404. The planner JS calls `/:account/job_cards` and reads the CSRF tag defensively. `PlannersController` looks users up in the current account. `User has_many :job_cards, dependent: :destroy` (deleting an employee with cards failed on the foreign key).
+- `TailwindFormBuilder`: main's "ui fixes" pass options only (`form.text_field :name, placeholder: ...`), which the builder treated as the label, so placeholders vanished (people tags, ticket statuses, change password). The label argument is optional now.
+- Change password: main's form showed the user's errors instead of the form object's, so no validation message appeared. Back to `resource: @form`.
+- Survey attempts list: main's wider View button was clipped (`overflow-hidden`) at 1440px; the table scrolls horizontally.
+- Pagy (`limit:`), Devise 5, Pay 12, `ApplicationService`, acts_as_tenant 2: nothing else in main's new code needed porting (no `items:`, no `Patterns::Service`, no new Devise/Pay calls; `JobCard` is scoped through its user).
+- Tests that followed main's markup: todo completion moved from the list checkbox (disabled on main) to the todo page; ticket status button id is `option-menu-button-<id>`.
+
+**Tests** (parallel: 8 workers, headless Chrome; the parallel setup is cherry-picked from `claude/ui-components-9bbd75`)
+
+| | Before the merge (`902cbab0`) | After the merge (`73b5ba1a`) |
+|---|---|---|
+| Unit | 163 / 0 F / 0 E | **184 / 0 F / 0 E** (new: job card model, job cards and planners controllers) |
+| System | 855 / 0 F / 0 E | **862 / 0 F / 0 E** in 44 s (new: `test/system/employee/planner_test.rb`) |
+| brakeman | 13 | 13 (same mass-assignment warnings) |
+| bundle-audit | 0 | 0 |
+
+The first run after the merge had 11 system failures; all were main's markup changes or the regressions listed above.
+Checked in the browser on :3001 (fixture data): daily planner create and edit, weekly view, details modal, no console
+messages. There is no component test suite on this branch (that lives on the UI-components branch).
+
+**Not ported / not verified**
+
+- Nothing from main was dropped except the StimulusReflex/CableReady JS and its sprockets setup.
+- ~~The planner's past-day check runs only in the browser~~ fixed (see below).
+- Cross-account employee pages (`Employee::BaseController#set_employee` uses `User.find`) predate the merge; only the planner was scoped.
+
+**Past days are read-only on the server (2026-11-21).** On main the "no changes to past days" rule existed only in the
+planner JS, against the browser's clock: setting the computer's clock back (or calling the endpoint directly) let a
+user create, edit or delete cards on past days. Now `JobCardPolicy#update?/destroy?` refuse cards dated before
+`Date.current` (403 "Job cards on past days can't be changed"), and the planner saves with the `:planner` validation
+context, which refuses a new card or a date change into the past (422 "Date can't be in the past"). Past cards can
+still be read. The daily page gets `data-daily-planner-editable-value` from the server instead of reading the browser
+clock. "Today" is the server's date in the app time zone (UTC; `config.time_zone` is not set), so between 00:00 and
+05:30 IST users can still change the previous IST day. Setting `config.time_zone` would fix that but shifts every
+date the app shows, so it is left as a product decision. The weekly planner's unused `openModal` still has a
+browser-clock check (no view calls it).

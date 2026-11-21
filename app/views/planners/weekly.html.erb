@@ -1,0 +1,67 @@
+<!-- filepath: /Users/aashish/Documents/Code/planner/app/views/planners/weekly.html.erb -->
+<div data-controller="weekly-planner" data-weekly-planner-start-date-value="<%= @start_date.iso8601 %>">
+  <div class="flex justify-between items-center p-4">
+    <h2 class="text-2xl font-bold">
+      <%= @user.first_name %>'s Weekly Planner - <%= @start_date.strftime('%B %d') %> -
+      <%= (@start_date + 4.days).strftime('%B %d, %Y') %>
+    </h2>
+
+    <div class="space-x-2">
+      <%= link_to "Daily Planner", employee_planner_daily_path, class: "px-3 py-1 bg-blue-300 rounded" %>
+      <%= link_to "Weekly Planner", employee_planner_weekly_path, class: "px-3 py-1 bg-green-300 rounded" %>
+    </div>
+
+    <div class="space-x-2">
+      <%= link_to "← Previous", employee_planner_weekly_path(week: @start_date - 1.week), class: "px-3 py-1 bg-gray-300 rounded" %>
+      <%= link_to "This Week", employee_planner_weekly_path, class: "px-3 py-1 bg-green-300 rounded" %>
+      <%= link_to "Next →", employee_planner_weekly_path(week: @start_date + 1.week), class: "px-3 py-1 bg-gray-300 rounded" %>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-5 gap-4 h-screen px-4">
+    <% @dates.each do |date| %>
+      <div class="bg-white rounded-lg shadow-md h-full flex flex-col">
+        <h3 class="text-center font-semibold p-1 bg-gray-200 rounded-t-lg flex-shrink-0">
+          <%= link_to date.strftime('%a %m/%d'), employee_planner_daily_path(date: date), class: "hover:text-blue-600 hover:underline" %>
+        </h3>
+
+        <div class="p-2 flex-1 flex flex-col space-y-2">
+          <% %w[morning afternoon evening].each do |session| %>
+            <div
+              class="session-slot border border-gray-200 rounded flex-1 space-y-1 p-1 overflow-y-auto"
+              data-date="<%= date.iso8601 %>"
+              data-session="<%= session %>"
+            >
+              <% cards = @grouped_cards[[date, session]] %>
+
+              <% if cards && cards.any? %>
+                <% color_priority = {
+                    'bg-green-400' => 1,
+                    'bg-yellow-400' => 2, 
+                    'bg-blue-400' => 3,
+                    'bg-gray-400' => 4,
+                    'bg-red-400' => 5
+                  }
+                  grouped_by_color = cards.group_by(&:weekly_color_class)
+                  sorted_groups = grouped_by_color.sort_by { |color, _| color_priority[color] || 6 }
+                  cards_by_color = sorted_groups.map { |_, group| group }.flatten %>
+                <% cards_by_color.each_with_index do |card, index| %>
+                  <div
+                    class="job-card inset-x-2 <%= card.weekly_color_class %> text-white rounded p-1 overflow-hidden cursor-pointer"
+                    style="top: <%= (index * 11.11) %>%; z-index: 1; height: calc(<%= (card.slot_length.to_f / 9 * 100).round(2) %>% - 0.25rem);"
+                    data-card-id="<%= card.id %>"
+                    data-action="click->weekly-planner#showCardDetails"
+                  >
+                    <div class="text-xs font-medium truncate"><%= card.title %></div>
+                  </div>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <%= render 'planners/view_job_card' %>
+</div>
