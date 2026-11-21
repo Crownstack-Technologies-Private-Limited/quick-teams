@@ -394,5 +394,16 @@ messages. There is no component test suite on this branch (that lives on the UI-
 **Not ported / not verified**
 
 - Nothing from main was dropped except the StimulusReflex/CableReady JS and its sprockets setup.
-- The planner's past-day check uses the browser's UTC date (`toISOString`), so near midnight in India it can disagree with the server's date by a day. Unchanged from main.
+- ~~The planner's past-day check runs only in the browser~~ fixed (see below).
 - Cross-account employee pages (`Employee::BaseController#set_employee` uses `User.find`) predate the merge; only the planner was scoped.
+
+**Past days are read-only on the server (2026-11-21).** On main the "no changes to past days" rule existed only in the
+planner JS, against the browser's clock: setting the computer's clock back (or calling the endpoint directly) let a
+user create, edit or delete cards on past days. Now `JobCardPolicy#update?/destroy?` refuse cards dated before
+`Date.current` (403 "Job cards on past days can't be changed"), and the planner saves with the `:planner` validation
+context, which refuses a new card or a date change into the past (422 "Date can't be in the past"). Past cards can
+still be read. The daily page gets `data-daily-planner-editable-value` from the server instead of reading the browser
+clock. "Today" is the server's date in the app time zone (UTC; `config.time_zone` is not set), so between 00:00 and
+05:30 IST users can still change the previous IST day. Setting `config.time_zone` would fix that but shifts every
+date the app shows, so it is left as a product decision. The weekly planner's unused `openModal` still has a
+browser-clock check (no view calls it).

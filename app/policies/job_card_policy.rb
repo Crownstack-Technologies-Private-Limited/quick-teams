@@ -1,4 +1,5 @@
 # A job card can be read and changed by anyone who may view its owner's planner (UserPolicy#view_planner?).
+# Cards on past days are read-only (JobCard#editable?, server date).
 class JobCardPolicy < ApplicationPolicy
   def show?
     planner_visible?
@@ -9,11 +10,11 @@ class JobCardPolicy < ApplicationPolicy
   end
 
   def update?
-    planner_visible?
+    planner_visible? && record.editable?
   end
 
   def destroy?
-    planner_visible?
+    planner_visible? && record.editable?
   end
 
   private

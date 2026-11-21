@@ -12,7 +12,9 @@ function csrfToken() {
 }
 
 export default class extends Controller {
-    static values = { date: String }
+    // editable comes from the server (JobCard#editable?): the browser's clock is not used, and the
+    // server refuses changes to past days anyway.
+    static values = { date: String, editable: Boolean }
     static targets = [
         "modalSession", "modalSlot", "modalTitle", "deleteButton",
         "titleInput", "descriptionInput", "slotLengthInput", "cardId", "saveButton", "colorInput"
@@ -23,11 +25,9 @@ export default class extends Controller {
     }
 
     openModal(event) {
-        // Don't allow creating/editing cards for past dates
-        const dateValue = this.dateValue;
-        const today = new Date().toISOString().split('T')[0];
-        if (dateValue < today) {
-            return;
+        // Past days are read-only
+        if (!this.editableValue) {
+            return
         }
 
         // Check if clicking on a job card for editing
@@ -50,11 +50,9 @@ export default class extends Controller {
     }
 
     editCard(jobCard) {
-        // Don't allow editing cards for past dates
-        const dateValue = this.dateValue;
-        const today = new Date().toISOString().split('T')[0];
-        if (dateValue < today) {
-            return;
+        // Past days are read-only
+        if (!this.editableValue) {
+            return
         }
 
         const cardId = jobCard.dataset.cardId

@@ -40,7 +40,17 @@ class PlannersControllerTest < ActionDispatch::IntegrationTest
     visit_path "/employees/#{@member.id}/planner/daily"
 
     assert_response :ok
-    assert_select "[data-daily-planner-date-value='#{Date.today.iso8601}']"
+    assert_select "[data-daily-planner-date-value='#{Date.current.iso8601}'][data-daily-planner-editable-value=true]"
+  end
+
+  test "the server tells the daily planner whether the day is editable" do
+    sign_in @member
+
+    visit_path "/employees/#{@member.id}/planner/daily", params: { date: (Date.current - 1.day).iso8601 }
+    assert_select "[data-daily-planner-editable-value=false]"
+
+    visit_path "/employees/#{@member.id}/planner/daily", params: { date: (Date.current + 1.day).iso8601 }
+    assert_select "[data-daily-planner-editable-value=true]"
   end
 
   test "the weekly planner shows Monday to Friday" do

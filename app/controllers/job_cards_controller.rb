@@ -7,7 +7,7 @@ class JobCardsController < BaseController
     @job_card = JobCard.new(job_card_params.merge(user: planner_owner))
     authorize @job_card
 
-    if @job_card.save
+    if @job_card.save(context: :planner)
       render json: {
         id: @job_card.id,
         title: @job_card.title,
@@ -20,7 +20,9 @@ class JobCardsController < BaseController
   end
 
   def update
-    if @job_card.update(job_card_params)
+    @job_card.assign_attributes(job_card_params)
+
+    if @job_card.save(context: :planner)
       render json: {
         id: @job_card.id,
         message: "Job card updated successfully"
@@ -56,7 +58,12 @@ class JobCardsController < BaseController
 
   # Errors are JSON for the planner's fetch calls, not the HTML redirects of ApplicationController.
   def user_not_authorized
-    render json: { errors: ["You are not allowed to change this planner"] }, status: :forbidden
+    message = if @job_card&.persisted? && !@job_card.editable?
+      "Job cards on past days can't be changed"
+    else
+      "You are not allowed to change this planner"
+    end
+    render json: { errors: [message] }, status: :forbidden
   end
 
   def record_not_found

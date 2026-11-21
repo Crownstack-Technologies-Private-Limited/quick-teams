@@ -1,5 +1,9 @@
 <!-- filepath: /Users/aashish/Documents/Code/planner/app/views/planners/daily.html.erb -->
-<div data-controller="daily-planner" data-daily-planner-date-value="<%= @date.iso8601 %>">
+<div
+  data-controller="daily-planner"
+  data-daily-planner-date-value="<%= @date.iso8601 %>"
+  data-daily-planner-editable-value="<%= @date >= Date.current %>"
+>
   <div class="flex justify-between items-center p-4">
     <h2 class="text-2xl font-bold"><%= @user.first_name %>'s Daily Planner - <%= @date.strftime('%A, %B %d, %Y') %></h2>
 

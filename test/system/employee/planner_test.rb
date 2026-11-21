@@ -87,6 +87,30 @@ class EmployeePlannerTest < ApplicationSystemTestCase
     assert_selector "#jobCardModal", visible: :hidden
   end
 
+  test "a browser with its clock set back still can not change a past day" do
+    card = JobCard.create!(user: @employee, title: "Yesterday's work", date: Date.current - 1.day, session: "morning", slot_start: 1, slot_length: 1)
+    visit daily_url(date: Date.current - 1.day)
+
+    # Move the page's clock back a week, then send what the planner would send.
+    result = page.evaluate_async_script(<<~JS, card.id, @account.id)
+      const [cardId, accountId, done] = arguments
+      const realNow = Date.now()
+      Date.now = () => realNow - 7 * 24 * 60 * 60 * 1000
+      fetch(`/${accountId}/job_cards/${cardId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({ job_card: { title: "Rewritten history" } })
+      }).then(async (response) => done([response.status, (await response.json()).errors]))
+    JS
+
+    assert_equal [403, ["Job cards on past days can't be changed"]], result
+    assert_equal "Yesterday's work", card.reload.title
+
+    # The page itself takes the server's word for it, whatever the clock says.
+    find(".job-card", text: "Yesterday's work").click
+    assert_selector "#jobCardModal", visible: :hidden
+  end
+
   test "the weekly planner shows the week's cards and their details" do
     monday = @date.beginning_of_week
     JobCard.create!(user: @employee, title: "Sprint planning", description: "Bring the backlog", date: monday, session: "morning",

@@ -130,4 +130,71 @@ class JobCardsControllerTest < ActionDispatch::IntegrationTest
     assert_response :unauthorized
     assert JobCard.exists?(card.id)
   end
+
+  # The planner hides editing for past days, but that check runs in the browser (and used the
+  # browser's clock). The server must refuse on its own date, whatever the client sends.
+  test "cards on past days can be read but not changed or deleted" do
+    card = create_card(@member, date: Date.current - 1.day)
+    sign_in @member
+
+    account_request :get, "/job_cards/#{card.id}"
+    assert_response :ok
+
+    account_request :patch, "/job_cards/#{card.id}", params: { job_card: { title: "Rewritten history" } }
+    assert_response :forbidden
+    assert_equal ["Job cards on past days can't be changed"], response.parsed_body["errors"]
+    assert_equal "Existing card", card.reload.title
+
+    account_request :patch, "/job_cards/#{card.id}", params: { job_card: { date: (Date.current + 1.day).iso8601 } }
+    assert_response :forbidden
+    assert_equal Date.current - 1.day, card.reload.date
+
+    assert_no_difference -> { JobCard.count } do
+      account_request :delete, "/job_cards/#{card.id}"
+    end
+    assert_response :forbidden
+  end
+
+  test "a card can not be created on a past day" do
+    sign_in @member
+
+    assert_no_difference -> { JobCard.count } do
+      account_request :post, "/job_cards", params: card_params(@member, date: (Date.current - 1.day).iso8601)
+    end
+    assert_response :unprocessable_content
+    assert_includes response.parsed_body["errors"], "Date can't be in the past"
+  end
+
+  test "a card can not be moved to a past day" do
+    card = create_card(@member)
+    sign_in @member
+
+    account_request :patch, "/job_cards/#{card.id}", params: { job_card: { date: (Date.current - 1.day).iso8601 } }
+
+    assert_response :unprocessable_content
+    assert_includes response.parsed_body["errors"], "Date can't be in the past"
+    assert_equal @date, card.reload.date
+  end
+
+  test "today's cards can still be changed" do
+    card = create_card(@member, date: Date.current)
+    sign_in @member
+
+    account_request :patch, "/job_cards/#{card.id}", params: { job_card: { title: "Still today" } }
+    assert_response :ok
+
+    account_request :delete, "/job_cards/#{card.id}"
+    assert_response :ok
+  end
+
+  test "the server's date decides, not the client's" do
+    card = create_card(@member, date: Date.current + 1.day)
+    sign_in @member
+
+    travel_to Date.current + 2.days do
+      account_request :patch, "/job_cards/#{card.id}", params: { job_card: { title: "Too late" } }
+      assert_response :forbidden
+    end
+    assert_equal "Existing card", card.reload.title
+  end
 end

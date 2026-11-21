@@ -69,4 +69,20 @@ class JobCardTest < ActiveSupport::TestCase
       user.destroy!
     end
   end
+
+  test "past cards are not editable and the planner may not put a card in the past" do
+    assert build_card(date: Date.current).editable?
+    assert_not build_card(date: Date.current - 1.day).editable?
+
+    past = build_card(date: Date.current - 1.day)
+    assert past.valid? # history (fixtures, imports) is still valid
+    assert_not past.valid?(:planner)
+    assert_includes past.errors[:date], "can't be in the past"
+
+    card = build_card(date: Date.current + 1.day).tap(&:save!)
+    card.title = "Renamed"
+    assert card.valid?(:planner)
+    card.date = Date.current - 1.day
+    assert_not card.valid?(:planner)
+  end
 end
