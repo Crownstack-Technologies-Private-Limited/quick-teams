@@ -19,7 +19,9 @@ Capybara::Selenium::Driver::ChromeDriver.prepend(ChromeResetWithoutWildcardOrigi
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   # Fixture users sign in with "password"; Chrome's password manager then shows its leaked-password
   # warning over the page, which swallowed every click of the next test. Turn that UI off.
-  driven_by :selenium, using: :chrome, screen_size: [1440, 900] do |options|
+  #
+  # Headless by default (the suite runs in parallel); HEADED=1 opens a visible Chrome to watch a test.
+  driven_by :selenium, using: (ENV["HEADED"].present? ? :chrome : :headless_chrome), screen_size: [1440, 900] do |options|
     options.add_preference("credentials_enable_service", false)
     options.add_preference("profile.password_manager_enabled", false)
     options.add_preference("profile.password_manager_leak_detection", false)
