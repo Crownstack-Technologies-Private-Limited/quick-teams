@@ -45,11 +45,19 @@ class ProjectTodosTest < ApplicationSystemTestCase
     assert_selector "tbody#todos", text: "Some Random Todo Title"
   end
 
-  test "can check a todo" do
-    visit page_url
+  # The list shows the state (disabled checkbox); a todo is completed and reopened on its own page.
+  test "can complete and reopen a todo" do
     todo = @project.todos.first
+    todo.update!(completed: false)
+    visit project_todo_url(@project, todo, script_name: "/#{@account.id}")
 
-    find("tr", id: dom_id(todo)).check "completed"
+    click_reflex "button", text: "Mark As Complete"
+    assert_text "This todo has been completed"
+    assert todo.reload.completed
+
+    click_reflex "button", text: "Reopen"
+    assert_text "This todo has not been completed."
+    assert_not todo.reload.completed
     take_screenshot
   end
 
