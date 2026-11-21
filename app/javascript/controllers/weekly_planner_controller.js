@@ -6,6 +6,11 @@ function jobCardsPath() {
     return account ? `/${account}/job_cards` : "/job_cards"
 }
 
+// The meta tag is absent where forgery protection is off (the test environment).
+function csrfToken() {
+    return document.querySelector("meta[name='csrf-token']")?.content || ""
+}
+
 export default class extends Controller {
     static values = { startDate: String }
     static targets = [
@@ -85,7 +90,7 @@ export default class extends Controller {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
+                'X-CSRF-Token': csrfToken()
             },
             body: JSON.stringify({ job_card: data })
         })
