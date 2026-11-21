@@ -26,6 +26,11 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     options.add_preference("profile.password_manager_enabled", false)
     options.add_preference("profile.password_manager_leak_detection", false)
     options.add_argument("--disable-features=PasswordLeakDetection,PasswordManagerOnboarding")
+    # Linux CI containers: Chrome cannot use the sandbox or the small /dev/shm there.
+    if ENV["CI"].present?
+      options.add_argument("--no-sandbox")
+      options.add_argument("--disable-dev-shm-usage")
+    end
   end
 
   # Clicks a data-reflex element once no earlier reflex action is still in flight (reflex_actions.js
