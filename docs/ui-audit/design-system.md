@@ -61,7 +61,7 @@ tokens + `@layer components`). The same tokens, styles and components live in Fi
 - Spacing: Tailwind's 4px scale (`--spacing: 0.25rem`). Page gutters 16 / 24 / 32px (`px-4 sm:px-6 lg:px-8`), card padding 20px,
   section gap 24px.
 - Radius: `--radius-xs` 4px (focus outlines), `--radius-sm` 6px, `--radius-md` 8px (buttons, inputs, menus), `--radius-lg` 12px (cards, modals), full (badges, avatars).
-- Shadows: `shadow-xs` (buttons, inputs), `shadow-sm` (auth card), `shadow-md` (flash), `shadow-lg` (dropdowns), `shadow-xl` (modals) — slate-tinted, low opacity.
+- Shadows: `shadow-xs` (buttons, inputs), `shadow-sm` (auth card), `shadow-lg` (toasts), `shadow-lg` (dropdowns), `shadow-xl` (modals) — slate-tinted, low opacity.
 
 ## Components
 
@@ -79,7 +79,7 @@ tokens + `@layer components`). The same tokens, styles and components live in Fi
 | Side menu | `.selected`, `.unselected`, `.svg-icon` | Account, settings and archive menus. |
 | Dropdown | `.dropdown-panel`, `.dropdown-item` | `data-dropdown-target="menu"` markup unchanged. |
 | Modal | `shared/_modal`, `_comment`, `_assessment` | Overlay `bg-gray-900/50` (the v3 `bg-opacity-75` no longer exists in Tailwind 4, so the overlay was solid grey), panel `rounded-xl shadow-xl`. |
-| Flash | `.flash-notice`, `.flash-alert` | Still `p.notice` / `p.alert` (tests select them); hidden when empty. |
+| Flash / toast | `.toast-region`, `.flash-notice`, `.flash-alert`, `.toast-floating` | Floating toasts in a fixed top-centre region (they overlay the page, no layout shift). Still `p.notice` / `p.alert` (tests select them); notices fade after 6 s, alerts have a close button. In-form success confirmations (`devise/shared/_success_message`) float the same way; validation error lists stay inline next to their fields. |
 | Empty state | `.empty-state` | `shared/_no_result_found` and "No record found." texts unchanged. |
 | Pagination | classes on `shared/_paginator` only | Logic belongs to the Pagy upgrade; only CSS classes changed. |
 | Trix | `trix-toolbar`, `trix-editor` in `actiontext.css` | Toolbar and editor match `.form-text-field`. |

@@ -30,8 +30,10 @@
       <%= render "shared/navbar/navbar" %>
       <div id="modal"></div>
     <% end %>
-    <%= render Ui::FlashComponent.new(:notice, notice) %>
-    <%= render Ui::FlashComponent.new(:alert, alert) %>
+    <%= render Ui::ToastRegionComponent.new(below_app_bar: user_signed_in?) do %>
+      <%= render Ui::FlashComponent.new(:notice, notice) %>
+      <%= render Ui::FlashComponent.new(:alert, alert) %>
+    <% end %>
     <main class="pb-12">
       <%= yield %>
     </main>

@@ -99,7 +99,8 @@ Views = number of view templates that render the component directly; "via" lists
 
 | Component | Variants / API | Views | Also used by |
 |---|---|---|---|
-| `Ui::FlashComponent` | Flash message. Keeps `p.notice` / `p.alert` (system tests select them) and hides itself when empty.<br>`render Ui::FlashComponent.new(:notice, notice)` | 1 (2 uses) | – |
+| `Ui::FlashComponent` | Flash message as a floating toast (never pushes the page down). Keeps `p.notice` / `p.alert` (system tests select them); renders nothing when blank. Notices fade after 6 s, alerts stay until dismissed (×).<br>`render Ui::FlashComponent.new(:notice, notice)` |
+| `Ui::ToastRegionComponent` | Fixed, top-centred live region that stacks toasts over the page (below the app bar when signed in).<br>`render Ui::ToastRegionComponent.new(below_app_bar: user_signed_in?) do ... end` |
 | `Ui::AlertComponent` | Inline message box: success confirmation, information (block content) or a list of validation errors.<br>`render Ui::AlertComponent.new(:success, message: "Saved", data: { controller: "auto-dismiss" })` | 3 (3 uses) | – |
 | `Ui::EmptyStateComponent` | "Nothing here" block. Title + message, optional icon and action.<br>`render Ui::EmptyStateComponent.new(title: "No result found", message: "No project has been created yet.")` | 5 (5 uses) | – |
 | `Ui::StatusBannerComponent` | Coloured status strip with an icon, a message and an optional action button (publish / complete / submit). The reflex pages re-render it through a turbo wrapper, so the action carries its own `data-reflex` attributes.<br>`render Ui::StatusBannerComponent.new(tone: :success) do \|banner\|` | 3 (6 uses) | – |
@@ -696,7 +697,8 @@ Views = number of view templates that render the component directly; "via" lists
 
 ```ruby
 # app/components/ui/flash_component.rb
-# Flash message. Keeps `p.notice` / `p.alert` (system tests select them) and hides itself when empty.
+# Flash message, shown as a floating toast inside Ui::ToastRegionComponent. Keeps `p.notice` / `p.alert`
+# (system tests select them). Renders nothing when blank. Notices fade out; alerts stay until dismissed.
 #
 #   render Ui::FlashComponent.new(:notice, notice)
 #   render Ui::FlashComponent.new(:alert, alert)

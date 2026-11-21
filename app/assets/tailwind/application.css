@@ -174,8 +174,10 @@
   @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium whitespace-nowrap;
 }
 
+/* Toasts: transient messages float over the page (fixed region, see Ui::ToastRegionComponent)
+   instead of pushing content down. */
 @utility flash {
-  @apply mx-auto mt-4 flex w-fit max-w-[calc(100%-2rem)] items-center gap-2 rounded-md border px-4 py-2.5 text-sm font-medium shadow-md;
+  @apply pointer-events-auto flex w-full max-w-md items-start gap-3 rounded-lg border px-4 py-3 text-sm font-medium shadow-lg;
 }
 
 /* ------------------------------------------------------------ components */
@@ -382,6 +384,23 @@
 
   .flash-alert {
     @apply flash border-red-200 bg-red-50 text-red-800;
+  }
+
+  .toast-region {
+    @apply pointer-events-none fixed inset-x-0 z-50 flex flex-col items-center gap-2 px-4;
+  }
+
+  .flash-message {
+    @apply flex-1;
+  }
+
+  .flash-dismiss {
+    @apply -mr-1 inline-flex shrink-0 cursor-pointer rounded-md p-0.5 opacity-70 hover:opacity-100 focus-visible:ring-2 focus-visible:ring-primary-500;
+  }
+
+  /* An inline confirmation rendered inside a form (devise/shared/_success_message) floats like a flash toast. */
+  .toast-floating {
+    @apply pointer-events-auto fixed inset-x-0 top-16 z-50 mx-auto w-[calc(100%-2rem)] max-w-md shadow-lg;
   }
 
   .empty-state {
