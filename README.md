@@ -14,14 +14,25 @@ bin/dev                         # Rails server + Tailwind watcher (Procfile.dev)
 `config/database.yml` is driven by environment variables (`DB_HOST`, `DB_PORT`, `DB_USERNAME`, `DB_PASSWORD`).
 Set `DB_NAME` to give a checkout or worktree its own pair of databases (`${DB_NAME}_development` / `${DB_NAME}_test`).
 
-## Tests
+## Running tests
 
 ```bash
-bin/rails test                  # models, controllers, mailers, jobs, interactors
-bin/rails test test/system      # Selenium + Chrome
+bin/rails test                  # models, controllers, mailers, jobs, interactors, ViewComponents
+bin/rails test test/system      # Selenium + headless Chrome
 bundle exec brakeman -q
 bundle exec bundle-audit check --update
 ```
+
+Tests run in parallel: Rails forks one worker per core (at most 8 by default), and each worker gets its own database
+(`${DB_NAME}_test-N`, created and loaded automatically) and its own Active Storage directory (`tmp/storage-N`).
+
+| Variable | Effect |
+|---|---|
+| `PARALLEL_WORKERS=n` | Number of workers. `PARALLEL_WORKERS=1` runs everything serially (use it to debug an order problem). |
+| `HEADED=1` | System tests open a visible Chrome instead of headless (combine with `PARALLEL_WORKERS=1` to watch one test). |
+
+Each worker starts its own Chrome and Capybara server on a free port. Failed system tests leave screenshots in `tmp/screenshots`.
+Component previews (development only) are at `/rails/view_components`.
 
 ## Deployment
 

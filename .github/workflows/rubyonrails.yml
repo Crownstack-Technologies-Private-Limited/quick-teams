@@ -55,10 +55,12 @@ jobs:
           QUEUE_DATABASE_URL: postgres://postgres:postgres@localhost:5432/ci_production_queue
           CABLE_DATABASE_URL: postgres://postgres:postgres@localhost:5432/ci_production_cable
         run: bin/rails db:prepare && bin/rails solid_queue:check
-      - name: Unit tests
-        run: bin/rails test
-      - name: System tests (Selenium + Chrome preinstalled on the runner)
-        run: bin/rails test test/system
+      # Tests run in parallel: one forked worker (own database and storage directory) per core. System tests
+      # drive headless Chrome (preinstalled on the runner); set HEADED=1 locally to watch one.
+      - name: Unit and component tests
+        run: PARALLEL_WORKERS=$(nproc) bin/rails test
+      - name: System tests (Selenium + headless Chrome)
+        run: PARALLEL_WORKERS=$(nproc) bin/rails test test/system
       - name: Keep screenshots of failed system tests
         if: failure()
         uses: actions/upload-artifact@v4
