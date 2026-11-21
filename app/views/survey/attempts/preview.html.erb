@@ -47,7 +47,7 @@
             <label for="comment" class="block text-sm  py-2 font-medium text-gray-700">
               Comments (optional)
             </label>
-            <%= form.text_area :comment, rows: "4", autocomplete: "off", class: "w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block sm:text-sm border-gray-300 rounded-md" %>
+            <%= form.text_area :comment, rows: "4", autocomplete: "off", class: "form-text-field" %>
           </div>
           <div class=" sm:col-span-4 px-6 flex justify-end overflow-y-auto py-6">
             <%= render Ui::BackButtonComponent.new() %>

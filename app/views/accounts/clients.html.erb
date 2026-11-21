@@ -17,12 +17,10 @@
               Add New Client
             </label>
             <div class="flex mt-1 space-x-4">
-              <input placeholder="Frist Name" type="text" name="project_name" id="first_name" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm">
-              <input placeholder="Last Name" type="text" name="project_name" id="last_name" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm">
-              <input placeholder="Email" type="text" name="project_name" id="email" class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm">
-              <button type="submit" class="inline-flex justify-center justify-end px-4 py-2 ml-3 text-sm font-medium text-white bg-blue-500 border border-transparent rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-blue-500">
-                Add
-              </button>
+              <input placeholder="Frist Name" type="text" name="project_name" id="first_name" class="form-text-field">
+              <input placeholder="Last Name" type="text" name="project_name" id="last_name" class="form-text-field">
+              <input placeholder="Email" type="text" name="project_name" id="email" class="form-text-field">
+              <%= render Ui::ButtonComponent.new("Add", type: "submit", class: "ml-3") %>
             </div>
           </div>
           <!-- This example requires Tailwind CSS v2.0+ -->

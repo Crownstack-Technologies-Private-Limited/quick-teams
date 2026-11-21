@@ -6,7 +6,6 @@
         <%= render "shared/form_messages", resource: survey, message: local_assigns[:message] %>
         <div class="flex justify-center w-full max-w-sm lg:justify-end" >
           <div class="w-full max-w-sm lg:max-w-sm">
-            <label for="skill" class="form-label"></label>
             <div class="mt-1">
               <%= tailwind_form_with(url: survey_assignees_path(survey), method: "post") do |f| %>
                 <%= f.collection_select(:assign_id, assigns.decorate, :id, :full_display_name, { :prompt => "Select Assignee" }, :class => "form-text-field mt-1") %>
@@ -15,13 +14,7 @@
                 </div>
               <% end %>
             </div>
-            <div class="relative">
-              <div class="absolute left-0 z-10 block w-full mt-2 origin-top-right bg-white rounded-md shadow-lg ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                <ul data-nav-search-target="results">
-                </ul>
-              </div>
-            </div>
-          </div>
+                      </div>
         </div>
       <% end %>
     </div>
