@@ -14,17 +14,12 @@
       </label>
       <%= form.collection_select(:manager_id, User.all_users.decorate, :id, :display_name_position, { :prompt => "Select Manager" }, :selected => project.manager_id, :class => "form-text-field mt-1") %>
     </div>
-    <div>
-      <label for="manager" class="form-label mt-4">
-        Select Observers
-      </label>
-      <select name="project[observers][]" id="project_observers" multiple="multiple" data-controller="slimselect" class="form-text-field mt-1">
-        <%= options_for_select(User.all_users.decorate.map { |u| [u.display_name, u.id] }, project.observers.pluck(:id)) %>
-      </select>
-    </div>
+    <%= render Ui::FormFieldComponent.new(label: "Select Observers", for_id: "project_observers") do %>
+      <%= select_tag "project[observers][]", options_for_select(User.all_users.decorate.map { |u| [u.display_name, u.id] }, project.observers.pluck(:id)), id: "project_observers", multiple: true, data: { controller: "slimselect" }, class: "form-text-field" %>
+    <% end %>
     <div class="flex items-center justify-between">
       <div class="flex items-center">
-        <%= form.check_box :billable, class: "w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" %>
+        <%= form.check_box :billable, class: "form-check" %>
         <label for="remember_me" class="block ml-2 text-sm text-gray-900">
           This Project is billable. Uncheck to mark internal or unbillable. 
         </label>

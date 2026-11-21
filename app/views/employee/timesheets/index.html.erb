@@ -43,14 +43,10 @@
                 <div class="px-4">
                   <% if policy([@employee, Timesheet]).show_timesheet_stats_menu? %>
                     <div class="flex justify-center mt-4" data-employee-id="<%= @employee.id %>">
-                      <span class="relative z-0 inline-flex rounded-md shadow-sm">
-                        <button type="button" data-reflex="click->EmployeeTimesheetsStats#last_week" data-reflex-dataset="combined" class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
-                          Last Week
-                        </button>
-                        <button type="button" data-reflex="click->EmployeeTimesheetsStats#last_month" data-reflex-dataset="combined" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
-                          Last Month
-                        </button>
-                      </span>
+                      <%= render Ui::ButtonGroupComponent.new do |group| %>
+  <% group.with_button("Last Week", data: { reflex: "click->EmployeeTimesheetsStats#last_week", "reflex-dataset": "combined" }) %>
+  <% group.with_button("Last Month", data: { reflex: "click->EmployeeTimesheetsStats#last_month", "reflex-dataset": "combined" }) %>
+<% end %>
                     </div>
                   <% end %>
                   <div id="stats">

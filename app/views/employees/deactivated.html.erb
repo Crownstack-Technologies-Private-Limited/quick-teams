@@ -24,13 +24,9 @@
         <% end %>
         <div class="overflow-hidden bg-white" data-controller="infinite-scroll">
           <div>
-            <table class="table border-separate mt-4">
-              <thead class="bg-gray-50">
-              </thead>
-              <tbody class="table-body " id="employees" data-infinite-scroll-target="entries">
-                <%= render partial: "employees/deactivated_user", collection: @employees, as: :deactivated_user, cached: true %>
-              </tbody>
-            </table>
+            <%= render Ui::TableComponent.new(table_class: "border-separate mt-4", body_options: { id: "employees", data: { "infinite-scroll-target": "entries" } }) do %>
+              <%= render partial: "employees/deactivated_user", collection: @employees, as: :deactivated_user, cached: true %>
+            <% end %>
             <%= render Ui::PaginationComponent.new(@pagy, class: "invisible", data: { "infinite-scroll-target": "pagination" }) %>
           </div>
         </div>

@@ -23,14 +23,10 @@
         <p class="mt-2 p-4 max-w-4xl text-sm text-gray-500">No KPIs have been assinged yet. If you are an admin, you can set KPIs from surveys page. If not, please connect with the admin. </p>
       <% else %>
         <div class="flex justify-center mt-4" data-employee-id="<%= @employee.id %>">
-          <span class="relative z-0 inline-flex rounded-md shadow-sm">
-            <button type="button" data-reflex="click->EmployeeKpi#self_assessment" data-reflex-dataset="combined" class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
-              Self Assessment
-            </button>
-            <button type="button" data-reflex="click->EmployeeKpi#team_assessment" data-reflex-dataset="combined" class="relative inline-flex items-center px-4 py-2 -ml-px text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
-              Team Assessment
-            </button>
-          </span>
+          <%= render Ui::ButtonGroupComponent.new do |group| %>
+  <% group.with_button("Self Assessment", data: { reflex: "click->EmployeeKpi#self_assessment", "reflex-dataset": "combined" }) %>
+  <% group.with_button("Team Assessment", data: { reflex: "click->EmployeeKpi#team_assessment", "reflex-dataset": "combined" }) %>
+<% end %>
         </div>
         <%= turbo_frame_tag "stats", src: "/#{@employee.account.id}/employees/#{@employee.id}/kpis/#{@kpi.id}/stats", target: "_top", loading: :lazy do %>
           <%= render Ui::LoadingComponent.new("Hold on a sec while I fetch stats...") %>
