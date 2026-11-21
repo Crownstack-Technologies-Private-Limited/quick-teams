@@ -1,0 +1,9 @@
+<%= tag.div(**@html_options, class: ["flex flex-wrap items-center gap-y-2", @html_options[:class]].compact.join(" "), role: "radiogroup", "aria-label": @label) do %>
+  <% if @label %><span class="text-sm"><%= @label %></span><% end %>
+  <% @options.each_with_index do |(value, text, color), index| %>
+    <div class="flex items-center <%= index.zero? ? "ml-2" : "ml-4" %> text-sm">
+      <%= radio_button_tag @name, value, @selected.to_s == value.to_s, id: radio_id(value), class: "w-4 h-4 text-#{color}-600 border-gray-300 cursor-pointer focus:ring-#{color}-500" %>
+      <%= tag.label(text, for: radio_id(value), class: "ml-1 font-medium text-gray-900 cursor-pointer") %>
+    </div>
+  <% end %>
+<% end %>

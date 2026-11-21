@@ -7,7 +7,7 @@ module Ui
   #     form.check_box(:billable, class: Ui::CheckboxFieldComponent::INPUT_CLASS)
   #   end
   class CheckboxFieldComponent < ViewComponent::Base
-    INPUT_CLASS = "w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
+    INPUT_CLASS = "form-check"
 
     def initialize(label:, for_id: nil)
       @label = label

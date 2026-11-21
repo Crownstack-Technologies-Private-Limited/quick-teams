@@ -1,8 +1,10 @@
 <%= tag.table(**table_options) do %>
-  <thead class="bg-gray-50">
-    <tr>
-      <% columns.each do |column| %><%= column %><% end %>
-    </tr>
-  </thead>
+  <% if columns.any? %>
+    <thead class="bg-gray-50">
+      <tr>
+        <% columns.each do |column| %><%= column %><% end %>
+      </tr>
+    </thead>
+  <% end %>
   <%= tag.tbody(**body_attributes) { content } %>
 <% end %>
