@@ -1,6 +1,6 @@
 # Quick Teams UI components
 
-A library of 44 reusable [ViewComponent](https://viewcomponent.org) components in `app/components/ui/`. Every view in the
+A library of 51 reusable [ViewComponent](https://viewcomponent.org) components in `app/components/ui/`. Every view in the
 app is built from them. They wrap the design tokens and CSS classes from [design-system.md](design-system.md)
 (`app/assets/tailwind/application.css`): there is no second styling system. Markup, ids, `data-*` attributes (including `data-reflex`),
 turbo-frame ids and form field names are unchanged from the views they replaced.
@@ -29,10 +29,12 @@ Views = number of view templates that render the component directly; "via" lists
 
 | Component | Variants / API | Views | Also used by |
 |---|---|---|---|
-| `Ui::ButtonComponent` | Button or link-button. Wraps the .btn-* classes from app/assets/tailwind/application.css.<br>`render Ui::ButtonComponent.new("New Project", href: new_project_path)` | 72 (79 uses) | `back_button`, `button_helper`, `card`, `modal`, `page_header` |
-| `Ui::SubmitButtonComponent` | Submit input for a form builder: same &lt;input type="submit"> (name="commit", data-disable-with) as `form.submit`, with the standard button classes.<br>`render Ui::SubmitButtonComponent.new(form, "Save")` | 95 (98 uses) | – |
+| `Ui::ButtonComponent` | Button or link-button. Wraps the .btn-* classes from app/assets/tailwind/application.css.<br>`render Ui::ButtonComponent.new("New Project", href: new_project_path)` | 76 (85 uses) | `back_button`, `button_helper`, `card`, `modal`, `page_header` |
+| `Ui::SubmitButtonComponent` | Submit input for a form builder: same &lt;input type="submit"> (name="commit", data-disable-with) as `form.submit`, with the standard button classes.<br>`render Ui::SubmitButtonComponent.new(form, "Save")` | 97 (100 uses) | – |
+| `Ui::SplitSubmitButtonComponent` | Submit button with an optional "and do X" menu next to it (comment forms). Each option is another submit input of the same form. Needs an ancestor with `data-controller="dropdown"` (the Stimulus dropdown).<br>`render Ui::SplitSubmitButtonComponent.new(form, "Comment") do \|button\|` | 2 (2 uses) | – |
+| `Ui::ButtonGroupComponent` | Joined row of secondary buttons (segmented control). Rounding of the first and last button comes from CSS.<br>`render Ui::ButtonGroupComponent.new do \|group\|` | 3 (3 uses) | – |
 | `Ui::BackButtonComponent` | "Back" secondary button (browser history by default).<br>`render Ui::BackButtonComponent.new` | 29 (30 uses) | `form_actions`, `form_page` |
-| `Ui::TextLinkComponent` | Inline text link. tone: :brand (auth pages, "forgot password") :strong (names inside sentences) or :row (record names in table rows).<br>`render Ui::TextLinkComponent.new("Log in", new_user_session_path)` | 74 (145 uses) | – |
+| `Ui::TextLinkComponent` | Inline text link. tone: :brand (auth pages, "forgot password") :strong (names inside sentences) or :row (record names in table rows) or :plain (wraps larger blocks).<br>`render Ui::TextLinkComponent.new("Log in", new_user_session_path)` | 78 (153 uses) | – |
 | `Ui::KebabMenuComponent` | "More actions" (⋯) menu: an icon-only trigger button and a dropdown panel with the block's links.<br>`render Ui::KebabMenuComponent.new(button_id: "comment-menu", label: "Comment actions") do` | 4 (4 uses) | – |
 | `Ui::DropdownComponent` | Dropdown menu driven by the Stimulus `dropdown` controller (click toggles, click outside / Esc hides).<br>`render Ui::DropdownComponent.new(button_id: "menu-button", button_variant: :secondary) do \|dd\|` | 4 (6 uses) | `kebab_menu` |
 
@@ -40,13 +42,14 @@ Views = number of view templates that render the component directly; "via" lists
 
 | Component | Variants / API | Views | Also used by |
 |---|---|---|---|
-| `Ui::PageComponent` | Outermost wrapper of a full page body (inside the layout's &lt;main>).<br>`render Ui::PageComponent.new { render "employee/title", employee: @employee ... }` | 55 (55 uses) | – |
-| `Ui::PageHeaderComponent` | Page title row: &lt;h1> + optional meta (count / position) on the left, actions on the right.<br>`render Ui::PageHeaderComponent.new(title: "Projects", subtitle: "(12 projects)") do \|header\|` | 23 (23 uses) | – |
-| `Ui::SectionHeadingComponent` | Heading + supporting text for a form or section (title/subtitle block above a form).<br>`render Ui::SectionHeadingComponent.new(title: "Profile", subtitle: "Update your details")` | 1 (1 uses) | – |
+| `Ui::PageComponent` | Outermost wrapper of a full page body (inside the layout's &lt;main>).<br>`render Ui::PageComponent.new { render "employee/title", employee: @employee ... }` | 56 (56 uses) | – |
+| `Ui::PageHeaderComponent` | Page title row: &lt;h1> + optional meta (count / position) on the left, actions on the right.<br>`render Ui::PageHeaderComponent.new(title: "Projects", subtitle: "(12 projects)") do \|header\|` | 24 (24 uses) | – |
+| `Ui::SectionHeadingComponent` | Heading + supporting text for a form or section (title/subtitle block above a form).<br>`render Ui::SectionHeadingComponent.new(title: "Profile", subtitle: "Update your details")` | 3 (4 uses) | – |
 | `Ui::SplitLayoutComponent` | The main page body of detail pages: a wide primary column (lists, tables) and a secondary column (forms, stats) that sits beside it on large screens and below it on small ones.<br>`render Ui::SplitLayoutComponent.new do \|layout\|` | 26 (26 uses) | – |
 | `Ui::SettingsLayoutComponent` | Two-column settings page: side menu on the left, content on the right.<br>`render Ui::SettingsLayoutComponent.new(menu: :account) do` | 23 (23 uses) | – |
 | `Ui::FormPageComponent` | Centered page for a single card form (account edit, invitations): title row, optional subtitle and actions.<br>`render Ui::FormPageComponent.new(title: "Edit User", subtitle: "Change your sign-in details.", max_width: "max-w-2xl") do \|page\|` | 3 (3 uses) | – |
-| `Ui::FormContainerComponent` | Centered narrow column that holds a form page (heading, fields, buttons) with consistent spacing.<br>`render Ui::FormContainerComponent.new { ...form fields... }` | 66 (66 uses) | – |
+| `Ui::FormContainerComponent` | Centered narrow column that holds a form page (heading, fields, buttons) with consistent spacing.<br>`render Ui::FormContainerComponent.new { ...form fields... }` | 67 (67 uses) | – |
+| `Ui::LinkListComponent` | Titled list of links (the reports index: "Goals", "Schedules"...).<br>`render Ui::LinkListComponent.new(title: "Goals") do \|list\|` | 1 (7 uses) | – |
 | `Ui::AuthPageComponent` | Signed-out page shell: gradient background, brand mark, title (+ optional subtitle), then the form.<br>`render Ui::AuthPageComponent.new(title: "Sign in to your account", heading_tag: :h1) do \|page\|` | 6 (6 uses) | – |
 | `Ui::AuthCardComponent` | The white card holding an auth form, with validation errors above it. Render it inside `form_for` so the card's fields belong to the form.<br>`render Ui::AuthCardComponent.new(resource: resource, class: "mt-4") do` | 6 (6 uses) | – |
 | `Ui::TabsComponent` | Horizontal tab bar of links; the current page is selected (aria-current="page").<br>`render Ui::TabsComponent.new(id: "ticket-tabs") do \|tabs\|` | 4 (4 uses) | – |
@@ -57,12 +60,12 @@ Views = number of view templates that render the component directly; "via" lists
 
 | Component | Variants / API | Views | Also used by |
 |---|---|---|---|
-| `Ui::TableComponent` | Data table: header row from `columns`, body rows from the block (usually a partial per row).<br>`render Ui::TableComponent.new(body_options: { id: "todos", data: { "infinite-scroll-target": "entries" } }) do \|table\|` | 50 (50 uses) | – |
+| `Ui::TableComponent` | Data table: header row from `columns`, body rows from the block (usually a partial per row).<br>`render Ui::TableComponent.new(body_options: { id: "todos", data: { "infinite-scroll-target": "entries" } }) do \|table\|` | 54 (54 uses) | – |
 | `Ui::ListRowComponent` | One row of a simple list (account settings: disciplines, roles, tags...). Wrap in the turbo-frame yourself.<br>`render Ui::ListRowComponent.new(title: role.name.titleize, subtitle: nil) do \|row\|` | 13 (13 uses) | – |
 | `Ui::CardComponent` | Surface for lists, tables, settings panels. Wraps .card / .card-header / .card-title / .card-body.<br>`render Ui::CardComponent.new(title: "Details") do \|card\|` | 1 (1 uses) | – |
-| `Ui::StatCardComponent` | Metric: small muted label, large value. `variant: :card` is a bordered tile; `:plain` sits inline in a grid.<br>`render Ui::StatCardComponent.new(label: "Billable", value: 12, hint: "of 20 resources")` | 2 (6 uses) | – |
+| `Ui::StatCardComponent` | Metric: small muted label, large value. `variant: :card` is a bordered tile; `:plain` sits inline in a grid.<br>`render Ui::StatCardComponent.new(label: "Billable", value: 12, hint: "of 20 resources")` | 3 (7 uses) | – |
 | `Ui::StatStripComponent` | Row of centred headline numbers (report totals). Four across on medium screens, stacked on mobile.<br>`render Ui::StatStripComponent.new(columns: 4) do \|strip\|` | 3 (3 uses) | – |
-| `Ui::BadgeComponent` | Status pill / tag / count. Wraps .badge-{color}.<br>`render Ui::BadgeComponent.new("Active", color: :green)` | 2 (2 uses) | – |
+| `Ui::BadgeComponent` | Status pill / tag / count. Wraps .badge-{color}.<br>`render Ui::BadgeComponent.new("Active", color: :green)` | 3 (3 uses) | – |
 | `Ui::TagComponent` | Coloured chip for tags and statuses. Colours are Tailwind colour names stored on the record ("blue", "red").<br>`render Ui::TagComponent.new(tag.name, color: tag.color)                       # table cell` | 28 (36 uses) | – |
 | `Ui::StatusDotComponent` | Small coloured dot for statuses (project status colour).<br>`render Ui::StatusDotComponent.new(color: project.status&.color \|\| "white")` | 7 (7 uses) | `list_row` |
 | `Ui::AvatarComponent` | User avatar: uploaded image, or initials on a brand tint. Same markup the AvatarHelper always produced.<br>`render Ui::AvatarComponent.new(user, size: :sm)` | 0 (0 uses) | `avatar_group`, `avatar_helper`, `billable_avatar`, `timeline_item` |
@@ -76,11 +79,14 @@ Views = number of view templates that render the component directly; "via" lists
 
 | Component | Variants / API | Views | Also used by |
 |---|---|---|---|
-| `Ui::FormFieldComponent` | Label + control + help/error text, for controls the form builder does not wrap (selects, checkboxes, custom controls). The control is the block content.<br>`render Ui::FormFieldComponent.new(label: "Discipline", for_id: "employee_discipline_id", help: "Optional") do` | 6 (14 uses) | – |
+| `Ui::FormFieldComponent` | Label + control + help/error text, for controls the form builder does not wrap (selects, checkboxes, custom controls). The control is the block content.<br>`render Ui::FormFieldComponent.new(label: "Discipline", for_id: "employee_discipline_id", help: "Optional") do` | 8 (16 uses) | – |
 | `Ui::CheckboxFieldComponent` | Checkbox with its explanatory label on one row. The checkbox itself (from the form builder) is the block.<br>`render Ui::CheckboxFieldComponent.new(label: "Billable", for_id: "employee_billable") do` | 1 (2 uses) | – |
 | `Ui::FormActionsComponent` | Row of form buttons aligned to the end (Back + Save).<br>`render Ui::FormActionsComponent.new do` | 41 (41 uses) | – |
 | `Ui::ColorPickerComponent` | Radio group for choosing a tag colour; each option shows a coloured chip.<br>`render Ui::ColorPickerComponent.new(name: "people_tag[color]", selected: tag.color, id_prefix: "people_tag")` | 10 (10 uses) | – |
-| `Ui::SearchFieldComponent` | Search input with a live results panel, driven by the Stimulus `nav-search` controller (it fetches `url` as you type and fills the `results` list).<br>`render Ui::SearchFieldComponent.new(url: "/search/surveys", placeholder: "Search Survey")` | 5 (5 uses) | – |
+| `Ui::RadioGroupComponent` | Inline group of radio buttons with coloured labels (the "Nature of comment" choice).<br>`render Ui::RadioGroupComponent.new(name: "comment[status]", label: "Nature Of comment", selected: "stale",` | 4 (4 uses) | – |
+| `Ui::SearchFieldComponent` | Search input with a live results panel, driven by the Stimulus `nav-search` controller (it fetches `url` as you type and fills the `results` list).<br>`render Ui::SearchFieldComponent.new(url: "/search/surveys", placeholder: "Search Survey")` | 7 (7 uses) | `search_result` |
+| `Ui::SearchResultComponent` | One option in a live-search results list (rendered into the `results` target of Ui::SearchFieldComponent). With `href:` the option sits inside a link; reflex options pass `data:` / `id:`.<br>`render Ui::SearchResultComponent.new(href: employee_team_path(e)) { e.display_name }` | 9 (11 uses) | – |
+| `Ui::SearchDividerComponent` | Labelled rule between groups of search results ("Projects", "Jobs").<br>`render Ui::SearchDividerComponent.new("Projects")` | 1 (2 uses) | – |
 | `Ui::InlineErrorsComponent` | Validation messages shown above an inline edit row. Renders nothing for nil / empty.<br>`render Ui::InlineErrorsComponent.new(local_assigns[:messages])` | 12 (12 uses) | – |
 
 ### Feedback and overlays
@@ -91,8 +97,9 @@ Views = number of view templates that render the component directly; "via" lists
 | `Ui::AlertComponent` | Inline message box: success confirmation or a list of validation errors.<br>`render Ui::AlertComponent.new(:success, message: "Saved", data: { controller: "auto-dismiss" })` | 2 (2 uses) | – |
 | `Ui::EmptyStateComponent` | "Nothing here" block. Title + message, optional icon and action.<br>`render Ui::EmptyStateComponent.new(title: "No result found", message: "No project has been created yet.")` | 3 (3 uses) | – |
 | `Ui::LoadingComponent` | Placeholder text shown inside a lazy turbo-frame until its content arrives.<br>`turbo_frame_tag "events", src: events_path, loading: :lazy do` | 5 (8 uses) | – |
+| `Ui::TextComponent` | A paragraph with the app's text scale: size, tone and alignment instead of hand-written class strings.<br>`render Ui::TextComponent.new("No record found.", align: :right)` | 4 (7 uses) | – |
 | `Ui::ModalComponent` | Modal dialog rendered into &lt;div id="modal"> (the Stimulus `modal` controller closes it).<br>`render Ui::ModalComponent.new(title: "Deactivate?", icon: :exclamation) do \|modal\|` | 5 (5 uses) | – |
-| `Ui::IconComponent` | Inline SVG icon (Heroicons v1 paths already used across the app).<br>`render Ui::IconComponent.new(:search, class: "h-4 w-4 text-gray-400")` | 34 (62 uses) | `alert`, `button`, `dropdown`, `empty_state`, `kebab_menu`, `modal`, `search_field`, `side_menu`, `tag` |
+| `Ui::IconComponent` | Inline SVG icon (Heroicons v1 paths already used across the app).<br>`render Ui::IconComponent.new(:search, class: "h-4 w-4 text-gray-400")` | 34 (60 uses) | `alert`, `button`, `dropdown`, `empty_state`, `kebab_menu`, `modal`, `search_field`, `side_menu`, `split_submit_button`, `tag` |
 
 ## Reference
 
@@ -123,6 +130,30 @@ Views = number of view templates that render the component directly; "via" lists
 #   render Ui::SubmitButtonComponent.new(form, "Save", class: "ml-2", id: "save")
 ```
 
+### `Ui::SplitSubmitButtonComponent`
+
+```ruby
+# app/components/ui/split_submit_button_component.rb
+# Submit button with an optional "and do X" menu next to it (comment forms). Each option is another submit
+# input of the same form. Needs an ancestor with `data-controller="dropdown"` (the Stimulus dropdown).
+#
+#   render Ui::SplitSubmitButtonComponent.new(form, "Comment") do |button|
+#     button.with_option("and mark closed")
+#   end
+```
+
+### `Ui::ButtonGroupComponent`
+
+```ruby
+# app/components/ui/button_group_component.rb
+# Joined row of secondary buttons (segmented control). Rounding of the first and last button comes from CSS.
+#
+#   render Ui::ButtonGroupComponent.new do |group|
+#     group.with_button("Last Week", data: { reflex: "click->EmployeeTimesheetsStats#last_week", "reflex-dataset": "combined" })
+#     group.with_button("Last Month", data: { reflex: "click->EmployeeTimesheetsStats#last_month", "reflex-dataset": "combined" })
+#   end
+```
+
 ### `Ui::BackButtonComponent`
 
 ```ruby
@@ -137,7 +168,7 @@ Views = number of view templates that render the component directly; "via" lists
 
 ```ruby
 # app/components/ui/text_link_component.rb
-# Inline text link. tone: :brand (auth pages, "forgot password") :strong (names inside sentences) or :row (record names in table rows).
+# Inline text link. tone: :brand (auth pages, "forgot password") :strong (names inside sentences) or :row (record names in table rows) or :plain (wraps larger blocks).
 #
 #   render Ui::TextLinkComponent.new("Log in", new_user_session_path)
 #   render Ui::TextLinkComponent.new(user.display_name, employee_path(user), tone: :strong)
@@ -254,6 +285,17 @@ Views = number of view templates that render the component directly; "via" lists
 #
 #   render Ui::FormContainerComponent.new { ...form fields... }
 #   render Ui::FormContainerComponent.new(width: "max-w-2xl", class: "z-10")
+```
+
+### `Ui::LinkListComponent`
+
+```ruby
+# app/components/ui/link_list_component.rb
+# Titled list of links (the reports index: "Goals", "Schedules"...).
+#
+#   render Ui::LinkListComponent.new(title: "Goals") do |list|
+#     list.with_link("All Pending goals", goals_reports_path(status: 0))
+#   end
 ```
 
 ### `Ui::AuthPageComponent`
@@ -511,6 +553,16 @@ Views = number of view templates that render the component directly; "via" lists
 #   render Ui::ColorPickerComponent.new(name: "people_tag[color]", selected: tag.color, id_prefix: "people_tag")
 ```
 
+### `Ui::RadioGroupComponent`
+
+```ruby
+# app/components/ui/radio_group_component.rb
+# Inline group of radio buttons with coloured labels (the "Nature of comment" choice).
+#
+#   render Ui::RadioGroupComponent.new(name: "comment[status]", label: "Nature Of comment", selected: "stale",
+#     options: [["progress", "Progress", "green"], ["stale", "Stale", "yellow"], ["regress", "Regress", "red"]])
+```
+
 ### `Ui::SearchFieldComponent`
 
 ```ruby
@@ -524,6 +576,26 @@ Views = number of view templates that render the component directly; "via" lists
 #
 # variant: :form (regular input, default) or :navbar (compact grey field for the app bar).
 # `label:` renders a visible label; `sr_label:` a screen-reader-only one; otherwise `aria_label` names the input.
+```
+
+### `Ui::SearchResultComponent`
+
+```ruby
+# app/components/ui/search_result_component.rb
+# One option in a live-search results list (rendered into the `results` target of Ui::SearchFieldComponent).
+# With `href:` the option sits inside a link; reflex options pass `data:` / `id:`.
+#
+#   render Ui::SearchResultComponent.new(href: employee_team_path(e)) { e.display_name }
+#   render Ui::SearchResultComponent.new(id: "add", data: { reflex: "click->EmployeeSkills#add", "skill-id": s.id }) { s.name }
+```
+
+### `Ui::SearchDividerComponent`
+
+```ruby
+# app/components/ui/search_divider_component.rb
+# Labelled rule between groups of search results ("Projects", "Jobs").
+#
+#   render Ui::SearchDividerComponent.new("Projects")
 ```
 
 ### `Ui::InlineErrorsComponent`
@@ -574,6 +646,16 @@ Views = number of view templates that render the component directly; "via" lists
 #   turbo_frame_tag "events", src: events_path, loading: :lazy do
 #     render Ui::LoadingComponent.new("Hold on a sec while I fetch events...")
 #   end
+```
+
+### `Ui::TextComponent`
+
+```ruby
+# app/components/ui/text_component.rb
+# A paragraph with the app's text scale: size, tone and alignment instead of hand-written class strings.
+#
+#   render Ui::TextComponent.new("No record found.", align: :right)
+#   render Ui::TextComponent.new("Occupancy 80%", size: :xl, tone: :strong, align: :right, class: "px-8")
 ```
 
 ### `Ui::ModalComponent`
@@ -641,17 +723,35 @@ What was repeated across `app/views/**` (479 templates) before the library, and 
 | Live search boxes (`nav-search` controller) | 5 | `SearchFieldComponent` |
 | Report totals strip, timesheet stats, score bar | 3 + 2 + 1 | `StatStripComponent`, `StatCardComponent`, `ProgressBarComponent` |
 | Cards (danger zone), form button rows, form fields | 1 + 41 + 14 | `CardComponent`, `FormActionsComponent`, `FormFieldComponent`, `CheckboxFieldComponent` |
+| Report index link groups (`h3` + links) | 7 groups, 32 links | `LinkListComponent` |
+| Nav search result options and dividers | 9 views, ~25 options | `SearchResultComponent`, `SearchDividerComponent` |
+| Segmented Last week / Last month and assessment buttons | 3 pairs | `ButtonGroupComponent` |
+| "Comment" submit with an "and mark ..." menu | 3 | `SplitSubmitButtonComponent` |
+| "Nature of comment" radios | 4 | `RadioGroupComponent` |
+| Checkbox / input class strings (`border-gray-300 ... focus:ring-indigo-500`) | 27 files | `.form-check`, `.form-text-field` classes, `FormFieldComponent` |
+| Muted / strong paragraphs and notes | 9 | `TextComponent` |
 
 ## Intentional exceptions
 
-Markup that is still hand-written because no reusable pattern exists or because a system test depends on the exact element:
+Markup that is still hand-written, and why. Everything else in `app/views` renders components.
 
-- **Table row cells** (`td.table-cell`, ~200): they use the design-system class; rows are rendered by cached collection partials.
-- **Split buttons with a dropdown** (`tickets/show_buttons/_assignee`, `_user`, `shared/comments/_ticket`, `_add`): bespoke colour-coded control, used four times.
-- **Reflex toggles and segmented groups** that carry colour by state (`project|employee/todos/show`, `employee/feedbacks/show`, `*/reports/show`,
-  `project|employee/timesheets/index`, `employee/kpis/index`, `survey/attempts/_score_question`, `space/messages/show` scroll buttons,
-  `message_comments/_new`, `report/timesheets/index`). The `data-reflex` attributes are untouched.
-- **Radio groups** (`shared/comments/_ticket`, `_add`, `_report`, `comments/edit`, `survey/attempts/_option`, `user/notifications`).
-- **`button_to` forms** (billing portal, cancel my account) and `a[data-reflex]` "Invite" (`employees/_employee`; tests look for an `a` element).
-- **Avatar uploader** (`user/forms/_avatar`) and the static mock-up `accounts/clients.html.erb`.
-- **Untouched on purpose**: mailers, `layouts/pdf.html.erb`, `survey/pdf/*`, and the Pagy markup in `shared/_paginator` (wrapped by `PaginationComponent`).
+| Where | What | Why it stays |
+|---|---|---|
+| ~200 `td.table-cell` row cells in the row partials (`projects/_project`, `employees/_employee`, ...) | `<td class="table-cell ...">` | `table-cell` is the design-system class for a body cell. Rows are rendered through cached collection partials; a cell component would add an object per cell for no gain. |
+| `tickets/show_buttons/_assignee`, `tickets/show_buttons/_user` | Status chip with a split menu whose colour comes from the ticket status | One-off, colour-coded control (reflex `li` options, dynamic `text-<color>-700` classes); no second use. |
+| `project/todos/show`, `employee/todos/show`, `employee/feedbacks/show`, `project/reports/show`, `employee/reports/show` | Publish / complete toggles (`data-reflex`) coloured by state | State-coloured text buttons with reflex handlers; only these pages have them. `data-reflex` attributes untouched. |
+| `survey/attempts/_score_question`, `survey/attempts/_option` | 1-10 score buttons and answer radios | Reflex-driven survey controls; the tests click these elements directly. |
+| `message_comments/_new`, `report/timesheets/index` | A toggle button and a filter button | Single use inside a Stimulus toggle / report filter. |
+| `user/notifications` | Notification preference form (checkboxes use `.form-check`) | Static settings form with one use of each control. |
+| `employees/_employee` "Invite" | `<a data-reflex="click->InviteEmployee#invite">` without `href` | The system tests find it as an `a` element (`find("a", text: "Invite")`); `ButtonComponent` without `href` renders a `<button>`. |
+| `account/billing/_renew`, `_manage`, `devise/registrations/edit` | `button_to` (a form with one button) | `button_to` is the Rails helper for method/CSRF forms; styled with the `btn-*` classes. |
+| `user/forms/_avatar` | Avatar uploader (hidden file input over the image) | Single use; the inline `onchange` submit is JS behaviour. |
+| `surveys/show` | Empty pagination placeholder `div[data-infinite-scroll-target=pagination]` | The infinite-scroll controller expects the target; there is no `pagy` on this page. |
+| `active_storage/blobs/_blob` | ActionText attachment `<figure>` | Markup and class names are defined by Action Text / `actiontext.css`; only its links use `TextLinkComponent`. |
+| `shared/_paginator` | Pagy 43 nav markup | Wrapped by `PaginationComponent`; the logic belongs to the Pagy upgrade. |
+| Mailers, `layouts/pdf.html.erb`, `survey/pdf/*` | Email and PDF templates | Out of scope by design. |
+
+Cleanups made in the same pass: removed `dark:` classes (the design system is light only), the dead `ring-opacity-*` / `bg-opacity-*`
+utilities (Tailwind 4 does not generate them: the ring rendered solid black, the avatar overlay solid), an empty search-results panel
+and an empty `<label>` in `survey/assignees/_form` (no `nav-search` controller above them), the duplicate results panel in
+`employee/skills/_form`, and the sr-only "Page title" `h1` on detail pages.
