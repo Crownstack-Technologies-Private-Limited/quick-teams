@@ -1,9 +1,9 @@
 name: "Ruby on Rails CI"
 on:
   push:
-    branches: [ "dev", "upgrade" ]
+    branches: [ "main", "dev", "upgrade" ]
   pull_request:
-    branches: [ "dev", "upgrade" ]
+    branches: [ "main", "dev", "upgrade" ]
 
 jobs:
   security:
