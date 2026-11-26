@@ -1,6 +1,83 @@
 # Quick Teams
 
-Rails 8.1 app (importmap + propshaft + tailwindcss-rails, Solid Queue / Solid Cable, Postgres). No Node or Redis needed.
+Quick Teams is a multi-tenant Rails app for running a team: people, projects, schedules, timesheets, goals,
+surveys and reports, all in one place. Each company signs up as its own account and pays through Stripe.
+
+## Tech stack
+
+| Area | Choice |
+|---|---|
+| Language / framework | Ruby 4.0.9, Rails 8.1 |
+| Database | PostgreSQL 16 |
+| Front end | Hotwire (Turbo + Stimulus), ViewComponent, importmap, Propshaft, Tailwind CSS 4 (no Node needed) |
+| Background jobs / websockets | Solid Queue, Solid Cable (no Redis needed) |
+| Auth | Devise, devise_invitable, pwned (rejects leaked passwords) |
+| Multi-tenancy | acts_as_tenant (one tenant per `Account`) |
+| Billing | Pay + Stripe |
+| Files | Active Storage on S3, image_processing |
+| PDFs | wicked_pdf + wkhtmltopdf |
+| Other | Draper decorators, Pagy pagination, New Relic |
+
+## Features
+
+### Accounts, sign-in and billing
+- Sign-up and sign-in, invitations by email, and a check that rejects passwords known to have leaked.
+- Each company is an isolated account; the owner can delete it.
+- Stripe subscriptions: checkout, billing portal, success and expired pages.
+- User settings: profile, password, avatar and personal preferences.
+
+### Account setup
+Admins manage the lists the rest of the app uses: roles, disciplines, skills, jobs, clients, people tags and
+statuses, project tags and statuses, survey question categories, ticket statuses and labels, and account-wide
+preferences (including notifications).
+
+### People
+- Employee directory with filters, search and stats; invite, deactivate and restore people.
+- Each profile has: about, schedules, timesheets, goals, todos, feedback, skills, documents, reports, surveys,
+  KPIs and culture (both with stats), team, timeline and observed projects.
+
+### Projects
+- Create, edit, archive, restore and delete projects, with tags, statuses, clients, filters and stats.
+- Each project has: about, schedules, notes, risks, feedback, timesheets, milestones, todos, skills, reports,
+  documents, surveys, KPIs, clients, timeline and observers.
+
+### Scheduling, planner and occupancy
+- Resource schedule across people and projects.
+- Daily and weekly planner with colour-coded job cards.
+- Occupancy views for the whole account, by job and by role.
+
+### Timesheets, goals and todos
+- Time logging per person and per project, with stats and filters.
+- Goals with comments; todos on people and projects.
+- Home dashboard with goals and events.
+
+### Spaces
+- Discussion spaces with messages and comments; pin, archive and restore spaces.
+
+### Tickets
+- Ticket tracker with open and closed views, statuses, labels and comments.
+
+### Surveys and assessments
+- Build surveys from questions, options and categories; clone surveys; reusable templates with assignees.
+- Assign surveys, take them, preview attempts and see participant and survey stats.
+- Submit and download survey reports, including as PDF; quick assessments from a profile.
+
+### Reports
+Available under `/report`:
+- Timesheets, employees, projects, risks, observers, skills, activities and roles.
+- Goals (all and open), KPIs and a performance report.
+- Schedules: available now and next month, no schedule, no projects, overburdened, shared, by role.
+- Todos: my pending, pending, all pending, recently added, recently finished.
+- Status reports with comments and a submit flow.
+
+### Search and archive
+- Search people, projects, users, surveys and skills.
+- Archive pages for archived projects, deactivated people and archived spaces.
+
+### Email and background jobs
+- Notification emails for comments, feedback, goals, messages, schedules, spaces, tickets and todos.
+- A weekly activity digest email.
+- Cleanup jobs that delete archived projects, deactivated users and old timesheets (see `config/recurring.yml`).
 
 ## Local setup
 
@@ -40,5 +117,3 @@ Production and staging use one database (`DATABASE_URL`). Solid Queue and Solid 
 they are created by ordinary migrations in `db/migrate`, and `bin/render-build.sh` runs `db:migrate`.
 The worker process is `bin/jobs start` (see `Procfile`); `bin/rails solid_queue:check` validates its configuration.
 On macOS, forked Solid Queue workers segfault inside `pg` unless `PGGSSENCMODE=disable` is set (Linux is unaffected).
-
-See `docs/upgrade-plan.md` for the upgrade history and outstanding human actions.
