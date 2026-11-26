@@ -1,0 +1,4 @@
+<span class="relative inline-block" role="img" title="<%= title %>">
+  <%= render Ui::AvatarComponent.new(@employee, size: @size) %>
+  <span class="absolute bottom-0 right-0 block h-2 w-2 rounded-full bg-<%= dot_color %>-400 ring-2 ring-white"></span>
+</span>

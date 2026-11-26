@@ -1,4 +1,4 @@
-class AddProjectRisk < Patterns::Service
+class AddProjectRisk < ApplicationService
   def initialize(project, params, actor)
     @project = project
     @risk = project.risks.new(params)

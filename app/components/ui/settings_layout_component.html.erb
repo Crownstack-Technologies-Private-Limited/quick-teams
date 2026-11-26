@@ -1,0 +1,9 @@
+<main class="pb-10 mx-auto max-w-7xl lg:py-12 lg:px-8">
+  <div class="lg:grid lg:grid-cols-12 lg:gap-x-5">
+    <%= helpers.render menu_partial %>
+    <main class="<%= content_class %>">
+      <%= content %>
+    </main>
+    <%= aside_content %>
+  </div>
+</main>

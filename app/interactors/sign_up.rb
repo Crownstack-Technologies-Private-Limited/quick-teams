@@ -1,14 +1,17 @@
-class SignUp < Patterns::Service
+class SignUp < ApplicationService
   def initialize(account, user)
     @account = account
     @user = user
   end
 
+  # Returns the user: persisted on success, unsaved if registration failed (the form shows the errors).
+  # Errors are reported instead of being silently swallowed; a failed trial does not undo the sign-up.
   def call
     register
-    set_stripe_subscription_trial
+    start_trial
     user
-  rescue StandardError
+  rescue StandardError => e
+    Rails.error.report(e, context: { step: "sign_up", email: user.email })
     user
   end
 
@@ -99,6 +102,12 @@ class SignUp < Patterns::Service
     ActsAsTenant.with_tenant(account) do
       TicketLabel.create!(name: "Other", user: user, discipline: Discipline.find_by(name: "Admin"))
     end
+  end
+
+  def start_trial
+    set_stripe_subscription_trial
+  rescue StandardError => e
+    Rails.error.report(e, context: { step: "sign_up_trial", user_id: user.id })
   end
 
   def set_stripe_subscription_trial

@@ -4,41 +4,19 @@
       <div class="px-4 justify-between flex">
         <div class="p-5">
           <% if current_user.admin? %>
-            <a
-              href="<%= "/#{employee.account.id}/report/kpis?survey_type=3&participant_id=#{employee.id}" %>"
-              class="hover:underline"
-            >
-              <h3 class="text-lg leading-6 font-medium text-gray-900">
-                Culture KRAs Stats
-              </h3>
-            </a>
-            <a
-              class="hover:underline"
-              href="<%= "/#{employee.account.id}/surveys/#{kpi.id}/attempts" %>"
-            >
-              <p class="mt-2 max-w-4xl text-sm text-gray-500">
-                <%= kpi.name %>
-              </p>
-            </a>
+            <%= render Ui::TextLinkComponent.new(nil, "/#{employee.account.id}/report/kpis?survey_type=3&participant_id=#{employee.id}", tone: :plain, class: "hover:underline") do %>
+              <%= render Ui::SectionHeadingComponent.new(title: "Culture KRAs Stats", tag: :h3) %>
+            <% end %>
+            <%= render Ui::TextLinkComponent.new(nil, "/#{employee.account.id}/surveys/#{kpi.id}/attempts", tone: :plain, class: "hover:underline") do %>
+              <%= render Ui::TextComponent.new(kpi.name, class: "mt-2 max-w-4xl") %>
+            <% end %>
           <% else %>
-            <h3 class="text-lg leading-6 font-medium text-gray-900">
-              KRAs Stats
-            </h3>
-            <p class="mt-2 max-w-4xl text-sm text-gray-500"><%= kpi.name %></p>
+            <%= render Ui::SectionHeadingComponent.new(title: "KRAs Stats", tag: :h3) %>
+            <%= render Ui::TextComponent.new(kpi.name, class: "mt-2 max-w-4xl") %>
           <% end %>
         </div>
-
-        <div class="px-4 p-4 bg-white overflow-hidden">
-          <dd class="text-3xl font-semibold text-gray-900 text-right">
-            <%= stats.average_score.to_s %>
-          </dd>
-
-          <dt class="text-sm font-medium text-gray-500 truncate">
-            Score (out of 10)
-          </dt>
-        </div>
+        <%= render Ui::StatCardComponent.new(label: "Score (out of 10)", value: stats.average_score.to_s, variant: :plain, class: "p-4 bg-white text-right") %>
       </div>
-
       <ul>
         <% stats.contributions.each do |contribution| %>
           <%= render partial: "shared/surveys/progress_bar", locals: { title: contribution.category, score: contribution.score, scale: 10 } %>

@@ -1,32 +1,33 @@
 <%= tailwind_form_with(model: project, id: dom_id(project)) do |form| %>
-  <main class="max-w-lg px-4 pt-10 pb-12 mx-auto space-y-4 lg:pb-16">
+  <%= render Ui::FormContainerComponent.new do %>
     <%= render "shared/form_messages", resource: project, message: local_assigns[:message] %>
     <%= render "shared/form_header", title: local_assigns[:title], subtitle: local_assigns[:subtitle] %>
     <%= form.text_field :name, "Project Name", autocomplete: "off" %>
     <%= form.text_area :description, "Description", autocomplete: "off" %>
-
-    <div><label for="discipline" class="block mt-4 text-sm font-medium text-gray-700"> Select Discipline </label><%= form.collection_select(:discipline_id, Discipline.all, :id, :name, { :prompt => "Select Discipline" }, :selected => project.discipline_id, :class => "form-text-field mt-1") %></div>
-
-    <div><label for="manager" class="block mt-4 text-sm font-medium text-gray-700">Select Manager</label><%= form.collection_select(:manager_id, User.all_users.decorate, :id, :display_name_position, { :prompt => "Select Manager" }, :selected => project.manager_id, :class => "form-text-field mt-1") %></div>
-
     <div>
-      <label for="manager" class="block mt-4 text-sm font-medium text-gray-700">Select Observers</label>
-
-      <select
-        name="project[observers][]"
-        id="project_observers"
-        multiple
-        class="slimselect mt-1 w-full form-text-field"
-        data-controller="slimselect"
-      >
-        <%= options_for_select(User.all_users.decorate.map { |u| [u.display_name, u.id] }, project.observers.pluck(:id)) %>
-      </select>
+      <label for="discipline" class="form-label mt-4">Select Discipline</label>
+      <%= form.collection_select(:discipline_id, Discipline.all, :id, :name, { :prompt => "Select Discipline" }, :selected => project.discipline_id, :class => "form-text-field mt-1") %>
     </div>
-
+    <div>
+      <label for="manager" class="form-label mt-4">
+        Select Manager
+      </label>
+      <%= form.collection_select(:manager_id, User.all_users.decorate, :id, :display_name_position, { :prompt => "Select Manager" }, :selected => project.manager_id, :class => "form-text-field mt-1") %>
+    </div>
+    <%= render Ui::FormFieldComponent.new(label: "Select Observers", for_id: "project_observers") do %>
+      <%= select_tag "project[observers][]", options_for_select(User.all_users.decorate.map { |u| [u.display_name, u.id] }, project.observers.pluck(:id)), id: "project_observers", multiple: true, data: { controller: "slimselect" }, class: "slimselect w-full form-text-field" %>
+    <% end %>
     <div class="flex items-center justify-between">
-      <div class="flex items-center"><%= form.check_box :billable, class: "w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" %><label for="remember_me" class="block ml-2 text-sm text-gray-900"> This Project is billable. Uncheck to mark internal or unbillable. </label></div>
+      <div class="flex items-center">
+        <%= form.check_box :billable, class: "form-check" %>
+        <label for="remember_me" class="block ml-2 text-sm text-gray-900">
+          This Project is billable. Uncheck to mark internal or unbillable. 
+        </label>
+      </div>
     </div>
-
-    <div class="flex justify-end"><%= link_to "Back", "javascript:history.back()", class: "btn-secondary" %><%= form.submit "Save", class: "btn-primary ml-2" %></div>
-  </main>
+    <%= render Ui::FormActionsComponent.new do %>
+      <%= render Ui::BackButtonComponent.new() %>
+      <%= render Ui::SubmitButtonComponent.new(form, "Save", class: "ml-2") %>
+    <% end %>
+  <% end %>
 <% end %>

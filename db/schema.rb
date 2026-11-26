@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_16_114754) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_19_090606) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -222,6 +222,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_16_114754) do
     t.string "processor_id", null: false
     t.bigint "subscription_id"
     t.datetime "updated_at", null: false
+    t.string "stripe_account"
+    t.string "type"
+    t.jsonb "object"
     t.index ["customer_id", "processor_id"], name: "index_pay_charges_on_customer_id_and_processor_id", unique: true
     t.index ["subscription_id"], name: "index_pay_charges_on_subscription_id"
   end
@@ -236,6 +239,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_16_114754) do
     t.string "processor", null: false
     t.string "processor_id"
     t.datetime "updated_at", null: false
+    t.string "stripe_account"
+    t.string "type"
+    t.jsonb "object"
     t.index ["owner_type", "owner_id", "deleted_at", "default"], name: "pay_customer_owner_index"
     t.index ["processor", "processor_id"], name: "index_pay_customers_on_processor_and_processor_id", unique: true
   end
@@ -249,6 +255,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_16_114754) do
     t.string "processor", null: false
     t.string "processor_id"
     t.datetime "updated_at", null: false
+    t.string "type"
     t.index ["owner_type", "owner_id", "processor"], name: "index_pay_merchants_on_owner_type_and_owner_id_and_processor"
   end
 
@@ -258,8 +265,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_16_114754) do
     t.jsonb "data"
     t.boolean "default"
     t.string "processor_id", null: false
-    t.string "type"
+    t.string "payment_method_type"
     t.datetime "updated_at", null: false
+    t.string "stripe_account"
+    t.string "type"
     t.index ["customer_id", "processor_id"], name: "index_pay_payment_methods_on_customer_id_and_processor_id", unique: true
   end
 
@@ -283,6 +292,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_16_114754) do
     t.string "status", null: false
     t.datetime "trial_ends_at", precision: nil
     t.datetime "updated_at", null: false
+    t.string "stripe_account"
+    t.string "payment_method_id"
+    t.string "type"
+    t.jsonb "object"
     t.index ["customer_id", "processor_id"], name: "index_pay_subscriptions_on_customer_id_and_processor_id", unique: true
     t.index ["metered"], name: "index_pay_subscriptions_on_metered"
     t.index ["pause_starts_at"], name: "index_pay_subscriptions_on_pause_starts_at"
@@ -462,6 +475,33 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_16_114754) do
     t.index ["created_at"], name: "index_solid_cable_messages_on_created_at"
   end
 
+  create_table "solid_queue_batch_executions", force: :cascade do |t|
+    t.bigint "job_id", null: false
+    t.bigint "batch_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["batch_id"], name: "index_solid_queue_batch_executions_on_batch_id"
+    t.index ["job_id"], name: "index_solid_queue_batch_executions_on_job_id", unique: true
+  end
+
+  create_table "solid_queue_batches", force: :cascade do |t|
+    t.string "active_job_batch_id"
+    t.string "description"
+    t.text "on_finish"
+    t.text "on_success"
+    t.text "on_failure"
+    t.text "metadata"
+    t.integer "total_jobs", default: 0, null: false
+    t.integer "completed_jobs", default: 0, null: false
+    t.integer "failed_jobs", default: 0, null: false
+    t.datetime "enqueued_at"
+    t.datetime "finished_at"
+    t.datetime "failed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["active_job_batch_id"], name: "index_solid_queue_batches_on_active_job_batch_id", unique: true
+    t.index ["finished_at"], name: "index_solid_queue_batches_on_finished_at"
+  end
+
   create_table "solid_queue_blocked_executions", force: :cascade do |t|
     t.string "concurrency_key", null: false
     t.datetime "created_at", null: false
@@ -500,7 +540,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_16_114754) do
     t.string "queue_name", null: false
     t.datetime "scheduled_at"
     t.datetime "updated_at", null: false
+    t.bigint "batch_id"
     t.index ["active_job_id"], name: "index_solid_queue_jobs_on_active_job_id"
+    t.index ["batch_id"], name: "index_solid_queue_jobs_on_batch_id"
     t.index ["class_name"], name: "index_solid_queue_jobs_on_class_name"
     t.index ["finished_at"], name: "index_solid_queue_jobs_on_finished_at"
     t.index ["queue_name", "finished_at"], name: "index_solid_queue_jobs_for_filtering"
@@ -886,6 +928,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_16_114754) do
   add_foreign_key "schedules", "projects"
   add_foreign_key "schedules", "users"
   add_foreign_key "skills", "accounts"
+  add_foreign_key "solid_queue_batch_executions", "solid_queue_batches", column: "batch_id", on_delete: :cascade
+  add_foreign_key "solid_queue_batch_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

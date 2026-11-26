@@ -5,7 +5,7 @@ class Employee::ReportsController < Employee::BaseController
     authorize [@employee, Report]
     @assigns = @employee.templates_assignees.includes(:template)
     employee_reports = @employee.reports.order(created_at: :desc)
-    @pagy, @reports = pagy_nil_safe(params, employee_reports, items: LIMIT)
+    @pagy, @reports = pagy_nil_safe(params, employee_reports, limit: LIMIT)
     render_partial("employee/reports/report", collection: @reports) if stale?(@reports + [@employee])
   end
 

@@ -1,5 +1,4 @@
 module ApplicationHelper
-  include Pagy::Frontend
   include Extractor::HashTag
   include AutoLinkHelper
   include AvatarHelper

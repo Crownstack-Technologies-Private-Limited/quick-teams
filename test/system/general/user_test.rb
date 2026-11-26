@@ -52,6 +52,8 @@ class UsersTest < ApplicationSystemTestCase
   end
 
   test "can not update password with pawned password" do
+    # test_helper stubs the HIBP lookup to "not breached"; this password is reported as breached.
+    Pwned::Password.any_instance.stubs(:fetch_pwned_count).returns(3303003)
     visit setting_password_url(script_name: "/#{@account.id}")
     fill_in "Old Password", with: "random123"
     fill_in "New Password", with: "Home@123"

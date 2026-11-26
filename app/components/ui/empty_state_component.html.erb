@@ -1,0 +1,16 @@
+<div class="w-full text-center sm:rounded-lg">
+  <div class="empty-state">
+    <% if @icon %>
+      <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-gray-100 text-gray-400" aria-hidden="true">
+        <%= render Ui::IconComponent.new(@icon, class: "h-5 w-5") %>
+      </span>
+    <% end %>
+    <h3 class="text-base font-semibold text-gray-900 text-center"><%= @title %></h3>
+    <% if @message.present? || content? %>
+      <div class="max-w-sm text-sm text-center text-gray-500">
+        <% if @message.present? %><p><%= @message %></p><% end %>
+        <%= content %>
+      </div>
+    <% end %>
+  </div>
+</div>

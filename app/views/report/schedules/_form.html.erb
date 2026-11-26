@@ -7,37 +7,37 @@
             Filter reports
           </h3>
           <%= form_with url: roles_schedule_reports_path, method: :get do |form| %>
-            <main class="max-w-lg pb-12 mx-auto space-y-4 lg:pb-16">
+            <%= render Ui::FormContainerComponent.new do %>
               <div>
-                <label for="ends" class="block mt-4 text-sm font-medium text-gray-700">
+                <label for="ends" class="form-label mt-4">
                   Select Job
                 </label>
                 <%= form.collection_select(:job_id, Job.order(:name), :id, :name, { :prompt => "Select Job", :selected => (params["job_id"] if !params["job_id"].blank?) }, :class => "form-text-field mt-1") %>
               </div>
               <div>
-                <label for="ends" class="block mt-4 text-sm font-medium text-gray-700">
+                <label for="ends" class="form-label mt-4">
                   Select Role
                 </label>
                 <%= form.collection_select(:role_id, Role.order(:name), :id, :name, { :prompt => "Select Role", :selected => (params["role_id"] if !params["role_id"].blank?) }, :class => "form-text-field mt-1") %>
               </div>
               <div>
-                <label for="ends" class="block mt-4 text-sm font-medium text-gray-700">
+                <label for="ends" class="form-label mt-4">
                   Select Discipline
                 </label>
                 <%= form.collection_select(:discipline_id, Discipline.order(:name), :id, :name, { :prompt => "Select Discipline", :selected => (params["discipline_id"] if !params["discipline_id"].blank?) }, :class => "form-text-field mt-1") %>
               </div>
               <div>
                 <div>
-                  <label for="billed" class="block text-sm font-medium text-gray-700">
+                  <label for="billed" class="form-label">
                     Billable
                   </label>
                   <%= form.select(:billable, [["Billable or not", ""], ["Show Only Billable", 1], ["Show Only Unbillable", 0]], { selected: params["billable"] }, :class => "form-text-field mt-1") %>
                 </div>
                 <div class="flex justify-end mt-6">
-                  <%= link_to "Reset", employee_roles_reports_path, class: "btn-secondary" %>
-                  <%= form.submit "Search", class: "btn-primary ml-2" %>
+                  <%= render Ui::ButtonComponent.new("Reset", href: employee_roles_reports_path, variant: :secondary) %>
+                  <%= render Ui::SubmitButtonComponent.new(form, "Search", class: "ml-2") %>
                 </div>
-              </main>
+              <% end %>
             <% end %>
           </div>
         </nav>

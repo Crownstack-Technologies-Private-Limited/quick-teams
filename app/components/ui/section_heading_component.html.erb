@@ -1,0 +1,9 @@
+<%= tag.div(**@html_options, class: [("flex items-start justify-between gap-4" if content?), @html_options[:class]].compact.join(" ").presence) do %>
+  <div>
+    <%= content_tag @tag, @title, class: "text-lg font-semibold leading-7 text-gray-900" %>
+    <% if @subtitle.present? %>
+      <p class="mt-1 text-sm text-gray-600"><%= @subtitle %></p>
+    <% end %>
+  </div>
+  <% if content? %><div class="flex shrink-0 items-center gap-2"><%= content %></div><% end %>
+<% end %>

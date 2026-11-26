@@ -1,5 +1,6 @@
 active: 
- customer: regular 
+ type: Pay::Stripe::Subscription
+ customer: regular
  name: default 
  processor_id: sub_1Kesp6SHKnzorIjUsLYD5ZWd
  processor_plan: price_1Kbei1SHKnzorIjUXTb6TJA8

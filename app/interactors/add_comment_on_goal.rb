@@ -1,4 +1,4 @@
-class AddCommentOnGoal < Patterns::Service
+class AddCommentOnGoal < ApplicationService
   STATUS_MAP = {
     "and mark Missed" => "missed",
     "and mark Completed" => "completed",

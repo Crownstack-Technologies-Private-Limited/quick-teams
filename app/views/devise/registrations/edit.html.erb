@@ -1,54 +1,35 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
-  <div class="field">
-    <%= f.label :email %>
-    <br />
-
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>
-      Currently waiting confirmation for: <%= resource.unconfirmed_email %>
+<%= render Ui::FormPageComponent.new(title: "Edit #{resource_name.to_s.humanize}", subtitle: "Change the email address or password you sign in with.", max_width: "max-w-2xl") do |page| %>
+  <% page.with_actions { render Ui::BackButtonComponent.new } %>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "card card-body mt-6 space-y-5" }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+    <div class="field">
+      <%= f.label :email, class: "form-label" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-text-field mt-1" %>
+    </div>
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+      <%= render Ui::BadgeComponent.new("Currently waiting confirmation for: #{resource.unconfirmed_email}", color: :amber) %>
+    <% end %>
+    <div class="field">
+      <%= f.label :password, class: "form-label" %> <i class="form-help not-italic">(leave blank if you don't want to change it)</i>
+      <%= f.password_field :password, autocomplete: "new-password", class: "form-text-field mt-1" %>
+      <% if @minimum_password_length %>
+        <em class="form-help block not-italic"><%= @minimum_password_length %> characters minimum</em>
+      <% end %>
+    </div>
+    <div class="field">
+      <%= f.label :password_confirmation, class: "form-label" %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-text-field mt-1" %>
+    </div>
+    <div class="field">
+      <%= f.label :current_password, class: "form-label" %> <i class="form-help not-italic">(we need your current password to confirm your changes)</i>
+      <%= f.password_field :current_password, autocomplete: "current-password", class: "form-text-field mt-1" %>
+    </div>
+    <div class="actions flex justify-end">
+      <%= render Ui::SubmitButtonComponent.new(f, "Update") %>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= f.label :password %>
-    <i>(leave blank if you don't want to change it)</i>
-    <br />
-
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %>
-    <br />
-
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :current_password %>
-    <i>(we need your current password to confirm your changes)</i>
-    <br />
-
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
-  </div>
-
-  <div class="actions"><%= f.submit "Update" %></div>
+  <%= render Ui::CardComponent.new(class: "mt-6 border-red-200") do %>
+    <h3 class="text-base font-semibold text-gray-900">Cancel my account</h3>
+    <p class="mt-1 flex flex-wrap items-center justify-between gap-3 text-sm text-gray-600">Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { "turbo-method": :delete }, class: "btn-red" %></p>
+  <% end %>
 <% end %>
-
-<h3>Cancel my account</h3>
-
-<p>
-  Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { "turbo-method": :delete } %>
-</p>
-
-<%= link_to "Back", "javascript:history.back()" %>

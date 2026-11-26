@@ -1,14 +1,15 @@
-<%= tailwind_form_with(model: @user, id: dom_id(@user)) do |form| %>
+  <%= tailwind_form_with(model: @user, id: dom_id(@user)) do |form| %>
   <div>
     <div class="space-y-4">
       <%= render "shared/form_messages", resource: @user, message: local_assigns[:message] %>
       <%= render "shared/form_header", title: "Profile Settings", subtitle: "Please fill in your personal information." %>
-
+                      
       <%= form.text_field :first_name, "First Name" %>
       <%= form.text_field :last_name, "Last Name" %>
       <%= form.text_field :email, "Email" %>
-
-      <div class="flex justify-end"><%= form.submit "Save", class: "btn-primary" %></div>
+      <%= render Ui::FormActionsComponent.new do %>
+        <%= render Ui::SubmitButtonComponent.new(form, "Save") %>
+      <% end %>
     </div>
   </div>
 <% end %>

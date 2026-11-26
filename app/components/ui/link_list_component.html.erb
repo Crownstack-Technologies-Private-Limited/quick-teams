@@ -1,0 +1,4 @@
+<h3 class="px-3 <%= "mt-8" unless @first %> text-xs font-bold tracking-wider text-gray-800 uppercase" id="<%= @heading_id %>"><%= @title %></h3>
+<div class="mt-1 space-y-1" aria-labelledby="<%= @heading_id %>">
+  <% links.each do |link| %><%= link %><% end %>
+</div>

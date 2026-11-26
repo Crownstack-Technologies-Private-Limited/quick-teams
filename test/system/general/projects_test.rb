@@ -39,15 +39,15 @@ class ProjectsTest < ApplicationSystemTestCase
     within(:xpath, "/html/body/main/main/div[2]/div/table") do
       click_on "Project"
     end
-    within(:xpath, "/html/body/main/main/div[2]/div/table/tbody/tr[1]/td[1]/div/a/span") do
-      assert_text "Aws in Engineering"
-    end
+    # Wait for the sorted page (its link now toggles to desc); the default order is already by name.
+    assert_selector "a[href*='column=name'][href*='direction=desc']", text: /project/i
+    # Re-query after each click: Turbo replaces the table, so a found element would go stale.
+    assert_selector :xpath, "/html/body/main/main/div[2]/div/table/tbody/tr[1]/td[1]/div/a/span", text: "Aws in Engineering"
     within(:xpath, "/html/body/main/main/div[2]/div/table") do
       click_on "Project"
     end
-    within(:xpath, "/html/body/main/main/div[2]/div/table/tbody/tr[1]/td[1]/div/a/span") do
-      assert_text "Zoom in Engineering"
-    end
+    assert_selector "a[href*='column=name'][href*='direction=asc']", text: /project/i
+    assert_selector :xpath, "/html/body/main/main/div[2]/div/table/tbody/tr[1]/td[1]/div/a/span", text: "Zoom in Engineering"
   end
 
   test "can show project detail page" do
@@ -184,8 +184,9 @@ class ProjectsTest < ApplicationSystemTestCase
     assert_selector "h1", text: @project.name
 
     take_screenshot
+    tag_name = @project.project_tags.first.name
     find("div", id: "project-tags").click_button("remove")
-    assert_no_selector "span", text: @project.project_tags.first.name
+    assert_no_selector "span", text: tag_name
     take_screenshot
   end
 end

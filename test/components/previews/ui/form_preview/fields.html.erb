@@ -1,0 +1,16 @@
+<form class="max-w-lg space-y-4">
+  <%= render Ui::SectionHeadingComponent.new(title: "Add New Employee", subtitle: "Please add detail.") %>
+  <%= render Ui::FormFieldComponent.new(label: "Discipline", for_id: "d", help: "Used to group people in reports") do %>
+    <select id="d" class="form-text-field"><option>Engineering</option></select>
+  <% end %>
+  <%= render Ui::FormFieldComponent.new(label: "Email", for_id: "e", error: "can't be blank") do %>
+    <input id="e" class="form-text-field" type="email">
+  <% end %>
+  <%= render Ui::CheckboxFieldComponent.new(label: "This resource is billable", for_id: "b") do %>
+    <input id="b" type="checkbox" class="<%= Ui::CheckboxFieldComponent::INPUT_CLASS %>">
+  <% end %>
+  <%= render Ui::FormActionsComponent.new do %>
+    <%= render Ui::BackButtonComponent.new(class: "mr-2") %>
+    <%= render Ui::ButtonComponent.new("Save", type: "submit") %>
+  <% end %>
+</form>

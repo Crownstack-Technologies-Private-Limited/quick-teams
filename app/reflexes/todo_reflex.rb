@@ -1,6 +1,4 @@
 class TodoReflex < ApplicationReflex
-  delegate :current_user, to: :connection
-
   def toggle_todo
     todo.toggle!(:completed)
     notify_relevant_users

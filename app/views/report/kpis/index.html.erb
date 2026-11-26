@@ -1,76 +1,35 @@
-<div class="relative z-0 flex-1 overflow-y-auto focus:outline-none">
+<div class="relative z-0  flex-1 overflow-y-auto focus:outline-none">
   <!-- Page title & actions -->
-  <div
-    class="
-      px-4 py-4 border-b border-gray-200 sm:flex sm:items-center
-      sm:justify-between sm:px-6 lg:px-8
-    "
-  >
+  <div class="px-4 py-5 bg-white border-b border-gray-200 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8">
     <div class="flex flex-wrap items-baseline -mt-2 -ml-2">
-      <h1 class="text-3xl font-bold leading-tight text-gray-900">
+      <h1 class="text-2xl font-semibold tracking-tight text-gray-900">
         Employee KRAs Report
       </h1>
     </div>
-
     <% if @kpis.size > 0 and params[:participant_id].present? %>
       <div>
-        <%= link_to "Download PDF", performance_report_path(survey_type: params[:survey_type], participant_id: params[:participant_id], from_date: params[:from_date], to_date: params[:to_date], format: :pdf), target: "_blank", class: "btn-primary" %>
+        <%= render Ui::ButtonComponent.new("Download PDF", href: performance_report_path(survey_type: params[:survey_type], participant_id: params[:participant_id], from_date: params[:from_date], to_date: params[:to_date], format: :pdf), target: "_blank") %>
       </div>
     <% end %>
   </div>
 </div>
-
 <div class="flex w-full overflow-hidden bg-white">
   <div class="flex w-full">
     <%= render partial: "form" %>
-
     <!-- This example requires Tailwind CSS v2.0+ -->
     <% if @kpis.size > 0 %>
       <div class="w-full overflow-auto" data-controller="infinite-scroll">
-        <table class="table">
-          <thead class="bg-gray-50">
-            <tr>
-              <th scope="col" class="w-6/12 table-head">
-                KRA
-              </th>
-
-              <th scope="col" class="table-head">
-                Participant
-              </th>
-
-              <th scope="col" class="table-head">
-                score
-              </th>
-
-              <th scope="col" class="table-head">
-                Taken by
-              </th>
-
-              <th scope="col" class="table-head px-10">
-                Status
-              </th>
-
-              <th scope="col" class="table-head">
-                created at
-              </th>
-
-              <th scope="col" class="table-head">
-                Comment
-              </th>
-            </tr>
-          </thead>
-
-          <tbody class="table-body" data-infinite-scroll-target="entries">
-            <%= render partial: "kpi", collection: @kpis, as: :kpi %>
-          </tbody>
-        </table>
-
-        <div
-          class="flex justify-end invisible mt-2 mb-6 mr-2"
-          data-infinite-scroll-target="pagination"
-        >
-          <%= render partial: "shared/paginator", locals: { pagy: @pagy } %>
-        </div>
+        <%= render Ui::TableComponent.new(body_options: { data: { "infinite-scroll-target": "entries" } }) do |table| %>
+          <% table.with_column("KRA", class: "w-6/12") %>
+          <% table.with_column("Participant") %>
+          <% table.with_column("score") %>
+          <% table.with_column("Taken by") %>
+          <% table.with_column("Status", class: "px-10") %>
+          <% table.with_column("created at") %>
+          <% table.with_column("Comment") %>
+          <%= render partial: "kpi", collection: @kpis, as: :kpi %>
+        <% end %>
+        <%= render Ui::PaginationComponent.new(@pagy, class: "invisible", data: { "infinite-scroll-target": "pagination" }) %>
       </div>
     <% else %>
       <%== render partial: "shared/no_result_found", cached: true %>

@@ -1,71 +1,37 @@
-<main class="relative z-0 flex-1 overflow-y-auto focus:outline-none">
+<%= render Ui::PageComponent.new do %>
   <%= render partial: "employee/title", locals: { employee: @employee } %>
-  <main class="pb-8">
-    <div class="">
-      <h1 class="sr-only">Page title</h1>
-
-      <!-- Main 3 column grid -->
-      <div class="grid items-start grid-cols-1 lg:grid-cols-3">
-        <!-- Left column -->
-        <div class="grid grid-cols-1 gap-4 lg:col-span-2">
-          <section aria-labelledby="participants_section">
-            <div class="overflow-hidden bg-white">
-              <div
-                class="w-full overflow-hidden"
-                data-controller="infinite-scroll"
-              >
-                <table class="table">
-                  <thead class="bg-gray-50">
-                    <tr>
-                      <th scope="col" class="w-full table-head">
-                        Document
-                      </th>
-                      <th scope="col" class="px-6 table-head">
-                        Added by
-                      </th>
-                      <th scope="col" class="table-head">
-                        ADDED ON
-                      </th>
-                      <th scope="col" class="table-head">
-                        Action
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody
-                    class="table-body"
-                    id="documents"
-                    data-infinite-scroll-target="entries"
-                  >
-                    <%= render partial: "document", collection: @documents, as: :document, cached: false %>
-                  </tbody>
-                </table>
-                <div
-                  class="flex justify-end invisible mt-2 mb-6 mr-2"
-                  data-infinite-scroll-target="pagination"
-                >
-                  <%== render partial: "shared/paginator", locals: { pagy: @pagy } %>
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-
-        <% if policy([@employee, Document]).create? %>
-          <!-- Right column -->
-          <div class="grid grid-cols-1 gap-4 xl:border-l xl:border-gray-200">
-            <section aria-labelledby="add-participant-section">
-              <h2 class="sr-only" id="section-2-title">Add New document</h2>
-              <div class="overflow-hidden bg-white">
-                <div class="px-4">
-                  <%= render partial: "form", locals: { document: @document } %>
-                </div>
-              </div>
-            </section>
+  <%= render Ui::SplitLayoutComponent.new(inset: false) do |layout| %>
+    <% layout.with_primary do %>
+      <section aria-labelledby="participants_section">
+        <div class="overflow-hidden bg-white">
+          <div class="w-full overflow-hidden" data-controller="infinite-scroll">
+            <%= render Ui::TableComponent.new(body_options: { id: "documents", data: { "infinite-scroll-target": "entries" } }) do |table| %>
+              <% table.with_column("Document", class: "w-full") %>
+              <% table.with_column("Added by", class: "px-6") %>
+              <% table.with_column("ADDED ON") %>
+              <% table.with_column("Action") %>
+              <%= render partial: "document", collection: @documents, as: :document, cached: false %>
+            <% end %>
+            <%= render Ui::PaginationComponent.new(@pagy, class: "invisible", data: { "infinite-scroll-target": "pagination" }) %>
           </div>
-        <% end %>
-      </div>
-    </div>
-  </main>
+        </div>
+      </section>
 
-  <div class="pt-4 pl-16 pr-16"></div>
-</main>
+    <% end %>
+    <% if policy([@employee, Document]).create? %>
+      <% layout.with_secondary do %>
+        <section aria-labelledby="add-participant-section">
+          <h2 class="sr-only" id="section-2-title">Add New document</h2>
+          <div class="overflow-hidden bg-white">
+            <div class="px-4">
+              <%= render partial: "form", locals: { document: @document } %>
+            </div>
+          </div>
+        </section>
+
+      <% end %>
+    <% end %>
+  <% end %>
+  <div class="pt-4 pl-16 pr-16">
+  </div>
+<% end %>

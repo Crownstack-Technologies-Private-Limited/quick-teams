@@ -27,7 +27,7 @@
               >
                 Cancel
               </a>
-              <%= form.submit "Comment", class: "btn-primary ml-2" %>
+              <%= render Ui::SubmitButtonComponent.new(form, "Comment", class: "ml-2") %>
             </span>
           </div>
         <% end %>

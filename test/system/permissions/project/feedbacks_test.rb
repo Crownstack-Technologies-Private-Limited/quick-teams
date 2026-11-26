@@ -1,6 +1,6 @@
 require "application_system_test_case"
 
-class ProjectFeedbacksTest < ApplicationSystemTestCase
+class ProjectFeedbacksPermissionsTest < ApplicationSystemTestCase
   setup do
     @employee = users(:regular)
     @account = @employee.account

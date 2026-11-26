@@ -1,0 +1,10 @@
+<li class="flex items-center py-4 border-b border-gray-200">
+  <%= leading %>
+  <div class="flex flex-wrap items-center w-full gap-y-3 ml-3 sm:flex-nowrap">
+    <div class="w-full">
+      <p class="w-full text-sm font-medium text-gray-900"><%= @title %></p>
+      <% if @subtitle.present? %><p class="text-sm text-gray-500"><%= @subtitle %></p><% end %>
+    </div>
+    <div class="flex justify-end space-x-2"><%= actions %></div>
+  </div>
+</li>

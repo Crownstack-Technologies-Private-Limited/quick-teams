@@ -1,6 +1,5 @@
-<main class="relative z-0 flex-1 overflow-y-auto focus:outline-none">
+<%= render Ui::PageComponent.new do %>
   <%= render "employee/title", employee: @employee %>
-
   <main class="pb-8">
     <div class="">
       <!-- Main 3 column grid -->
@@ -8,56 +7,21 @@
         <!-- Left column -->
         <div class="grid grid-cols-1 gap-4 lg:col-span-2">
           <section aria-labelledby="participants_section">
-            <div
-              class="overflow-hidden bg-white"
-              data-controller="infinite-scroll"
-            >
+            <div class="overflow-hidden bg-white" data-controller="infinite-scroll">
               <div>
-                <table class="table">
-                  <thead class="bg-gray-50">
-                    <tr>
-                      <th scope="col" class="table-head">
-                        Project
-                      </th>
-
-                      <th scope="col" class="table-head">
-                        Task/Output
-                      </th>
-
-                      <th scope="col" class="table-head">
-                        Hours/Date
-                      </th>
-
-                      <th scope="col" class="table-head">
-                        Action
-                      </th>
-                    </tr>
-                  </thead>
-
-                  <tbody
-                    class="table-body"
-                    id="timesheets"
-                    data-infinite-scroll-target="entries"
-                  >
-                    <%= render partial: "employee/timesheets/timesheet", collection: @timesheets, cached: false %>
-                  </tbody>
-                </table>
-
-                <p class="pr-4 mt-2 text-sm text-right text-gray-500">
-                  Showing last 30 days' timesheets only.
-                </p>
-
-                <div
-                  class="flex justify-end mt-2 mb-6 mr-2 invisible"
-                  data-infinite-scroll-target="pagination"
-                >
-                  <%== render partial: "shared/paginator", locals: { pagy: @pagy } %>
-                </div>
+                <%= render Ui::TableComponent.new(body_options: { id: "timesheets", data: { "infinite-scroll-target": "entries" } }) do |table| %>
+                  <% table.with_column("Project") %>
+                  <% table.with_column("Task/Output") %>
+                  <% table.with_column("Hours/Date") %>
+                  <% table.with_column("Action") %>
+                  <%= render partial: "employee/timesheets/timesheet", collection: @timesheets, cached: false %>
+                <% end %>
+                <p class="pr-4 mt-2 text-sm text-right text-gray-500">Showing last 30 days' timesheets only.</p>
+                <%= render Ui::PaginationComponent.new(@pagy, class: "invisible", data: { "infinite-scroll-target": "pagination" }) %>
               </div>
             </div>
           </section>
         </div>
-
         <% if policy([@employee, Timesheet]).show_add_timesheet_form? %>
           <!-- Right column -->
           <div class="grid grid-cols-1 gap-4 xl:border-l xl:border-gray-200">
@@ -70,7 +34,6 @@
             </section>
           </div>
         <% end %>
-
         <% if policy([@employee, Timesheet]).show_timesheet_stats? %>
           <!-- Right column -->
           <div class="grid grid-cols-1 gap-4 xl:border-l xl:border-gray-200">
@@ -78,46 +41,13 @@
               <div class="overflow-hidden bg-white">
                 <div class="px-4">
                   <% if policy([@employee, Timesheet]).show_timesheet_stats_menu? %>
-                    <div
-                      class="flex justify-center mt-4"
-                      data-employee-id="<%= @employee.id %>"
-                    >
-                      <span class="relative z-0 inline-flex rounded-md shadow-sm">
-                        <button
-                          type="button"
-                          data-reflex="click->EmployeeTimesheetsStats#last_week"
-                          data-reflex-dataset="combined"
-                          class="
-                            relative inline-flex items-center px-4 py-2
-                            text-sm font-medium text-gray-700 bg-white
-                            border border-gray-300 rounded-l-md
-                            hover:bg-gray-50 focus:z-10 focus:outline-none
-                            focus:ring-1 focus:ring-indigo-500
-                            focus:border-indigo-500
-                          "
-                        >
-                          Last Week
-                        </button>
-
-                        <button
-                          type="button"
-                          data-reflex="click->EmployeeTimesheetsStats#last_month"
-                          data-reflex-dataset="combined"
-                          class="
-                            relative inline-flex items-center px-4 py-2
-                            -ml-px text-sm font-medium text-gray-700
-                            bg-white border border-gray-300 rounded-r-md
-                            hover:bg-gray-50 focus:z-10 focus:outline-none
-                            focus:ring-1 focus:ring-indigo-500
-                            focus:border-indigo-500
-                          "
-                        >
-                          Last Month
-                        </button>
-                      </span>
+                    <div class="flex justify-center mt-4" data-employee-id="<%= @employee.id %>">
+                      <%= render Ui::ButtonGroupComponent.new do |group| %>
+  <% group.with_button("Last Week", data: { reflex: "click->EmployeeTimesheetsStats#last_week", "reflex-dataset": "combined" }) %>
+  <% group.with_button("Last Month", data: { reflex: "click->EmployeeTimesheetsStats#last_month", "reflex-dataset": "combined" }) %>
+<% end %>
                     </div>
                   <% end %>
-
                   <div id="stats">
                     <%= render partial: "employee/timesheets/stats", locals: { employee_stats: @employee_timesheets_stats }, cached: true %>
                   </div>
@@ -129,6 +59,6 @@
       </div>
     </div>
   </main>
-
-  <div class="pt-4 pl-16 pr-16"></div>
-</main>
+  <div class="pt-4 pl-16 pr-16">
+  </div>
+<% end %>

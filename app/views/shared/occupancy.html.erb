@@ -1,10 +1,25 @@
+<%# Rendered by SchedulesController#occupancy / jobs_occupancy / roles_occupancy. Inside the lazy "occupancy" frame of
+    schedules#index (Turbo-Frame header present) it is a compact figure; opened on its own it is a full page. %>
+<% scope = { "jobs_occupancy" => "Job", "roles_occupancy" => "Role" }.fetch(action_name, "Account") %>
+<% embedded = request.headers["Turbo-Frame"].present? %>
 <turbo-frame id="occupancy">
-  <p
-    class="
-      text-xl font-medium text-gray-900 text-right w-full pb-2 px-8 mt-1
-      truncate
-    "
-  >
-    Occupancy <%= @occupancy.to_s %>%
-  </p>
+  <% if embedded %>
+    <%= render Ui::BadgeComponent.new("Occupancy #{@occupancy}%", color: :brand, class: "px-3 py-1 text-base") %>
+  <% else %>
+    <%= render Ui::PageComponent.new(tag: :div) do %>
+      <%= render Ui::PageHeaderComponent.new(title: "#{scope} occupancy", subtitle: "Share of working capacity booked on schedules") do |header| %>
+        <% header.with_actions do %>
+          <%= render Ui::ButtonComponent.new("Back to schedules", href: schedules_path, variant: :secondary) %>
+        <% end %>
+      <% end %>
+      <%= render Ui::FormContainerComponent.new(width: "max-w-2xl") do %>
+        <% if @occupancy.to_f.zero? %>
+          <%= render Ui::EmptyStateComponent.new(title: "Nobody is scheduled", message: "There are no active schedules for this #{scope.downcase == "account" ? "account" : scope.downcase}, so occupancy is 0%.") %>
+        <% else %>
+          <%= render Ui::StatCardComponent.new(label: "#{scope} occupancy", value: "#{@occupancy}%", hint: "Average across active billable people") %>
+          <%= render Ui::ProgressBarComponent.new(title: "Occupancy", score: @occupancy.to_f.clamp(0, 100), scale: 100) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
 </turbo-frame>

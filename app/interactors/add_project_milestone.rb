@@ -1,4 +1,4 @@
-class AddProjectMilestone < Patterns::Service
+class AddProjectMilestone < ApplicationService
   def initialize(project, params, actor)
     @project = project
     @milestone = project.milestones.new(params)

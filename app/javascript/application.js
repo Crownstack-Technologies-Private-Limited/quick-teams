@@ -1,17 +1,10 @@
 // Configure your import map in config/importmap.rb
 
-// Turbo must be imported first as other modules depend on it
+// Turbo first: other modules (reflex_actions) depend on it
 import "@hotwired/turbo-rails"
-
-// Load channels for ActionCable
 import "channels"
-
-// Load config (StimulusReflex, CableReady) BEFORE controllers
-// This initializes StimulusReflex before any controller tries to use it
-import "config"
-
-// Then load controllers which register with the Stimulus application
 import "controllers"
+import "reflex_actions"
 
 // Rails libraries
 import "@rails/actiontext"

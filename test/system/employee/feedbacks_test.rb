@@ -70,6 +70,8 @@ class EmployeeFeedbacksTest < ApplicationSystemTestCase
     visit page_url
     feedback = @employee.feedbacks.first
     find("tr", id: dom_id(feedback)).click_link("Edit")
+    # The index has the new-record form with the same fields; wait for the edit form.
+    assert_button "Edit Feedback"
     title = "Some Random Goal Title Edited"
     fill_in "Title", with: ""
     fill_in "Title", with: title
@@ -86,6 +88,8 @@ class EmployeeFeedbacksTest < ApplicationSystemTestCase
     visit page_url
     feedback = @employee.feedbacks.first
     find("tr", id: dom_id(feedback)).click_link("Edit")
+    # The index has the new-record form with the same fields; wait for the edit form.
+    assert_button "Edit Feedback"
     fill_in "Title", with: nil
     click_on "Edit Feedback"
     assert_selector "p.alert", text: "Failed to update. Please try again."

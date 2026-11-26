@@ -1,6 +1,4 @@
 class EmployeeSkillsReflex < ApplicationReflex
-  delegate :current_user, to: :connection
-
   def add
     employee.skills << skill
     morph "#skills", render(partial: "employee/skills/form", locals: {

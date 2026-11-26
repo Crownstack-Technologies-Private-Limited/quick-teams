@@ -1,107 +1,32 @@
-<main class="relative z-0 flex-1 overflow-y-auto focus:outline-none">
+<%= render Ui::PageComponent.new do %>
   <!-- Page title & actions -->
-  <div
-    class="
-      px-4 py-4 border-b border-gray-200 sm:flex sm:items-center
-      sm:justify-between sm:px-6 lg:px-8
-    "
-  >
+  <div class="px-4 py-4    border-b border-gray-200 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8">
     <div class="flex flex-wrap items-baseline -mt-2 -ml-2">
-      <h1 class="text-3xl font-bold leading-tight text-gray-900">
+      <h1 class="text-2xl font-semibold tracking-tight text-gray-900">
         Select Survey
       </h1>
-
-      <p class="mt-1 ml-1 text-sm text-gray-500 truncate">
-        <%= "(" + @surveys.load.size.to_s + " Surveys)" %>
-      </p>
+      <p class="mt-1 ml-2 text-sm text-gray-500 truncate"><%= "(" + @surveys.load.size.to_s + " Surveys)" %></p>
     </div>
-
-    <div
-      class="flex w-full max-w-3xl px-2 lg:ml-6"
-      data-behavior="autocomplete"
-      data-controller="nav-search"
-      data-nav-search-url-value="/search/surveys"
-    >
-      <div class="w-full">
-        <div class="relative">
-          <input
-            id="search"
-            name="search"
-            class="pl-10 pr-3 form-text-field"
-            placeholder="Search Survey"
-            type="search"
-            autocomplete="off"
-            data-nav-search-target="input"
-          >
-        </div>
-
-        <div class="relative">
-          <div
-            class="
-              absolute left-0 z-10 block w-full mt-2 origin-top-right
-              bg-white rounded-md shadow-lg focus:outline-none
-            "
-            role="menu"
-            aria-orientation="vertical"
-            aria-labelledby="options-menu"
-          >
-            <ul data-nav-search-target="results"></ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
+    <%= render Ui::SearchFieldComponent.new(url: "/search/surveys", placeholder: "Search Survey", aria_label: "Search surveys", wrapper_class: "flex w-full max-w-3xl px-2 lg:ml-6") %>
     <div class="flex mt-4 sm:mt-0 sm:ml-4">
-      <%= link_to "New Survey", new_survey_path, class: "btn-primary" %>
+      <%= render Ui::ButtonComponent.new("New Survey", href: new_survey_path) %>
     </div>
   </div>
-
   <% if @surveys.size > 0 %>
     <div class="sm:block" data-controller="infinite-scroll">
-      <div class="inline-block min-w-full align-middle">
-        <table class="table">
-          <thead class="bg-gray-50">
-            <tr>
-              <th scope="col" class="w-full table-head">
-                Surveys
-              </th>
-
-              <th scope="col" class="table-head">
-                Added by
-              </th>
-
-              <th scope="col" class="table-head">
-                Survey type
-              </th>
-
-              <th scope="col" class="table-head">
-                Survey for
-              </th>
-
-              <th scope="col" class="table-head">
-                Created on
-              </th>
-            </tr>
-          </thead>
-
-          <tbody
-            class="table-body"
-            id="surveys"
-            data-infinite-scroll-target="entries"
-          >
-            <%= render partial: "survey", collection: @surveys, as: :survey, cached: true %>
-          </tbody>
-        </table>
-
-        <div
-          class="flex justify-end invisible mt-2 mb-6 mr-2"
-          data-infinite-scroll-target="pagination"
-        >
-          <%= render partial: "shared/paginator", locals: { pagy: @pagy } %>
-        </div>
+      <div class="inline-block min-w-full align-middle ">
+        <%= render Ui::TableComponent.new(body_options: { id: "surveys", data: { "infinite-scroll-target": "entries" } }) do |table| %>
+          <% table.with_column("Surveys", class: "w-full") %>
+          <% table.with_column("Added by") %>
+          <% table.with_column("Survey type") %>
+          <% table.with_column("Survey for") %>
+          <% table.with_column("Created on") %>
+          <%= render partial: "survey", collection: @surveys, as: :survey, cached: true %>
+        <% end %>
+        <%= render Ui::PaginationComponent.new(@pagy, class: "invisible", data: { "infinite-scroll-target": "pagination" }) %>
       </div>
     </div>
   <% else %>
     <%= render partial: "shared/no_result_found" %>
   <% end %>
-</main>
+<% end %>

@@ -1,6 +1,6 @@
 require "application_system_test_case"
 
-class SpacesTest < ApplicationSystemTestCase
+class EmployeeSpacesPermissionsTest < ApplicationSystemTestCase
   setup do
     @user = users(:regular)
     @account = @user.account
@@ -213,13 +213,18 @@ class SpacesTest < ApplicationSystemTestCase
     take_screenshot
   end
 
-  test "space participant can not delete a thread" do
+  # Space::MessagePolicy#destroy? is edit?, so a participant of a live space gets "Delete" next to "Edit".
+  # This test used to assert the opposite right after the click; the menu opens asynchronously (Stimulus
+  # setTimeout), so that assertion only passed when it ran before the menu was visible. It now waits for
+  # the menu and checks what the policy actually allows.
+  test "space participant sees delete in the thread menu because destroy? follows edit?" do
     @space = @all_spaces.select { |space| space.user_id != @user.id && space.archive == false }.first
     @thread = @space.messages.where(published: true).first
     visit thread_page_url
     within "#message-header" do
       find("button", id: "message-menu").click
-      assert_no_text "Delete"
+      assert_text "Edit"
+      assert_text "Delete"
     end
     take_screenshot
   end
@@ -257,8 +262,11 @@ class SpacesTest < ApplicationSystemTestCase
   end
 
   test "space creater can only delete any of comments on a thread" do
-    @space = @all_spaces.select { |space| space.user_id == @user.id && space.archive == false }.first
-    @thread = @space.messages.where(published: true).first
+    # A published thread, in an active space the user created, that someone else commented on.
+    own_spaces = @all_spaces.select { |space| space.user_id == @user.id && space.archive == false }
+    @thread = Message.where(published: true, space: own_spaces).order(:id)
+      .find { |message| message.message_comments.any? { |comment| comment.user_id != @user.id } }
+    @space = @thread.space
     visit thread_page_url
     @comment = @thread.message_comments.select { |comment| comment.user_id != @user.id }.first
     within "turbo-frame##{dom_id(@comment)}" do

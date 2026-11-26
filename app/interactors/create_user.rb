@@ -1,4 +1,4 @@
-class CreateUser < Patterns::Service
+class CreateUser < ApplicationService
   PASSWORD_LENGTH = 10
 
   def initialize(params, actor, account, invite)

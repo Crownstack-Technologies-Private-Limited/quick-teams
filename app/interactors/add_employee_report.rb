@@ -1,4 +1,4 @@
-class AddEmployeeReport < Patterns::Service
+class AddEmployeeReport < ApplicationService
   def initialize(employee, params, submitted, actor)
     @employee = employee
     @report = employee.reports.new(params)

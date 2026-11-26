@@ -200,8 +200,9 @@ class EmployeesTest < ApplicationSystemTestCase
     find("tr", id: dom_id(@employees.first)).click_link(@employees.first.decorate.display_name)
     assert_selector "h1", text: @employees.first.decorate.display_name
     take_screenshot
+    tag_name = @employees.first.people_tags.first.name
     find("div", id: "employee-tags").click_button("remove")
-    assert_no_selector "span", text: @employees.first.people_tags.first.name
+    assert_no_selector "span", text: tag_name
     take_screenshot
   end
 end

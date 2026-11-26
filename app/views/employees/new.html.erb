@@ -1,5 +1,5 @@
 <%= tailwind_form_with(model: @employee, url: employees_path) do |form| %>
-  <main class="max-w-lg px-4 pt-10 pb-12 mx-auto space-y-4 lg:pb-16">
+  <%= render Ui::FormContainerComponent.new do %>
     <%= render "shared/form_messages", resource: @employee, message: local_assigns[:message] %>
     <%= render "shared/form_header", title: "Add New Employee", subtitle: "Please add detail of new employee." %>
     <%= form.text_field :first_name, "First Name", autocomplete: "off" %>
@@ -9,15 +9,25 @@
     <%= form.collection_select(:job_id, Job.order(:name), :id, :name, { :prompt => "Select Job" }, :selected => @employee.job_id, :class => "form-text-field mt-1") %>
     <%= form.collection_select(:role_id, Role.order(:name), :id, :name, { :prompt => "Select Role" }, :selected => @employee.role_id, :class => "form-text-field mt-1") %>
     <%= form.collection_select(:manager_id, User.all_users.decorate, :id, :display_name_position, { :prompt => "Select Manager" }, :selected => @employee.manager_id, :class => "form-text-field mt-1") %>
-
     <div class="flex items-center justify-between">
-      <div class="flex items-center"><%= form.check_box :billable, class: "w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" %><label for="remember_me" class="block ml-2 text-sm text-gray-900"> This resource can be put on client work and can generate direct revenue. Leave unchecked if resource is not directly billable. </label></div>
+      <div class="flex items-center">
+        <%= form.check_box :billable, class: "form-check" %>
+        <label for="remember_me" class="block ml-2 text-sm text-gray-900">
+          This resource can be put on client work and can generate direct revenue. Leave unchecked if resource is not directly billable.
+        </label>
+      </div>
     </div>
-
     <div class="flex items-center justify-between">
-      <div class="flex items-center"><%= form.check_box :invite, name: "invite", class: "w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" %><label for="remember_me" class="block ml-2 text-sm text-gray-900"> Invite this user to join Quick Teams. User will be sent an invitation email to confirm. </label></div>
+      <div class="flex items-center">
+        <%= form.check_box :invite, name: "invite", class: "form-check" %>
+        <label for="remember_me" class="block ml-2 text-sm text-gray-900">
+          Invite this user to join Quick Teams. User will be sent an invitation email to confirm.
+        </label>
+      </div>
     </div>
-
-    <div class="flex justify-end"><%= link_to "Back", "javascript:history.back()", class: "btn-secondary" %><%= form.submit "Save", class: "btn-primary ml-2" %></div>
-  </main>
+    <%= render Ui::FormActionsComponent.new do %>
+      <%= render Ui::BackButtonComponent.new() %>
+      <%= render Ui::SubmitButtonComponent.new(form, "Save", class: "ml-2") %>
+    <% end %>
+  <% end %>
 <% end %>

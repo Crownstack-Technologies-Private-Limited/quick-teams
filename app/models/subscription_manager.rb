@@ -10,7 +10,7 @@ class SubscriptionManager
 
     #something went wrong with payment processor
     if payment_processor.nil?
-      user.set_payment_processor :stripe
+      payment_processor = user.set_payment_processor :stripe
     end
 
     # user signed up and is under trial period

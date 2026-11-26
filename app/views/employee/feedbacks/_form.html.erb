@@ -1,31 +1,17 @@
 <%= tailwind_form_with(model: feedback, id: dom_id(feedback), url: employee_feedbacks_path(@employee)) do |form| %>
-  <main class="max-w-lg px-4 pt-6 pb-12 mx-auto space-y-4 lg:pb-16">
+  <%= render Ui::FormContainerComponent.new do %>
     <%= render "shared/form_messages", resource: feedback, message: local_assigns[:message] %>
     <%= render "shared/form_header", title: "Add New Feedback", subtitle: "A feedback can be added for employee which might be useful in performace review later. Feedback will be visible to employee after approval from Admin." %>
     <%= form.text_field :title, "Title", autocomplete: "off" %>
     <%= form.rich_text_area :body, "Feedback" %>
-
-    <!-- Feedback Type dropdown -->
-    <div class="mt-4">
-      <%= form.label :feedback_type, "Feedback Type", class: "block text-sm font-medium text-gray-700" %>
-      <%= form.select :feedback_type, Feedback.feedback_types.keys.map { |k| [k.titleize, k] }, {}, class: "form-text-field mt-1" %>
-    </div>
-
-    <!-- Is KPI checkbox -->
-    <div class="flex">
-      <div class="flex items-center h-5">
-        <%= form.check_box :is_kpi, class: "w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" %>
-      </div>
-
-      <div class="ms-2 text-sm select-none">
-        <label for="helper-checkbox" class="font-medium text-heading">Mark as KPI</label>
-
-        <p id="helper-checkbox-text" class="text-xs font-normal text-body">
-          Mark this feedback as a Key Performance Indicator (KPI) for the employee.
-        </p>
-      </div>
-    </div>
-
-    <div class="flex justify-end"><%= form.submit "Add Feedback", class: "btn-primary" %></div>
-  </main>
+    <%= render Ui::FormFieldComponent.new(label: "Feedback Type", for_id: "feedback_feedback_type") do %>
+      <%= form.select :feedback_type, Feedback.feedback_types.keys.map { |k| [k.titleize, k] }, {}, class: "form-text-field" %>
+    <% end %>
+    <%= render Ui::CheckboxFieldComponent.new(label: "Mark as KPI", for_id: "feedback_is_kpi", help: "Mark this feedback as a Key Performance Indicator (KPI) for the employee.") do %>
+      <%= form.check_box :is_kpi, class: Ui::CheckboxFieldComponent::INPUT_CLASS %>
+    <% end %>
+    <%= render Ui::FormActionsComponent.new do %>
+      <%= render Ui::SubmitButtonComponent.new(form, "Add Feedback") %>
+    <% end %>
+  <% end %>
 <% end %>

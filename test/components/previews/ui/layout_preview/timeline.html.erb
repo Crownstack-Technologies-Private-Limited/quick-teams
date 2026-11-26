@@ -1,0 +1,6 @@
+<% person = Ui::AvatarComponentPreview::Person.new("Ada", "Lovelace") %>
+<ul>
+  <%= render Ui::TimelineItemComponent.new(user: person, timestamp: "Nov 20, 2026") do %>
+    <%= render Ui::TextLinkComponent.new("Ada Lovelace", "#", tone: :strong) %> added a new goal titled <%= render Ui::TextLinkComponent.new("Ship components", "#", tone: :strong) %>
+  <% end %>
+</ul>

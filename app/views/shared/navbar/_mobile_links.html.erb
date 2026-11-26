@@ -1,0 +1,23 @@
+<%# Same links and policy checks as the desktop bar (admin/lead/member partials + "more" dropdown). %>
+<% link = ->(label, path) { render Ui::NavItemComponent.new(label, path, mobile: true) } %>
+<nav class="flex flex-col gap-0.5" aria-label="Main (mobile)">
+  <% if current_user.admin? %>
+    <%= link.("Dashboard", home_path) if policy(:home).index? %>
+    <%= link.("Team", employees_path) if policy(:team).index? %>
+    <%= link.("Projects", projects_path) if policy(:projects).index? %>
+    <%= link.("Schedules", schedules_path) if policy(:schedules).index? %>
+    <%= link.("Spaces", spaces_path) if policy(:spaces).index? %>
+    <%= link.("JobCards", employee_planner_daily_path(current_user)) %>
+    <%= link.("Reports", reports_path) if policy(:reports).index? %>
+    <div class="my-1 border-t border-gray-100"></div>
+    <%= link.("Tickets", tickets_path) if policy(:ticket).index? %>
+    <%= link.("Surveys & KRAs", surveys_path) %>
+    <%= link.("Report Templates", templates_path) %>
+  <% else %>
+    <%= link.(current_user.first_name, current_user.lead? ? employee_team_path(current_user) : employee_schedules_path(current_user)) %>
+    <%= link.("Projects", projects_path) if policy(:projects).index? %>
+    <%= link.("Tickets", tickets_path) if policy(:ticket).index? %>
+    <%= link.("Spaces", spaces_path) if policy(:spaces).index? %>
+    <%= link.("JobCards", employee_planner_daily_path(current_user)) %>
+  <% end %>
+</nav>

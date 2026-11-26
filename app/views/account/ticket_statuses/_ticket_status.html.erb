@@ -1,19 +1,9 @@
 <%= turbo_frame_tag dom_id(ticket_status) do %>
-  <li class="flex py-4 border-b border-gray-200">
-    <div class="flex items-center w-full ml-3">
-      <div
-        class="flex-shrink-0 w-2.5 h-2.5 rounded-full bg-<%= ticket_status.color %>-400"
-        aria-hidden="true"
-      ></div>
-
-      <p class="w-full ml-2 text-sm font-medium text-gray-900">
-        <%= ticket_status.name.titleize %>
-      </p>
-
-      <div class="flex justify-end space-x-2">
-        <%= edit_button(edit_account_ticket_status_path(ticket_status)) %>
-        <%= delete_button(account_ticket_status_path(ticket_status)) %>
-      </div>
-    </div>
-  </li>
+  <%= render Ui::ListRowComponent.new(title: ticket_status.name.titleize) do |row| %>
+    <% row.with_leading { render Ui::StatusDotComponent.new(color: ticket_status.color, class: "flex-shrink-0", "aria-hidden": "true") } %>
+    <% row.with_actions do %>
+      <%= edit_button(edit_account_ticket_status_path(ticket_status)) %>
+      <%= delete_button(account_ticket_status_path(ticket_status)) %>
+    <% end %>
+  <% end %>
 <% end %>

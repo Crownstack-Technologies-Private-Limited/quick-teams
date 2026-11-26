@@ -36,6 +36,9 @@ Rails.application.configure do
   config.active_storage.service = :local
   Rails.application.config.active_storage.variant_processor = :mini_magick
 
+  # Highlight code that enqueued background job in logs.
+  config.active_job.verbose_enqueue_logs = true
+
   config.action_view.preload_links_header = false
 
   # Don't care if the mailer can't send.
@@ -75,4 +78,7 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :letter_opener_web
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
+
+  # Raise error when a before_action's only/except options reference missing actions
+  config.action_controller.raise_on_missing_callback_actions = false
 end

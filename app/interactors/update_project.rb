@@ -1,4 +1,4 @@
-class UpdateProject < Patterns::Service
+class UpdateProject < ApplicationService
   def initialize(project, params, observers)
     @project = project
     @params = params

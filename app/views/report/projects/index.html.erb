@@ -1,59 +1,26 @@
-<div class="relative z-0 flex-1 overflow-y-auto focus:outline-none">
-  <!-- Page title & actions -->
-  <div
-    class="
-      px-4 py-4 border-b border-gray-200 sm:flex sm:items-center
-      sm:justify-between sm:px-6 lg:px-8
-    "
-  >
-    <div class="flex flex-wrap items-baseline -mt-2 -ml-2">
-      <h1 class="text-3xl font-bold leading-tight text-gray-900">
-        Projects
-      </h1>
-    </div>
-  </div>
-</div>
-
+<%= render Ui::PageComponent.new(tag: :div) do %>
+  <%= render Ui::PageHeaderComponent.new(title: "Projects") %>
+<% end %>
 <div class="flex w-full overflow-hidden bg-white">
   <div class="flex w-full">
     <%= render partial: "form" %>
     <% if @projects.size > 0 %>
       <div class="w-full overflow-hidden" data-controller="infinite-scroll">
         <!-- This example requires Tailwind CSS v2.0+ -->
-        <table class="table">
-          <thead class="bg-gray-50">
-            <tr class="border-gray-200">
-              <th class="table-head border-b border-gray-200 bg-gray-50">
-                <span class="lg:pl-2">Project</span>
-              </th>
-              <th class="table-head">
-                Tags
-              </th>
-              <th class="table-head">
-                Billed (<%= @projects.map(&:billable_resources).compact.inject(0, &:+) %>)
-              </th>
-              <th class="table-head">
-                Lead
-              </th>
-              <th class="table-head">
-                Created At
-              </th>
-              <th class="table-head">
-                Status
-              </th>
-            </tr>
-          </thead>
-          <tbody class="table-body" data-infinite-scroll-target="entries">
-            <%= render partial: "project", collection: @projects, as: :project, cached: true %>
-          </tbody>
-        </table>
-
-        <div
-          class="flex justify-end invisible mt-2 mb-6 mr-2"
-          data-infinite-scroll-target="pagination"
-        >
-          <%== render partial: "shared/paginator", locals: { pagy: @pagy } %>
-        </div>
+        <%= render Ui::TableComponent.new(body_options: { data: { "infinite-scroll-target": "entries" } }) do |table| %>
+          <% table.with_column(class: "border-b border-gray-200 bg-gray-50") do %>
+            <span class="lg:pl-2">Project</span>
+          <% end %>
+          <% table.with_column("Tags") %>
+          <% table.with_column do %>
+            Billed (<%= @projects.map(&:billable_resources).compact.inject(0, &:+) %>)
+          <% end %>
+          <% table.with_column("Lead") %>
+          <% table.with_column("Created At") %>
+          <% table.with_column("Status") %>
+          <%= render partial: "project", collection: @projects, as: :project, cached: true %>
+        <% end %>
+        <%= render Ui::PaginationComponent.new(@pagy, class: "invisible", data: { "infinite-scroll-target": "pagination" }) %>
       </div>
     <% else %>
       <%= render partial: "shared/no_result_found", cached: true %>

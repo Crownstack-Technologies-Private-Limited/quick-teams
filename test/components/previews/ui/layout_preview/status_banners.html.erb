@@ -1,0 +1,8 @@
+<div class="space-y-4">
+  <%= render(Ui::StatusBannerComponent.new(tone: :success)) { "This report has been submitted." } %>
+  <%= render Ui::StatusBannerComponent.new(tone: :info) do |banner| %>
+    <% banner.with_action("Submit", data: { reflex: "click->ReportSubmit#submit" }) %>
+    This report has not been submitted.
+  <% end %>
+  <%= render(Ui::AlertComponent.new(:info)) { "Open the daily or weekly planner." } %>
+</div>

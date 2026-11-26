@@ -1,5 +1,4 @@
 class EmployeesController < BaseController
-  include Pagy::Backend
 
   before_action :set_employee, only: %i[ show edit update destroy deactivate_user activate_user ]
   before_action :build_form, only: %i[create]
@@ -7,7 +6,7 @@ class EmployeesController < BaseController
   def index
     authorize :team
 
-    @pagy, @employees = pagy(User.with_attached_avatar.for_current_account.active.includes(:role, :discipline, :job, :manager, :subordinates, :status).order(:first_name), items: 10)
+    @pagy, @employees = pagy(User.with_attached_avatar.for_current_account.active.includes(:role, :discipline, :job, :manager, :subordinates, :status).order(:first_name), limit: 10)
 
     fresh_when @employees
   end
@@ -72,7 +71,7 @@ class EmployeesController < BaseController
     authorize :team, :index?
 
     employees = User.for_current_account.inactive.includes(:role, :discipline, :job).order(deactivated_on: :desc)
-    @pagy, @employees = pagy_nil_safe(params, employees, items: LIMIT)
+    @pagy, @employees = pagy_nil_safe(params, employees, limit: LIMIT)
     render_partial("employees/deactivated_user", collection: @employees, cached: true) if stale?(@employees)
   end
 

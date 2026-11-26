@@ -1,29 +1,16 @@
-<div class="flex items-center justify-center flex-1 sm:items-stretch sm:justify-start w-full">
-  <div class="flex items-center flex-shrink-0">
-    <h1 class="text-white font-extrabold font-mono">Quick Teams</h1>
-  </div>
-
-  <div class="hidden sm:block sm:ml-6">
-    <div class="flex space-x-4">
-      <%# local helper to keep nav class logic DRY %>
-      <% nav_class = ->(path) { current_page?(path) ? "nav-selected" : "nav-unselected" } %>
-
-      <%= link_to current_user.first_name, employee_schedules_path(current_user), class: nav_class.call(employee_schedules_path(current_user)) %>
-
-      <% if policy(:projects).index? %>
-        <%= link_to "Projects", projects_path, class: nav_class.call(projects_path) %>
-      <% end %>
-
-      <% if policy(:ticket).index? %>
-        <%= link_to "Tickets", tickets_path, class: nav_class.call(tickets_path) %>
-      <% end %>
-
-      <% if policy(:spaces).index? %>
-        <%= link_to "Spaces", spaces_path, class: nav_class.call(spaces_path) %>
-      <% end %>
-
-      <%= link_to "JobCards", employee_planner_daily_path(current_user), class: nav_class.call(employee_planner_daily_path(current_user)) %>
-
-    </div>
+<%= render "shared/navbar/brand" %>
+<div class="hidden sm:ml-4 sm:flex sm:items-center sm:flex-1">
+  <div class="flex items-center gap-1">
+    <%= render Ui::NavItemComponent.new(current_user.first_name, employee_schedules_path(current_user)) %>
+    <% if policy(:projects).index? %>
+      <%= render Ui::NavItemComponent.new("Projects", projects_path) %>
+    <% end %>
+    <% if policy(:ticket).index? %>
+      <%= render Ui::NavItemComponent.new("Tickets", tickets_path) %>
+    <% end %>
+    <% if policy(:spaces).index? %>
+      <%= render Ui::NavItemComponent.new("Spaces", spaces_path) %>
+    <% end %>
+    <%= render Ui::NavItemComponent.new("JobCards", employee_planner_daily_path(current_user), selected: current_page?(employee_planner_daily_path(current_user)) || current_page?(employee_planner_weekly_path(current_user))) %>
   </div>
 </div>

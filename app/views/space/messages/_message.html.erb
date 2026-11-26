@@ -1,49 +1,34 @@
 <% if policy([message.space, message]).show? %>
-  <li class="py-4 border-b border-gray-200" id="<%= dom_id(message) %>">
-    <% title_html = highlight_hashtag(message.title.upcase_first) %>
-
+  <li class=" py-4 border-b border-gray-200 " id="<%= dom_id(message) %>">
     <% if message.published? %>
-      <%= link_to space_message_path(message.space, message), class: "focus:outline-none", aria: { label: message.title } do %>
-        <div class="flex flex-col">
+      <%= render Ui::TextLinkComponent.new(nil, space_message_path(message.space, message), tone: :plain) do %>
+        <div class="flex flex-col ">
           <div class="flex justify-between">
             <div class="hover:underline inline-flex space-x-2">
               <h3 class="text-base font-medium line-clamp-1 flex-auto">
-                <%= title_html %>
+                <%= highlight_hashtag(message.title.upcase_first) %>
               </h3>
             </div>
           </div>
         </div>
       <% end %>
     <% else %>
-      <%= link_to edit_space_message_path(message.space, message), class: "focus:outline-none", aria: { label: "#{message.title} (draft)" } do %>
-        <div
-          class="flex flex-col"
-          data-controller="swap"
-          data-action="mouseenter->swap#mouseenter mouseleave->swap#mouseleave"
-        >
+      <%= render Ui::TextLinkComponent.new(nil, edit_space_message_path(message.space, message), tone: :plain) do %>
+        <div class="flex flex-col " data-controller="swap" data-action="mouseenter->swap#mouseenter mouseleave->swap#mouseleave">
           <div class="flex justify-between">
             <div class="hover:underline inline-flex space-x-2">
               <h3 class="text-base font-medium line-clamp-1 flex-auto">
-                <%= title_html %>
+                <%= highlight_hashtag(message.title.upcase_first) %>
               </h3>
             </div>
-
-            <div data-swap-target="text">
-              <span
-                class="
-                  inline-flex items-center ml-2 px-2 py-0.5 rounded text-xs
-                  font-medium bg-red-100 text-red-800
-                "
-              >
-                Draft
-              </span>
+            <div class="" data-swap-target="text">
+              <%= render Ui::BadgeComponent.new("Draft", color: :red, class: "ml-2") %>
             </div>
           </div>
         </div>
       <% end %>
     <% end %>
-
-    <span class="whitespace-nowrap text-gray-500 text-sm font-normal flex-none">
+    <span class="whitespace-nowrap text-gray-500 text-sm font-normal  flex-none">
       <%= message.user.decorate.display_name %> on <%= display_date(message.created_at) %>
     </span>
   </li>

@@ -1,62 +1,27 @@
 <%= turbo_frame_tag dom_id(@schedule) do %>
   <%= form_with(model: @schedule, id: dom_id(@schedule), url: employee_schedule_path(@employee, @schedule)) do |form| %>
     <%= render "shared/form_messages", resource: @schedule, message: local_assigns[:message] %>
-    <li>
-      <label for="name" class="block mt-3 ml-3 text-sm font-bold text-gray-700">
-        <%= "Edit " + @schedule.project.name + "'s schedule" %>
-      </label>
-      <div class="flex pt-2 pb-4 border-b border-gray-200">
-        <div class="flex w-full ml-3">
-          <div class="w-full">
-            <label for="starts" class="block text-sm font-medium text-gray-700">Starts At</label>
-
-            <%= form.hidden_field :project_id, value: @schedule.project_id %>
-            <%= form.date_field :starts_at, class: "form-text-field mt-1" %>
-          </div>
-
-          <div class="w-full ml-4">
-            <label for="ends" class="block text-sm font-medium text-gray-700">Ends At</label>
-            <%= form.date_field :ends_at, class: "form-text-field mt-1" %>
-          </div>
-
-          <div class="w-full ml-4">
-            <label for="ends" class="block text-sm font-medium text-gray-700">Occupancy(%)</label>
-            <%= form.text_field :occupancy, class: "form-text-field mt-1", autocomplete: "off" %>
-          </div>
-
-          <% if @schedule.project.billable %>
-            <div class="w-full ml-4">
-              <label
-                for="billable"
-                class="block text-sm font-medium text-gray-700"
-              >
-                Billable
-              </label>
-              <%= form.select :billable, Schedule::SCHEDULE_OPTIONS, {}, class: "form-text-field mt-1" %>
-            </div>
-          <% else %>
-            <div class="w-full ml-4">
-              <label
-                for="billable"
-                class="block text-sm font-medium text-gray-700"
-              >
-                Billable
-              </label>
-              <label
-                for="billable"
-                class="block text-xs font-medium text-gray-500"
-              >
-                Project is non billable hence this schedule is non-billable as
-                well.
-              </label>
-            </div>
-          <% end %>
-
-          <div class="content-end">
-            <%= form.submit "Save", class: "btn-primary ml-2 mt-6" %>
-          </div>
-        </div>
-      </div>
-    </li>
+    <%= render Ui::InlineEditFormComponent.new(title: "Edit #{@schedule.project.name}'s schedule") do |row| %>
+      <% row.with_field do %>
+        <%= form.hidden_field :project_id, value: @schedule.project_id %>
+        <%= render Ui::FormFieldComponent.new(label: "Starts At") do %><%= form.date_field :starts_at, class: "form-text-field" %><% end %>
+      <% end %>
+      <% row.with_field do %>
+        <%= render Ui::FormFieldComponent.new(label: "Ends At") do %><%= form.date_field :ends_at, class: "form-text-field" %><% end %>
+      <% end %>
+      <% row.with_field do %>
+        <%= render Ui::FormFieldComponent.new(label: "Occupancy(%)") do %><%= form.text_field :occupancy, class: "form-text-field", autocomplete: "off" %><% end %>
+      <% end %>
+      <% row.with_field do %>
+        <% if @schedule.project.billable %>
+          <%= render Ui::FormFieldComponent.new(label: "Billable") do %><%= form.select :billable, Schedule::SCHEDULE_OPTIONS, {}, class: "form-text-field" %><% end %>
+        <% else %>
+          <%= render Ui::FormFieldComponent.new(label: "Billable", help: "Project is non billable hence this schedule is non-billable as well.") %>
+        <% end %>
+      <% end %>
+      <% row.with_submit do %>
+        <%= render Ui::SubmitButtonComponent.new(form, "Save", class: "ml-2 mt-6") %>
+      <% end %>
+    <% end %>
   <% end %>
 <% end %>

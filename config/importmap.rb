@@ -1,32 +1,26 @@
 # Pin npm packages by running ./bin/importmap
 
 pin "application", preload: true
+pin "trix-editor-overrides"
+pin "reflex_actions"
 pin_all_from "app/javascript/controllers", under: "controllers", preload: true
-pin_all_from "app/javascript/channels", under: "channels", preload: true
-pin_all_from "app/javascript/config", under: "config", preload: true
+pin_all_from "app/javascript/channels", under: "channels"
 
 # Hotwire
 pin "@hotwired/turbo-rails", to: "turbo.min.js", preload: true
 pin "@hotwired/stimulus", to: "stimulus.min.js", preload: true
-pin "@hotwired/stimulus-loading", to: "stimulus-loading.js", preload: true
+pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 
 # Rails
-pin "@rails/actioncable", to: "actioncable.esm.js", preload: true
+pin "@rails/actioncable", to: "actioncable.esm.js"
 pin "@rails/activestorage", to: "activestorage.esm.js"
 pin "@rails/actiontext", to: "actiontext.esm.js"
-pin "@rails/request.js", to: "https://ga.jspm.io/npm:@rails/request.js@0.0.11/src/index.js"
+pin "@rails/request.js", to: "https://ga.jspm.io/npm:@rails/request.js@0.0.13/src/index.js"
 
 # Trix editor
-pin "trix", to: "https://ga.jspm.io/npm:trix@2.1.8/dist/trix.esm.min.js"
-pin "trix-editor-overrides", to: "trix-editor-overrides.js"
+pin "trix", to: "https://ga.jspm.io/npm:trix@2.1.19/dist/trix.esm.min.js"
 
-# StimulusReflex and CableReady - preload for proper initialization order
-pin "stimulus_reflex", to: "stimulus_reflex.js", preload: true
-pin "cable_ready", to: "cable_ready.js", preload: true
-pin "morphdom", to: "morphdom.js", preload: true
-
-# Slim Select
+# Vendored copies in app/javascript: slim-select 3.2.0 (styles in app/assets/stylesheets/slim.css)
+# and stimulus-scroll-to 4.1.0.
 pin "slim-select", to: "slim-select.js"
-
-# Stimulus plugins
 pin "stimulus-scroll-to", to: "stimulus-scroll-to.js"

@@ -1,98 +1,27 @@
-<div class="flex items-center justify-center sm:items-stretch sm:justify-start w-full">
-  <div class="flex items-center flex-shrink-0">
-    <h1 class="text-white font-extrabold font-mono">Quick Teams</h1>
-  </div>
+<%= render "shared/navbar/brand" %>
+<div class="hidden sm:ml-4 sm:flex sm:items-center">
+  <div class="flex items-center gap-1">
+    <% if policy(:home).index? %>
+      <%= render Ui::NavItemComponent.new("Dashboard", home_path) %>
+    <% end %>
+    <% if policy(:team).index? %>
+      <%= render Ui::NavItemComponent.new("Team", employees_path) %>
+    <% end %>
+    <% if policy(:projects).index? %>
+      <%= render Ui::NavItemComponent.new("Projects", projects_path) %>
+    <% end %>
+    <% if policy(:schedules).index? %>
+      <%= render Ui::NavItemComponent.new("Schedules", schedules_path) %>
+    <% end %>
+    <% if policy(:spaces).index? %>
+      <%= render Ui::NavItemComponent.new("Spaces", spaces_path) %>
+    <% end %>
+    <%= render Ui::NavItemComponent.new("JobCards", employee_planner_daily_path(current_user), selected: current_page?(employee_planner_daily_path(current_user)) || current_page?(employee_planner_weekly_path(current_user))) %>
+    <% if policy(:reports).index? %>
+      <%= render Ui::NavItemComponent.new("Reports", reports_path) %>
+    <% end %>
 
-  <div class="hidden sm:block sm:ml-6">
-    <div class="flex space-x-2">
-      <% nav_class = ->(path) { current_page?(path) ? "nav-selected" : "nav-unselected" } %>
-
-      <% if policy(:home).index? %>
-        <%= link_to "Dashboard", home_path, class: nav_class.call(home_path) %>
-      <% end %>
-
-      <% if policy(:team).index? %>
-        <%= link_to "Team", employees_path, class: nav_class.call(employees_path) %>
-      <% end %>
-
-      <% if policy(:projects).index? %>
-        <%= link_to "Projects", projects_path, class: nav_class.call(projects_path) %>
-      <% end %>
-
-      <% if policy(:schedules).index? %>
-        <%= link_to "Schedules", schedules_path, class: nav_class.call(schedules_path) %>
-      <% end %>
-
-      <% if policy(:spaces).index? %>
-        <%= link_to "Spaces", spaces_path, class: nav_class.call(spaces_path) %>
-      <% end %>
-
-      
-      <%= link_to "JobCards", employee_planner_daily_path(current_user), class: nav_class.call(employee_planner_daily_path(current_user)) %>
-
-      <% if policy(:reports).index? %>
-        <%= link_to "Reports", reports_path, class: nav_class.call(reports_path) %>
-      <% end %>
-
-
-      <%= render "shared/navbar/dropdown" %>
-    </div>
+    <%= render "shared/navbar/dropdown" %>
   </div>
 </div>
-
-<div
-  class="flex w-5/12 px-2 lg:ml-6 lg:justify-end"
-  data-behavior="autocomplete"
-  data-controller="nav-search"
-  data-nav-search-url-value="/search/people-projects"
->
-  <div class="w-full max-w-xs lg:max-w-sm justify-end">
-    <div class="relative">
-      <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-        <!-- Heroicon name: solid/search -->
-        <svg
-          class="w-5 h-5 text-gray-400"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          aria-hidden="true"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-            clip-rule="evenodd"
-          />
-        </svg>
-      </div>
-
-      <input
-        id="search"
-        name="search"
-        class="
-          block w-full py-1 pl-10 pr-3 leading-5 text-gray-300
-          placeholder-gray-400 bg-gray-700 border border-transparent
-          rounded-md focus:outline-none focus:bg-white focus:border-white
-          focus:ring-white focus:text-gray-900 sm:text-sm
-        "
-        placeholder="Search Employee or Project"
-        type="search"
-        data-nav-search-target="input"
-        autocomplete="off"
-      >
-    </div>
-
-    <div class="relative">
-      <div
-        class="
-          absolute left-0 z-10 block w-full mt-2 origin-top-right bg-white
-          rounded-md shadow-lg border border-gray-200 focus:outline-none
-        "
-        role="menu"
-        aria-orientation="vertical"
-        aria-labelledby="options-menu"
-      >
-        <ul data-nav-search-target="results"></ul>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render Ui::SearchFieldComponent.new(url: "/search/people-projects", placeholder: "Search Employee or Project", aria_label: "Search employee or project", variant: :navbar, wrapper_class: "order-3 w-full sm:order-none sm:ml-auto sm:w-64 lg:w-80") %>

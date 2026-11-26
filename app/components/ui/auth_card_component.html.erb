@@ -1,0 +1,4 @@
+<div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+  <% if @resource %><%= helpers.render "devise/shared/error_messages", resource: @resource %><% end %>
+  <%= tag.div(**card_options) { content } %>
+</div>

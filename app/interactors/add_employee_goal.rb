@@ -1,4 +1,4 @@
-class AddEmployeeGoal < Patterns::Service
+class AddEmployeeGoal < ApplicationService
   def initialize(employee, params, actor)
     @employee = employee
     @goal = employee.goals.new(params)

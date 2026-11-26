@@ -16,30 +16,9 @@
 
 <div>
   <dl class="grid grid-cols-1 gap-5 sm:grid-cols-3">
-    <div class="px-4 overflow-hidden">
-      <dt class="text-sm font-medium text-gray-500 truncate">
-        Total Hours
-      </dt>
-      <dd class="mt-1 text-xl font-semibold text-gray-900">
-        <%= project_stats.stats.total_hours %>
-      </dd>
-    </div>
-    <div class="px-4 overflow-hidden">
-      <dt class="text-sm font-medium text-gray-500 truncate">
-        Billable Hours
-      </dt>
-      <dd class="mt-1 text-xl font-semibold text-gray-900">
-        <%= project_stats.stats.billable_hours %>
-      </dd>
-    </div>
-    <div class="px-4 overflow-hidden">
-      <dt class="text-sm font-medium text-gray-500 truncate">
-        Billed Hours
-      </dt>
-      <dd class="mt-1 text-xl font-semibold text-gray-900">
-        <%= project_stats.stats.billed_hours %>
-      </dd>
-    </div>
+    <%= render Ui::StatCardComponent.new(label: "Total Hours", value: project_stats.stats.total_hours, variant: :plain) %>
+    <%= render Ui::StatCardComponent.new(label: "Billable Hours", value: project_stats.stats.billable_hours, variant: :plain) %>
+    <%= render Ui::StatCardComponent.new(label: "Billed Hours", value: project_stats.stats.billed_hours, variant: :plain) %>
   </dl>
 </div>
 

@@ -1,0 +1,9 @@
+<div class="flex items-center justify-between">
+  <div class="flex items-center">
+    <%= content %>
+    <div class="ml-2">
+      <%= tag.label(@label, for: @for_id, class: "block text-sm text-gray-900") %>
+      <% if @help.present? %><p class="text-xs text-gray-500"><%= @help %></p><% end %>
+    </div>
+  </div>
+</div>

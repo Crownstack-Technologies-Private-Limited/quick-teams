@@ -1,0 +1,16 @@
+<span class="relative z-0 inline-flex rounded-md shadow-sm">
+  <%= main_button %>
+  <% if options? %>
+    <span class="relative block -ml-px">
+      <button data-action="click->dropdown#toggle click@window->dropdown#hide" type="button" value="Submit" id="<%= @button_id %>" aria-haspopup="true" aria-label="Open options"
+              class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500">
+        <%= render Ui::IconComponent.new(:chevron_down, class: "w-5 h-5") %>
+      </button>
+      <div data-dropdown-target="menu" class="hidden absolute right-0 z-10 w-56 mt-2 -mr-1 origin-top-right dropdown-panel focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="<%= @button_id %>" tabindex="-1">
+        <div class="py-1" role="none">
+          <% options.each do |option| %><%= option %><% end %>
+        </div>
+      </div>
+    </span>
+  <% end %>
+</span>

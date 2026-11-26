@@ -5,7 +5,7 @@ class TemplatesController < BaseController
     authorize :template
     @template = Template.new
     templates = Template.all.order(created_at: :desc)
-    @pagy, @templates = pagy_nil_safe(params, templates, items: 20)
+    @pagy, @templates = pagy_nil_safe(params, templates, limit: 20)
     render_partial("templates/template", collection: @templates, cached: true) if stale?(@templates)
   end
 

@@ -1,7 +1,4 @@
-    <main class="pb-10 mx-auto max-w-7xl lg:py-12 lg:px-8">
-  <div class="lg:grid lg:grid-cols-12 lg:gap-x-5">
-    <%= render "shared/archive_menu" %>
-    <main class="max-w-xl px-4 pb-12 lg:col-span-8">
+<%= render Ui::SettingsLayoutComponent.new(menu: :archive, width: :wide) do %>
       <div class="overflow-hidden bg-white">
         <div class=" ml-4">
           <%= render "shared/form_header", title: "Archived Spaces", subtitle: @spaces.load.size > 0 ? "Following spaces have been archived." : "No record found." %>
@@ -9,15 +6,10 @@
       
         <div class="overflow-hidden bg-white " data-controller="infinite-scroll">
           <div>
-            <table class="table pt-4 border-separate">
-              <tbody class="table-body " id="spaces" data-infinite-scroll-target="entries">
-                <%= render partial: "spaces/archived_space", collection: @spaces, as: :space, cached: true %>
-              </tbody>
-            </table>
-            <div class="flex justify-end invisible mt-2 mb-6 mr-2" data-infinite-scroll-target="pagination">
-              <%== render partial: "shared/paginator", locals: { pagy: @pagy } %>
-            </div>
+            <%= render Ui::TableComponent.new(table_class: "border-separate pt-4", body_options: { id: "spaces", data: { "infinite-scroll-target": "entries" } }) do %>
+              <%= render partial: "spaces/archived_space", collection: @spaces, as: :space, cached: true %>
+            <% end %>
+            <%= render Ui::PaginationComponent.new(@pagy, class: "invisible", data: { "infinite-scroll-target": "pagination" }) %>
           </div>
-        </main>
-      </div>
-    </main>
+        
+<% end %>

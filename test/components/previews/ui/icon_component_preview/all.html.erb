@@ -1,0 +1,7 @@
+<div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+  <% Ui::IconComponent.names.each do |name| %>
+    <div class="flex items-center gap-2 text-sm text-gray-700">
+      <%= render Ui::IconComponent.new(name, class: "h-6 w-6 text-gray-500") %> <code><%= name %></code>
+    </div>
+  <% end %>
+</div>

@@ -39,6 +39,8 @@ class AttemptsTest < ApplicationSystemTestCase
     take_screenshot
     fill_in "survey_attempt_comment", with: "This is a comment"
     click_on "Submit"
+    # Wait for the submission's redirect before leaving the page, or the visit can cancel it.
+    assert_no_field "survey_attempt_comment"
     visit page_url
     assert_selector "td", text: "Submitted"
     find(id: dom_id(@attempt)).click_link("View")

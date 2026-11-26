@@ -1,34 +1,14 @@
-<%= tailwind_form_with(model: ticket_status, id: dom_id(ticket_status), url: account_ticket_statuses_path) do |form| %>
+  <%= tailwind_form_with(model: ticket_status, id: dom_id(ticket_status), url: account_ticket_statuses_path) do |form| %>
   <div class="space-y-4">
     <%= render "shared/form_messages", resource: ticket_status, message: local_assigns[:message] %>
     <%= render "shared/form_header", title: "Ticket Statuses", subtitle: "Ticket status is something this denotes status of a ticket. Open, Closed are defined already. You can add another statuses like In Progress, Action Required" %>
-
-    <%# name field: use placeholder properly %>
     <%= form.text_field :name, placeholder: "Add New Status", autocomplete: "off" %>
-
-    <div class="flex items-start">
-      <%= form.label :color, "Appearance", class: "text-sm" %>
-
-      <%# color options DRY iteration %>
-      <% selected_color = ticket_status.color.presence || "gray" %>
-      <% colors = %w[gray red yellow green blue] %>
-
-      <div class="flex items-center ml-2 text-sm">
-        <% colors.each do |color| %>
-          <div class="flex items-center ml-4 text-sm">
-            <%= form.radio_button :color, color, id: "ticket_status_color_#{color}", checked: (selected_color == color), class: "w-4 h-4 text-#{color}-600 border-#{color}-400 cursor-pointer focus:ring-#{color}-500" %>
-
-            <label
-              for="ticket_status_color_<%= color %>"
-              class="ml-1 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-<%= "#{color}-100" %> text-<%= "#{color}-800" %>"
-            >
-              <%= color.capitalize %>
-            </label>
-          </div>
-        <% end %>
-      </div>
+    <div class="flex flex-wrap items-center gap-y-2">
+      <label for="ticket_status_color" class="text-sm">Appearance</label>
+      <%= render Ui::ColorPickerComponent.new(name: "ticket_status[color]", selected: ticket_status.color.presence || "gray", id_prefix: "new_ticket_status") %>
     </div>
-
-    <div class="flex justify-end"><%= form.submit "Save", class: "btn-primary" %></div>
+    <%= render Ui::FormActionsComponent.new do %>
+      <%= render Ui::SubmitButtonComponent.new(form, "Save") %>
+    <% end %>
   </div>
 <% end %>

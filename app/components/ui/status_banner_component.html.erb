@@ -1,0 +1,9 @@
+<div class="p-4 rounded-md <%= background %>">
+  <div class="flex">
+    <div class="flex-shrink-0"><%= render Ui::IconComponent.new(@tone[:icon], class: "w-5 h-5 #{@tone[:icon_class]}") %></div>
+    <div class="flex-1 ml-3 md:flex md:justify-between">
+      <p class="text-sm <%= @tone[:text] %>"><%= content %></p>
+      <%= action %>
+    </div>
+  </div>
+</div>

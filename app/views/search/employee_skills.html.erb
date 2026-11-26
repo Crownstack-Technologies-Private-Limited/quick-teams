@@ -1,15 +1,6 @@
 <% @skills.each do |skill| %>
-  <li
-    role="option"
-    id="add-skill"
-    data-reflex="click->EmployeeSkills#add"
-    data-skill-id="<%= skill.id %>"
-    data-employee-id="<%= @employee.id %>"
-    class="
-      block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100
-      hover:text-gray-900 cursor-pointer
-    "
-  >
+  <%= render Ui::SearchResultComponent.new(id: "add-skill", class: "cursor-pointer",
+        data: { reflex: "click->EmployeeSkills#add", "skill-id": skill.id, "employee-id": @employee.id }) do %>
     <%= skill.name %>
-  </li>
+  <% end %>
 <% end %>

@@ -1,0 +1,10 @@
+<ul>
+  <%= render Ui::ListRowComponent.new(title: "Engineering") do |row| %>
+    <% row.with_leading { render Ui::StatusDotComponent.new(color: "green") } %>
+    <% row.with_actions do %>
+      <%= render Ui::ButtonComponent.new("Edit", href: "#", variant: :inline_edit) %>
+      <%= render Ui::ButtonComponent.new("Delete", href: "#", variant: :inline_delete) %>
+    <% end %>
+  <% end %>
+  <%= render Ui::ListRowComponent.new(title: "Design", subtitle: "Department") %>
+</ul>

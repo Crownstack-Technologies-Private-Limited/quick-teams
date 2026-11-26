@@ -1,0 +1,6 @@
+<%= tag.span(**@html_options, class: span_class) do %>
+  <%= content || @label %>
+  <% if @remove %>
+    <%= tag.button(**remove_options) { render Ui::IconComponent.new(:x_small, class: "w-2 h-2") } %>
+  <% end %>
+<% end %>

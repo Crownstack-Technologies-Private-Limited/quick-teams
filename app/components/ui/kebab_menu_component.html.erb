@@ -1,0 +1,4 @@
+<%= render Ui::DropdownComponent.new(button_id: @button_id, label: @label, button_variant: :plain, button_class: button_class, chevron: false, width: "w-60", wrapper_class: "relative") do |menu| %>
+  <% menu.with_trigger { render Ui::IconComponent.new(@icon, class: @icon_class) } %>
+  <%= content %>
+<% end %>

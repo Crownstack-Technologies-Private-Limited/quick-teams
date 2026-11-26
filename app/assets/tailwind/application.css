@@ -3,117 +3,439 @@
 
 @source "../../../app/views/**/*.html.erb";
 @source "../../../app/helpers/**/*.rb";
+@source "../../../app/models/job_card.rb";
+@source "../../../app/components/**/*.{rb,erb}";
+/* Colour names that components build at runtime (tags, statuses, the colour picker). */
+@source inline("{bg,text,border,ring,focus:ring}-{gray,red,yellow,green,blue,amber,indigo,purple,pink}-{100,200,400,500,600,800}");
 @source "../../../app/javascript/**/*.js";
+@source "../../../config/initializers/tailwind_form_builder.rb";
 
-/* Custom theme colors */
+/* ==========================================================================
+   Quick Teams design system — see docs/ui-audit/design-system.md
+   Tokens mirror the Figma file "Quick Teams — UI audit & redesign".
+
+   The views use Tailwind's palette names directly (gray-*, indigo-*, blue-*,
+   primary-*). Rather than rewriting ~1,500 class attributes, the palette is
+   redefined here: gray becomes a cool slate neutral with a darker 400 step
+   (icons/placeholders reach 3.6:1), and indigo/blue/primary all resolve to one
+   brand scale, so every existing utility lands on the new system.
+   ========================================================================== */
+
 @theme {
-  --color-primary-50: oklch(0.97 0.014 254.6);
-  --color-primary-100: oklch(0.93 0.029 255.5);
-  --color-primary-200: oklch(0.87 0.059 254.1);
-  --color-primary-300: oklch(0.76 0.105 252.7);
-  --color-primary-400: oklch(0.63 0.158 253.4);
-  --color-primary-500: oklch(0.55 0.18 256);
-  --color-primary-600: oklch(0.49 0.185 259.8);
-  --color-primary-700: oklch(0.45 0.162 261.3);
-  --color-primary-800: oklch(0.39 0.13 261.1);
-  --color-primary-900: oklch(0.35 0.101 261.2);
-  --color-primary-950: oklch(0.26 0.071 260.8);
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Brand (primary) */
+  --color-primary-50: #eef2ff;
+  --color-primary-100: #e0e7ff;
+  --color-primary-200: #c7d2fe;
+  --color-primary-300: #a5b4fc;
+  --color-primary-400: #818cf8;
+  --color-primary-500: #6366f1;
+  --color-primary-600: #4f46e5;
+  --color-primary-700: #4338ca;
+  --color-primary-800: #3730a3;
+  --color-primary-900: #312e81;
+  --color-primary-950: #1e1b4b;
+
+  --color-indigo-50: #eef2ff;
+  --color-indigo-100: #e0e7ff;
+  --color-indigo-200: #c7d2fe;
+  --color-indigo-300: #a5b4fc;
+  --color-indigo-400: #818cf8;
+  --color-indigo-500: #6366f1;
+  --color-indigo-600: #4f46e5;
+  --color-indigo-700: #4338ca;
+  --color-indigo-800: #3730a3;
+  --color-indigo-900: #312e81;
+  --color-indigo-950: #1e1b4b;
+
+  --color-blue-50: #eef2ff;
+  --color-blue-100: #e0e7ff;
+  --color-blue-200: #c7d2fe;
+  --color-blue-300: #a5b4fc;
+  --color-blue-400: #818cf8;
+  --color-blue-500: #6366f1;
+  --color-blue-600: #4f46e5;
+  --color-blue-700: #4338ca;
+  --color-blue-800: #3730a3;
+  --color-blue-900: #312e81;
+  --color-blue-950: #1e1b4b;
+
+  /* Neutral */
+  --color-gray-50: #f8fafc;
+  --color-gray-100: #f1f5f9;
+  --color-gray-200: #e2e8f0;
+  --color-gray-300: #cbd5e1;
+  --color-gray-400: #7b879b;
+  --color-gray-500: #64748b;
+  --color-gray-600: #475569;
+  --color-gray-700: #334155;
+  --color-gray-800: #1e293b;
+  --color-gray-900: #0f172a;
+  --color-gray-950: #020617;
+
+  /* Shape */
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+
+  /* Elevation (slate-tinted) */
+  --shadow-xs: 0 1px 2px 0 rgb(15 23 42 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(15 23 42 / 0.08), 0 1px 2px -1px rgb(15 23 42 / 0.06);
+  --shadow-md: 0 4px 8px -2px rgb(15 23 42 / 0.08), 0 2px 4px -2px rgb(15 23 42 / 0.06);
+  --shadow-lg: 0 12px 24px -6px rgb(15 23 42 / 0.14), 0 4px 8px -4px rgb(15 23 42 / 0.08);
+  --shadow-xl: 0 20px 40px -12px rgb(15 23 42 / 0.22);
 }
 
-/* Button components */
-.btn-primary {
-  @apply cursor-pointer items-center justify-center px-4 py-2 text-sm font-medium text-white rounded-sm bg-primary-700 hover:bg-primary-800 focus:ring-2 focus:ring-primary-300 focus:outline-hidden;
+/* Semantic tokens (names match the Figma "Color" collection). */
+:root {
+  --qt-bg-canvas: var(--color-gray-50);
+  --qt-bg-surface: var(--color-white);
+  --qt-bg-subtle: var(--color-gray-100);
+  --qt-bg-brand: var(--color-primary-600);
+  --qt-bg-brand-hover: var(--color-primary-700);
+  --qt-bg-brand-subtle: var(--color-primary-50);
+  --qt-bg-inverse: var(--color-gray-900);
+  --qt-bg-danger: var(--color-red-600);
+  --qt-bg-success-subtle: var(--color-green-50);
+  --qt-bg-warning-subtle: var(--color-amber-50);
+  --qt-bg-danger-subtle: var(--color-red-50);
+  --qt-text-primary: var(--color-gray-900);
+  --qt-text-secondary: var(--color-gray-600);
+  --qt-text-muted: var(--color-gray-500);
+  --qt-text-inverse: var(--color-white);
+  --qt-text-brand: var(--color-primary-700);
+  --qt-text-success: var(--color-green-700);
+  --qt-text-warning: var(--color-amber-800);
+  --qt-text-danger: var(--color-red-700);
+  --qt-border: var(--color-gray-200);
+  --qt-border-strong: var(--color-gray-300);
+  --qt-ring: var(--color-primary-500);
+  --qt-icon: var(--color-gray-400);
 }
 
-.btn-secondary {
-  @apply cursor-pointer inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 focus:outline-hidden bg-white rounded-sm border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-gray-200;
+/* ---------------------------------------------------------------- base */
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    min-height: 100vh;
+    background-color: var(--qt-bg-surface);
+    color: var(--qt-text-primary);
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  /* Tailwind 4 defaults borders to currentColor; the views were written for v3 (gray-200). */
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--qt-border);
+  }
+
+  ::selection {
+    background-color: var(--color-primary-100);
+  }
+
+  /* Buttons/links rendered by Rails helpers (link_to, button_to) get a pointer. */
+  button:not(:disabled),
+  [role="button"]:not(:disabled),
+  input[type="submit"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
 }
 
-.btn-red {
-  @apply border-0 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-sm text-white bg-red-600 hover:bg-red-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:order-1 sm:ml-3 cursor-pointer;
+/* Visible focus for keyboard users. Unlayered so it wins over the many
+   `focus:outline-none` utilities in the views (which only hid the outline). */
+:where(a[href], button, summary, [role="button"], [role="menuitem"], [tabindex]:not([tabindex="-1"]), input[type="submit"], input[type="checkbox"], input[type="radio"]):focus-visible {
+  outline: 2px solid var(--qt-ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
 }
 
-.btn-inline-edit {
-  @apply text-xs text-gray-400 hover:text-blue-600 cursor-pointer;
+/* Building blocks that other components @apply (v4 only allows @apply of utilities). */
+@utility btn {
+  @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium whitespace-nowrap shadow-xs transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60;
 }
 
-.btn-inline-delete {
-  @apply text-xs text-gray-400 hover:text-red-600 cursor-pointer;
+@utility badge {
+  @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium whitespace-nowrap;
 }
 
-/* Form components */
-
-.form-text-field {
-  @apply appearance-none block bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-sm focus:ring-primary-600 focus:border-primary-600 block w-full p-1.5;
+/* Toasts: transient messages float over the page (fixed region, see Ui::ToastRegionComponent)
+   instead of pushing content down. */
+@utility flash {
+  @apply pointer-events-auto flex w-full max-w-md items-start gap-3 rounded-lg border px-4 py-3 text-sm font-medium shadow-lg;
 }
 
-/* Navigation components */
-.nav-selected {
-  @apply bg-gray-500 text-white hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium;
+/* ------------------------------------------------------------ components */
+@layer components {
+  /* ---- App shell ---- */
+  .app-bar {
+    @apply sticky top-0 z-30 border-b border-gray-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80;
+  }
+
+  .brand-mark {
+    @apply inline-flex h-7 w-7 items-center justify-center rounded-md bg-primary-600 text-sm font-bold text-white shadow-xs;
+  }
+
+  .brand-name {
+    @apply text-base font-semibold tracking-tight text-gray-900;
+  }
+
+  .page {
+    @apply mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 lg:px-8;
+  }
+
+  .page-header {
+    @apply flex flex-wrap items-center justify-between gap-4;
+  }
+
+  .page-title {
+    @apply text-2xl font-semibold tracking-tight text-gray-900;
+  }
+
+  .page-subtitle {
+    @apply mt-1 text-sm text-gray-600;
+  }
+
+  /* ---- Navigation ---- */
+  .nav-selected {
+    @apply rounded-md bg-primary-50 px-3 py-1.5 text-sm font-medium text-primary-700;
+  }
+
+  .nav-unselected {
+    @apply rounded-md px-3 py-1.5 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900;
+  }
+
+  .mobile-nav-link {
+    @apply block rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900;
+  }
+
+  /* Settings / account / archive side menus */
+  .svg-icon {
+    @apply -ml-1 mr-3 h-5 w-5 shrink-0 text-gray-400 group-hover:text-gray-500;
+  }
+
+  .selected {
+    @apply flex items-center rounded-md bg-primary-50 px-3 py-2 text-sm font-medium text-primary-700;
+  }
+
+  .selected .svg-icon {
+    @apply text-primary-600;
+  }
+
+  .unselected {
+    @apply flex items-center rounded-md px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 hover:text-gray-900;
+  }
+
+  /* ---- Buttons ---- */
+  .btn-primary {
+    @apply btn bg-primary-600 text-white hover:bg-primary-700;
+  }
+
+  .btn-secondary {
+    @apply btn border border-gray-300 bg-white text-gray-800 hover:bg-gray-50 hover:text-gray-900;
+  }
+
+  .btn-red {
+    @apply btn bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-500;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent text-primary-700 shadow-none hover:bg-primary-50;
+  }
+
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+
+  .icon-btn {
+    @apply inline-flex h-8 w-8 items-center justify-center rounded-md text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900;
+  }
+
+  .btn-inline-edit {
+    @apply cursor-pointer rounded-xs text-sm font-medium text-gray-500 transition-colors hover:text-primary-700;
+  }
+
+  .btn-inline-delete {
+    @apply cursor-pointer rounded-xs text-sm font-medium text-gray-500 transition-colors hover:text-red-700;
+  }
+
+  /* ---- Forms ---- */
+  .form-label {
+    @apply block text-sm font-medium text-gray-800;
+  }
+
+  .form-text-field {
+    @apply block w-full appearance-none rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-xs placeholder:text-gray-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/25 focus:outline-none disabled:bg-gray-50 disabled:text-gray-500;
+  }
+
+  .checkbox {
+    @apply h-4 w-4 rounded-sm border border-gray-300 bg-gray-50 focus:ring-2 focus:ring-primary-300;
+  }
+
+  .form-check {
+    @apply h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500;
+  }
+
+  .form-check[type="radio"] {
+    @apply rounded-full;
+  }
+
+  .form-help {
+    @apply mt-1 text-xs text-gray-500;
+  }
+
+  /* Rails wraps invalid fields in div.field_with_errors */
+  .field_with_errors > input,
+  .field_with_errors > textarea,
+  .field_with_errors > select {
+    @apply border-red-500 focus:border-red-500 focus:ring-red-500/25;
+  }
+
+  .field_with_errors > label {
+    @apply text-red-700;
+  }
+
+  /* ---- Surfaces ---- */
+  .card {
+    @apply rounded-lg border border-gray-200 bg-white shadow-xs;
+  }
+
+  .card-header {
+    @apply flex items-center justify-between gap-3 border-b border-gray-200 px-5 py-3.5;
+  }
+
+  .card-title {
+    @apply text-base font-semibold text-gray-900;
+  }
+
+  .card-body {
+    @apply p-5;
+  }
+
+  /* ---- Badges ---- */
+  .badge-gray { @apply badge bg-gray-100 text-gray-700; }
+  .badge-brand { @apply badge bg-primary-50 text-primary-700; }
+  .badge-green { @apply badge bg-green-50 text-green-700; }
+  .badge-amber { @apply badge bg-amber-50 text-amber-800; }
+  .badge-red { @apply badge bg-red-50 text-red-700; }
+
+  /* ---- Tables ---- */
+  .table {
+    @apply min-w-full divide-y divide-gray-200;
+  }
+
+  .table-head {
+    @apply bg-gray-50 px-6 py-3 text-left text-xs font-semibold tracking-wider whitespace-nowrap text-gray-500 uppercase;
+  }
+
+  .table-cell {
+    @apply max-w-full overflow-auto px-6 py-4 text-sm text-gray-700;
+  }
+
+  .table-body {
+    @apply divide-y divide-gray-200 bg-white;
+  }
+
+  .table-body > tr {
+    @apply transition-colors hover:bg-gray-50/70;
+  }
+
+  /* ---- Tabs ---- */
+  .tab-bar {
+    @apply -mb-px flex gap-6 overflow-x-auto px-4 [scrollbar-width:none] sm:px-6 lg:px-6;
+  }
+
+  .selected-tab {
+    @apply border-b-2 border-primary-600 px-1 py-3 text-sm font-medium whitespace-nowrap text-primary-700;
+  }
+
+  .unselected-tab {
+    @apply border-b-2 border-transparent px-1 py-3 text-sm font-medium whitespace-nowrap text-gray-600 transition-colors hover:border-gray-300 hover:text-gray-900;
+  }
+
+  /* ---- Menus ---- */
+  .dropdown-panel {
+    @apply rounded-lg border border-gray-200 bg-white py-1 shadow-lg;
+  }
+
+  .dropdown-item {
+    @apply block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900;
+  }
+
+  /* ---- Feedback ---- */
+  .flash-notice {
+    @apply flash border-green-200 bg-green-50 text-green-800;
+  }
+
+  .flash-alert {
+    @apply flash border-red-200 bg-red-50 text-red-800;
+  }
+
+  .toast-region {
+    @apply pointer-events-none fixed inset-x-0 z-50 flex flex-col items-center gap-2 px-4;
+  }
+
+  .flash-message {
+    @apply flex-1;
+  }
+
+  .flash-dismiss {
+    @apply -mr-1 inline-flex shrink-0 cursor-pointer rounded-md p-0.5 opacity-70 hover:opacity-100 focus-visible:ring-2 focus-visible:ring-primary-500;
+  }
+
+  /* An inline confirmation rendered inside a form (devise/shared/_success_message) floats like a flash toast. */
+  .toast-floating {
+    @apply pointer-events-auto fixed inset-x-0 top-16 z-50 mx-auto w-[calc(100%-2rem)] max-w-md shadow-lg;
+  }
+
+  .empty-state {
+    @apply flex flex-col items-center justify-center gap-2 px-4 py-10 text-center text-sm text-gray-500;
+  }
+
+  /* ---- Sort indicator (ProjectHelper#sort_indicator) ---- */
+  .sort {
+    top: 1rem;
+    left: 0.5rem;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    display: inline-block;
+    position: inherit;
+    vertical-align: middle;
+  }
+
+  .sort-desc {
+    border-top: 6px solid var(--color-gray-500);
+  }
+
+  .sort-asc {
+    border-bottom: 6px solid var(--color-gray-500);
+  }
 }
 
-.nav-unselected {
-  @apply text-gray-300 hover:bg-gray-500 hover:text-white px-3 py-2 rounded-md text-sm font-medium;
-}
-
-.svg-icon {
-  @apply text-gray-400 group-hover:text-gray-500 shrink-0 -ml-1 mr-3 h-6 w-6;
-}
-
-.selected {
-  @apply bg-gray-200 text-gray-900 hover:bg-gray-200 rounded-md px-3 py-1 flex items-center text-sm font-medium;
-}
-
-.unselected {
-  @apply text-gray-900 hover:text-gray-900 hover:bg-gray-50 rounded-md px-3 py-1 flex items-center text-sm font-medium;
-}
-
-/* Table components */
-.table-head {
-  @apply px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase whitespace-nowrap;
-}
-
-.table-cell {
-  @apply px-6 py-4 overflow-auto text-sm text-gray-700 max-w-full;
-}
-
-.table {
-  @apply min-w-full divide-y divide-gray-200;
-}
-
-.table-body {
-  @apply bg-white divide-y divide-gray-200;
-}
-
-/* Tab components */
-.selected-tab {
-  @apply border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm;
-}
-
-.unselected-tab {
-  @apply border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm;
-}
-
-.checkbox {
-  @apply w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring focus:ring-primary-300;
-}
-
-/* Sort icons */
-.sort {
-  top: 1rem;
-  left: 0.5rem;
-  width: 0;
-  height: 0;
-  border-left: 6px solid #f9fafb;
-  border-right: 6px solid #f9fafb;
-  display: inline-block;
-  position: inherit;
-}
-
-.sort-desc {
-  border-top: 8px solid #808080;
-}
-
-.sort-asc {
-  border-bottom: 8px solid #808080;
+/* Mobile: wide data tables scroll inside their own box instead of making the
+   whole page wider than the screen. */
+@media (max-width: 767px) {
+  main table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }

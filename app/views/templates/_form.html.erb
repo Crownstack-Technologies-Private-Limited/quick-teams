@@ -1,4 +1,4 @@
-<main class="max-w-4xl px-4 pb-12 mx-auto space-y-4 lg:pb-16">
+<%= render Ui::FormContainerComponent.new(width: "max-w-4xl") do %>
   <div class="px-4">
     <%= tailwind_form_with(model: template, id: dom_id(template)) do |form| %>
       <main class="w-full px-4 pt-10 pb-12 mx-auto space-y-4 lg:pb-16">
@@ -7,9 +7,11 @@
         <%= form.text_field :title, "Title", autocomplete: "off" %>
         <%= form.hidden_field :user_id, value: current_user.id %>
         <%= form.rich_text_area :body, "Contents of Report", class: "form-text-field" %>
-
-        <div class="flex justify-end"><%= link_to "Back", "javascript:history.back()", class: "btn-secondary" %><%= form.submit "Save Template", class: "btn-primary ml-2" %></div>
+        <%= render Ui::FormActionsComponent.new do %>
+          <%= render Ui::BackButtonComponent.new() %>
+          <%= render Ui::SubmitButtonComponent.new(form, "Save Template", class: "ml-2") %>
+        <% end %>
       </main>
     <% end %>
   </div>
-</main>
+<% end %>

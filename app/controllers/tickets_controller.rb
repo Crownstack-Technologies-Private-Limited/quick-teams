@@ -5,7 +5,7 @@ class TicketsController < BaseController
     authorize :ticket
     @ticket = Ticket.new
     tickets = current_user.tickets.includes(:ticket_label, :ticket_status, :user).order(created_at: :desc)
-    @pagy, @tickets = pagy_nil_safe(params, tickets, items: 20)
+    @pagy, @tickets = pagy_nil_safe(params, tickets, limit: 20)
     render_partial("tickets/ticket", collection: @tickets, cached: true) if stale?(@tickets)
   end
 
@@ -30,7 +30,7 @@ class TicketsController < BaseController
     authorize :ticket
 
     tickets = policy_scope(Ticket).where(ticketstatus: false)
-    @pagy, @tickets = pagy_nil_safe(params, tickets, items: 20)
+    @pagy, @tickets = pagy_nil_safe(params, tickets, limit: 20)
     render_partial("tickets/open_ticket", collection: @tickets, cached: true) if stale?(@tickets)
   end
 
@@ -38,7 +38,7 @@ class TicketsController < BaseController
     authorize :ticket
 
     tickets = policy_scope(Ticket).where(ticketstatus: true)
-    @pagy, @tickets = pagy_nil_safe(params, tickets, items: 20)
+    @pagy, @tickets = pagy_nil_safe(params, tickets, limit: 20)
     render_partial("tickets/closed_ticket", collection: @tickets, cached: true) if stale?(@tickets)
   end
 

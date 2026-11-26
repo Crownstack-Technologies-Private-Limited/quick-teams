@@ -1,4 +1,4 @@
-class AddMessageToSpace < Patterns::Service
+class AddMessageToSpace < ApplicationService
   def initialize(space, message, actor, draft, send_email)
     @space = space
     @message = message

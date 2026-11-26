@@ -1,0 +1,15 @@
+<%= render Ui::TableComponent.new do |table| %>
+  <% table.with_column("Project") %>
+  <% table.with_column("Status") %>
+  <% table.with_column("Lead") %>
+  <tr>
+    <td class="table-cell"><%= render Ui::StatusDotComponent.new(color: "green") %>Quickhands</td>
+    <td class="table-cell"><%= render Ui::BadgeComponent.new("Active", color: :green) %></td>
+    <td class="table-cell">Ada Lovelace</td>
+  </tr>
+  <tr>
+    <td class="table-cell"><%= render Ui::StatusDotComponent.new(color: "amber") %>Skia</td>
+    <td class="table-cell"><%= render Ui::BadgeComponent.new("On hold", color: :amber) %></td>
+    <td class="table-cell">Alan Turing</td>
+  </tr>
+<% end %>

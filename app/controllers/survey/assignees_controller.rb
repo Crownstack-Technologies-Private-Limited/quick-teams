@@ -7,7 +7,7 @@ class Survey::AssigneesController < Survey::BaseController
 
     klass = @survey.survey_for.resolve_class
     search = @survey.survey_type == "culture" ? klass.available.where(culture_kpi_id: @survey) : klass.available.where(kpi_id: @survey)
-    @pagy, @assignees = pagy_nil_safe(params, search, items: LIMIT)
+    @pagy, @assignees = pagy_nil_safe(params, search, limit: LIMIT)
     @assigns = @survey.survey_type == "culture" ? klass.available.where(culture_kpi_id: nil) : klass.available.where(kpi_id: nil)
     render_partial("survey/assignees/assignee", collection: @assignees, cached: true) if stale?(@assignees + @assigns + [@survey])
   end

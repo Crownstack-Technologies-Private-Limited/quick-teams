@@ -1,41 +1,32 @@
 <% employee = employee.decorate %>
-
-<tr id="<%= dom_id(employee) %>">
+<tr id ="<%= dom_id(employee) %>">
   <td class="table-cell whitespace-nowrap">
     <div class="flex items-center">
       <%= render partial: "shared/avatar", locals: { employee: employee } %>
-      <a
-        href="<%= employee_schedules_path(employee) %>"
-        class="truncate hover:text-gray-600 hover:underline"
-      >
+      <%= render Ui::TextLinkComponent.new(nil, employee_schedules_path(employee), tone: :row) do %>
         <div class="ml-4">
           <div class="text-sm font-medium text-gray-900">
             <%= employee.display_name %>
           </div>
-          <div class="text-sm text-gray-500"><%= employee.email %></div>
+          <div class="text-sm text-gray-500">
+            <%= employee.email %>
+          </div>
         </div>
-      </a>
+      <% end %>
     </div>
   </td>
   <td class="table-cell whitespace-nowrap">
     <div class="text-sm text-gray-900"><%= employee.display_position %></div>
-    <div class="text-sm text-gray-500">
-      <%= employee.display_discipline_title %>
-    </div>
+    <div class="text-sm text-gray-500"><%= employee.display_discipline_title %></div>
   </td>
-  <td class="table-cell whitespace-nowrap">
-    <a
-      href="<%= employee_team_path(employee.manager) if !employee.manager.nil? %>"
-      class="truncate hover:text-gray-600 hover:underline"
-    >
+  <td class="table-cell  whitespace-nowrap">
+    <%= render Ui::TextLinkComponent.new(nil, (employee_team_path(employee.manager) if !employee.manager.nil?), tone: :row) do %>
       <%= employee.display_manager_name %>
-    </a>
+    <% end %>
   </td>
   <td class="table-cell whitespace-nowrap">
     <% unless employee.status.nil? %>
-      <span class="inline-flex px-2 text-xs font-semibold leading-5 text-<%= employee.status.color %>-800 bg-<%= employee.status.color %>-100 rounded-full">
-        <%= employee.status.name.upcase_first %>
-      </span>
+      <%= render Ui::TagComponent.new(employee.status.name.upcase_first, color: employee.status.color) %>
     <% end %>
   </td>
 </tr>

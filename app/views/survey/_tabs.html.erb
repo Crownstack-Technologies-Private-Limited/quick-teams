@@ -1,29 +1,7 @@
-<div id="survey-tabs">
-  <div class="hidden sm:block">
-    <div class="border-b border-gray-200">
-      <nav class="flex -mb-px space-x-8 lg:px-6" aria-label="Tabs">
-        <a
-          href="<%= survey_questions_path %>"
-          class="<%= current_page?(survey_questions_path) ? "selected-tab" : "unselected-tab" %>"
-        >
-          Questions
-        </a>
-        <a
-          href="<%= survey_attempts_path %>"
-          class="<%= current_page?(survey_attempts_path) ? "selected-tab" : "unselected-tab" %>"
-        >
-          Attempts
-        </a>
-
-        <% if (@survey.kpi? && !@survey.adhoc?) or @survey.culture? %>
-          <a
-            href="<%= survey_assignees_path %>"
-            class="<%= current_page?(survey_assignees_path) ? "selected-tab" : "unselected-tab" %>"
-          >
-            Assignees
-          </a>
-        <% end %>
-      </nav>
-    </div>
-  </div>
-</div>
+<%= render Ui::TabsComponent.new(id: "survey-tabs") do |tabs| %>
+  <% tabs.with_tab("Questions", survey_questions_path) %>
+  <% tabs.with_tab("Attempts", survey_attempts_path) %>
+  <% if (@survey.kpi? && !@survey.adhoc?) or @survey.culture? %>
+  <% tabs.with_tab("Assignees", survey_assignees_path) %>
+  <% end %>
+<% end %>

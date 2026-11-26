@@ -1,160 +1,39 @@
-<!-- Modal for creating/editing job cards -->
-<div id="jobCardModal" class="hidden fixed inset-0 bg-black/75 flex items-center justify-center z-50">
-  <div class="bg-white rounded-lg p-6 w-1/3">
-    <div class="flex justify-between items-center mb-4">
-      <h3 class="text-lg leading-6 font-bold text-gray-900" data-daily-planner-target="modalTitle">Add Job Card</h3>
-
-      <button
-        type="button"
-        data-daily-planner-target="deleteButton"
-        data-action="click->daily-planner#deleteCard"
-        class="hidden px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 cursor-pointer"
-      >
-        Delete
-      </button>
-    </div>
-
-    <form data-action="submit->daily-planner#submitForm" data-daily-planner-target="cardForm">
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700 mb-1">Title</label>
-
-        <input
-          type="text"
-          name="title"
-          class="w-full form-text-field"
-          required
-          data-daily-planner-target="titleInput"
-          autocomplete="off"
-        >
-      </div>
-
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-
-        <textarea name="description" class="w-full form-text-field h-20" data-daily-planner-target="descriptionInput"></textarea>
-      </div>
-
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700 mb-1">Duration</label>
-
-        <select
-          name="slot_length"
-          class="w-full form-text-field"
-          required
-          data-daily-planner-target="slotLengthInput"
-        >
-          <% (1..9).each do |slots| %>
-            <% total_minutes = slots * 20
-                if total_minutes >= 60
-                  hours = total_minutes / 60
-                  minutes = total_minutes % 60
-                  time_display = minutes > 0 ? "#{hours}h #{minutes}m" : "#{hours}h"
-                else
-                  time_display = "#{total_minutes} min"
-                end %>
-
-            <option value="<%= slots %>"><%= slots %> slot<%= 's' if slots > 1 %> (<%= time_display %>)</option>
-          <% end %>
-        </select>
-      </div>
-
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700 mb-1">Color (Optional)</label>
-
-        <div class="flex flex-col space-x-2">
-          <div class="flex items-center">
-            <input
-              type="radio"
-              id="color_green"
-              name="color"
-              value="green"
-              class="mr-1"
-              data-daily-planner-target="colorInput"
-            >
-
-            <label for="color_green" class="text-sm flex items-center">
-              <span class="w-4 h-4 bg-green-500 rounded mr-1"></span>
-              Deep Work, Important or priority tasks
-            </label>
-          </div>
-
-          <div class="flex items-center">
-            <input
-              type="radio"
-              id="color_yellow"
-              name="color"
-              value="yellow"
-              class="mr-1"
-              data-daily-planner-target="colorInput"
-            >
-
-            <label for="color_yellow" class="text-sm flex items-center">
-              <span class="w-4 h-4 bg-yellow-500 rounded mr-1"></span>
-              Standups, Maintenance, routine, or admin tasks
-            </label>
-          </div>
-
-          <div class="flex items-center">
-            <input
-              type="radio"
-              id="color_blue"
-              name="color"
-              value="blue"
-              class="mr-1"
-              data-daily-planner-target="colorInput"
-            >
-
-            <label for="color_blue" class="text-sm flex items-center">
-              <span class="w-4 h-4 bg-blue-500 rounded mr-1"></span>
-              Meetings, Discussions, or Team management
-            </label>
-          </div>
-
-          <div class="flex items-center">
-            <input
-              type="radio"
-              id="color_gray"
-              name="color"
-              value="gray"
-              class="mr-1"
-              checked
-              data-daily-planner-target="colorInput"
-            >
-
-            <label for="color_gray" class="text-sm flex items-center">
-              <span class="w-4 h-4 bg-gray-500 rounded mr-1"></span>
-              Breaks, Learning or fun activities
-            </label>
-          </div>
-
-          <div class="flex items-center">
-            <input
-              type="radio"
-              id="color_red"
-              name="color"
-              value="red"
-              class="mr-1"
-              data-daily-planner-target="colorInput"
-            >
-
-            <label for="color_red" class="text-sm flex items-center">
-              <span class="w-4 h-4 bg-red-500 rounded mr-1"></span>
-              Time Wasters, Distractions, obsolete, or adhoc tasks
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <input type="hidden" name="date" value="<%= @date.iso8601 %>">
-      <input type="hidden" name="session" data-daily-planner-target="modalSession">
-      <input type="hidden" name="slot_start" data-daily-planner-target="modalSlot">
-      <input type="hidden" name="card_id" data-daily-planner-target="cardId">
-      <input type="hidden" name="user_id" value="<%= @user.id %>">
-
-      <div class="flex justify-end space-x-2">
-        <button type="button" data-action="click->daily-planner#closeModal" class="btn-secondary">Cancel</button>
-        <button type="submit" class="btn-primary" data-daily-planner-target="saveButton">Save</button>
-      </div>
-    </form>
-  </div>
-</div>
+<%# Add / edit a job card (daily planner). daily-planner#openModal fills the targets and removes "hidden". %>
+<%= render Ui::ToggleModalComponent.new(id: "jobCardModal", title: "Add Job Card", title_options: { data: { "daily-planner-target": "modalTitle" } }) do |modal| %>
+  <% modal.with_header_actions do %>
+    <%= render Ui::ButtonComponent.new("Delete", variant: :danger, size: :sm, class: "hidden", data: { "daily-planner-target": "deleteButton", action: "click->daily-planner#deleteCard" }) %>
+  <% end %>
+  <form data-action="submit->daily-planner#submitForm" data-daily-planner-target="cardForm" class="space-y-4">
+    <%= render Ui::FormFieldComponent.new(label: "Title", for_id: "job_card_title") do %>
+      <input type="text" name="title" id="job_card_title" class="w-full form-text-field" required data-daily-planner-target="titleInput" autocomplete="off">
+    <% end %>
+    <%= render Ui::FormFieldComponent.new(label: "Description", for_id: "job_card_description") do %>
+      <textarea name="description" id="job_card_description" class="w-full form-text-field h-20" data-daily-planner-target="descriptionInput"></textarea>
+    <% end %>
+    <%= render Ui::FormFieldComponent.new(label: "Duration", for_id: "job_card_slot_length") do %>
+      <select name="slot_length" id="job_card_slot_length" class="w-full form-text-field" required data-daily-planner-target="slotLengthInput">
+        <% (1..9).each do |slots| %>
+          <option value="<%= slots %>"><%= slots %> slot<%= "s" if slots > 1 %> (<%= slot_duration_label(slots) %>)</option>
+        <% end %>
+      </select>
+    <% end %>
+    <%= render Ui::FormFieldComponent.new(label: "Color (Optional)") do %>
+      <%= render Ui::ColorChoiceComponent.new(name: "color", selected: "gray", input_data: { "daily-planner-target": "colorInput" }, options: [
+            ["green", "Deep Work, Important or priority tasks"],
+            ["yellow", "Standups, Maintenance, routine, or admin tasks"],
+            ["blue", "Meetings, Discussions, or Team management"],
+            ["gray", "Breaks, Learning or fun activities"],
+            ["red", "Time Wasters, Distractions, obsolete, or adhoc tasks"],
+          ]) %>
+    <% end %>
+    <input type="hidden" name="date" value="<%= @date.iso8601 %>">
+    <input type="hidden" name="session" data-daily-planner-target="modalSession">
+    <input type="hidden" name="slot_start" data-daily-planner-target="modalSlot">
+    <input type="hidden" name="card_id" data-daily-planner-target="cardId">
+    <input type="hidden" name="user_id" value="<%= @user.id %>">
+    <%= render Ui::FormActionsComponent.new do %>
+      <%= render Ui::ButtonComponent.new("Cancel", variant: :secondary, data: { action: "click->daily-planner#closeModal" }) %>
+      <%= render Ui::ButtonComponent.new("Save", type: "submit", class: "ml-2", data: { "daily-planner-target": "saveButton" }) %>
+    <% end %>
+  </form>
+<% end %>

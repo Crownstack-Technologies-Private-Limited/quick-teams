@@ -1,6 +1,4 @@
 class ProjectObserversReflex < ApplicationReflex
-  delegate :current_user, to: :connection
-
   def add
     project.observers << observer
     send_observer_email(observer)

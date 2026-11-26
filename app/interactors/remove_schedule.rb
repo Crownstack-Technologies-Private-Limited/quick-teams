@@ -1,4 +1,4 @@
-class RemoveSchedule < Patterns::Service
+class RemoveSchedule < ApplicationService
   def initialize(schedule, actor)
     @schedule = schedule
     @actor = actor

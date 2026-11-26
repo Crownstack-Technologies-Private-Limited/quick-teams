@@ -1,4 +1,4 @@
-class ArchiveProject < Patterns::Service
+class ArchiveProject < ApplicationService
   def initialize(project, actor)
     @project = project
     @actor = actor

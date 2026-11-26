@@ -8,7 +8,10 @@ development:
 test:
   adapter: test
 
-production:
+production: &solid_cable
   adapter: solid_cable
   polling_interval: 0.1.seconds
   message_retention: 1.day
+
+staging:
+  <<: *solid_cable

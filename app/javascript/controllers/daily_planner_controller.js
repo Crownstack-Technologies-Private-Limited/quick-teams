@@ -1,7 +1,20 @@
 import { Controller } from "@hotwired/stimulus"
 
+// /:account/job_cards (the routes are inside the account scope, like the rest of the app)
+function jobCardsPath() {
+    const account = document.querySelector("meta[name='current-account']")?.content
+    return account ? `/${account}/job_cards` : "/job_cards"
+}
+
+// The meta tag is absent where forgery protection is off (the test environment).
+function csrfToken() {
+    return document.querySelector("meta[name='csrf-token']")?.content || ""
+}
+
 export default class extends Controller {
-    static values = { date: String }
+    // editable comes from the server (JobCard#editable?): the browser's clock is not used, and the
+    // server refuses changes to past days anyway.
+    static values = { date: String, editable: Boolean }
     static targets = [
         "modalSession", "modalSlot", "modalTitle", "deleteButton",
         "titleInput", "descriptionInput", "slotLengthInput", "cardId", "saveButton", "colorInput"
@@ -12,11 +25,9 @@ export default class extends Controller {
     }
 
     openModal(event) {
-        // Don't allow creating/editing cards for past dates
-        const dateValue = this.dateValue;
-        const today = new Date().toISOString().split('T')[0];
-        if (dateValue < today) {
-            return;
+        // Past days are read-only
+        if (!this.editableValue) {
+            return
         }
 
         // Check if clicking on a job card for editing
@@ -39,17 +50,15 @@ export default class extends Controller {
     }
 
     editCard(jobCard) {
-        // Don't allow editing cards for past dates
-        const dateValue = this.dateValue;
-        const today = new Date().toISOString().split('T')[0];
-        if (dateValue < today) {
-            return;
+        // Past days are read-only
+        if (!this.editableValue) {
+            return
         }
 
         const cardId = jobCard.dataset.cardId
 
         // Fetch card details
-        fetch(`/job_cards/${cardId}`)
+        fetch(`${jobCardsPath()}/${cardId}`)
             .then(response => response.json())
             .then(data => {
                 this.populateModalForEdit(data)
@@ -113,14 +122,14 @@ export default class extends Controller {
         const cardId = data.card_id
 
         const isEditing = cardId && cardId !== ''
-        const url = isEditing ? `/job_cards/${cardId}` : '/job_cards'
+        const url = isEditing ? `${jobCardsPath()}/${cardId}` : jobCardsPath()
         const method = isEditing ? 'PATCH' : 'POST'
 
         fetch(url, {
             method: method,
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
+                'X-CSRF-Token': csrfToken()
             },
             body: JSON.stringify({ job_card: data })
         })
@@ -146,10 +155,10 @@ export default class extends Controller {
             return
         }
 
-        fetch(`/job_cards/${cardId}`, {
+        fetch(`${jobCardsPath()}/${cardId}`, {
             method: 'DELETE',
             headers: {
-                'X-CSRF-Token': document.querySelector('[name="csrf-token"]').content
+                'X-CSRF-Token': csrfToken()
             }
         })
             .then(response => response.json())

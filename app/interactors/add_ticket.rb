@@ -1,4 +1,4 @@
-class AddTicket < Patterns::Service
+class AddTicket < ApplicationService
   def initialize(params, actor)
     @ticket = Ticket.new(params)
     @actor = actor

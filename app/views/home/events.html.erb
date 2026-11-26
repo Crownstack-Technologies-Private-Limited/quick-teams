@@ -9,10 +9,8 @@
     <% end %>
   </ul>
   <% if @events.size > 0 %>
-    <p class="pr-4 mt-2 text-sm text-right text-gray-500">
-      Showing <%= 50.to_s %> recently created events only.
-    </p>
+    <%= render Ui::TextComponent.new("Showing #{50} recently created events only.", align: :right, class: "pr-4 mt-2") %>
   <% else %>
-    <p class="pr-4 mt-2 text-sm text-right text-gray-500">No record found.</p>
+    <%= render Ui::TextComponent.new("No record found.", align: :right, class: "pr-4 mt-2") %>
   <% end %>
 </turbo-frame>

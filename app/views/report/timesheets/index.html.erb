@@ -1,19 +1,6 @@
-<div class="relative z-0 flex-1 overflow-y-auto focus:outline-none">
-  <!-- Page title & actions -->
-  <div
-    class="
-      px-4 py-4 border-b border-gray-200 sm:flex sm:items-center
-      sm:justify-between sm:px-6 lg:px-8
-    "
-  >
-    <div class="flex flex-wrap items-baseline -mt-2 -ml-2">
-      <h1 class="text-3xl font-bold leading-tight text-gray-900">
-        Timesheets
-      </h1>
-    </div>
-  </div>
-</div>
-
+<%= render Ui::PageComponent.new(tag: :div) do %>
+  <%= render Ui::PageHeaderComponent.new(title: "Timesheets") %>
+<% end %>
 <div class="flex w-full overflow-hidden bg-white">
   <div class="flex w-full">
     <%= render partial: "form" %>
@@ -24,14 +11,9 @@
             <h3 class="text-lg font-medium leading-6 text-center text-gray-900">
               Too many results
             </h3>
-
             <div class="mt-2 text-sm text-center text-gray-500">
-              <p>
-                Current search query returned too many results. Please download
-                CSV file to see all records.
-              </p>
+              <p>Current search query returned too many results. Please download CSV file to see all records.</p>
             </div>
-
             <div class="mt-5">
               <button type="button" class="btn-primary">
                 Download CSV
@@ -43,43 +25,17 @@
         <div class="w-full overflow-hidden" data-controller="infinite-scroll">
           <!-- This example requires Tailwind CSS v2.0+ -->
           <%= render partial: "stats", locals: { stats: @stats } %>
-          <table class="table">
-            <thead class="bg-gray-50">
-              <tr>
-                <th scope="col" class="table-head">
-                  Project
-                </th>
-                <th scope="col" class="table-head">
-                  Employee
-                </th>
-                <th scope="col" class="table-head">
-                  Descritption
-                </th>
-                <th scope="col" class="table-head">
-                  Date
-                </th>
-                <th scope="col" class="table-head">
-                  Hours
-                </th>
-                <th scope="col" class="table-head">
-                  Billable
-                </th>
-                <th scope="col" class="table-head">
-                  Billed
-                </th>
-              </tr>
-            </thead>
-            <tbody class="table-body" data-infinite-scroll-target="entries">
-              <%= render partial: "timesheet", collection: @timesheets, as: :timesheet, cached: true %>
-            </tbody>
-          </table>
-
-          <div
-            class="flex justify-end invisible mt-2 mb-6 mr-2"
-            data-infinite-scroll-target="pagination"
-          >
-            <%== render partial: "shared/paginator", locals: { pagy: @pagy } %>
-          </div>
+          <%= render Ui::TableComponent.new(body_options: { data: { "infinite-scroll-target": "entries" } }) do |table| %>
+            <% table.with_column("Project") %>
+            <% table.with_column("Employee") %>
+            <% table.with_column("Descritption") %>
+            <% table.with_column("Date") %>
+            <% table.with_column("Hours") %>
+            <% table.with_column("Billable") %>
+            <% table.with_column("Billed") %>
+            <%= render partial: "timesheet", collection: @timesheets, as: :timesheet, cached: true %>
+          <% end %>
+          <%= render Ui::PaginationComponent.new(@pagy, class: "invisible", data: { "infinite-scroll-target": "pagination" }) %>
         </div>
       <% end %>
     <% else %>

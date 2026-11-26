@@ -15,9 +15,7 @@
                 </p>
               </a>
             </div>
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-<%= goal.decorate.color %>-100 text-<%= goal.decorate.color %>-800">
-              <%= goal.status.to_s %>
-            </span>
+            <%= render Ui::TagComponent.new(goal.status.to_s, color: goal.decorate.color, size: :badge) %>
           </div>
           <div class="mt-1">
             <p class="text-sm text-gray-600 line-clamp-2">
@@ -33,6 +31,6 @@
       Showing <%= 40.to_s %> records only.
     </p>
   <% else %>
-    <p class="pr-4 mt-2 text-sm text-right text-gray-500">No record found.</p>
+    <%= render Ui::TextComponent.new("No record found.", align: :right, class: "pr-4 mt-2") %>
   <% end %>
 </turbo-frame>

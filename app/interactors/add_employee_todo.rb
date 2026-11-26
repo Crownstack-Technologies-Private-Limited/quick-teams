@@ -1,4 +1,4 @@
-class AddEmployeeTodo < Patterns::Service
+class AddEmployeeTodo < ApplicationService
   def initialize(employee, params, actor)
     @employee = employee
     @todo = employee.todos.new(params)

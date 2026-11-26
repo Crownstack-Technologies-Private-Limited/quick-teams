@@ -25,6 +25,7 @@ class User < ApplicationRecord
   belongs_to :status, class_name: "PeopleStatus", optional: true
 
   has_many :schedules, dependent: :destroy
+  has_many :job_cards, dependent: :destroy
   has_many :projects, through: :schedules
   has_many :subordinates, class_name: "User", foreign_key: "manager_id"
   has_many :feedbacks, as: :critiquable, dependent: :destroy

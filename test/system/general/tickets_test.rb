@@ -61,7 +61,7 @@ class TicketsTest < ApplicationSystemTestCase
     within "#ticket-header" do
       if (@user.admin? or @ticket.ticket_label.user == @user)
         assert_text "Update Status"
-        click_on "option-menu-button1"
+        click_on "option-menu-button-#{@ticket.id}"
         find("li", id: dom_id(status)).click
       end
     end

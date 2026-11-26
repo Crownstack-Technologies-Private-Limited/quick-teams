@@ -1,0 +1,7 @@
+<%= render Ui::ModalComponent.new(title: "Deactivate employee?", icon: :exclamation) do |modal| %>
+  <% modal.with_body { "They will lose access to Quick Teams." } %>
+  <% modal.with_footer do %>
+    <%= render Ui::ButtonComponent.new("Deactivate", variant: :danger) %>
+    <%= render Ui::ButtonComponent.new("Cancel", variant: :secondary, data: { action: "modal#close" }) %>
+  <% end %>
+<% end %>

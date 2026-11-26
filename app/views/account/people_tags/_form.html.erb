@@ -1,32 +1,14 @@
-<%= tailwind_form_with(model: people_tag, id: dom_id(people_tag), url: account_people_tags_path) do |form| %>
+  <%= tailwind_form_with(model: people_tag, id: dom_id(people_tag), url: account_people_tags_path) do |form| %>
   <div class="space-y-4">
     <%= render "shared/form_messages", resource: people_tag, message: local_assigns[:message] %>
     <%= render "shared/form_header", title: "People Tags", subtitle: "You can define custom tags which can be applied to your team members. Examples include star performer, pending performance review." %>
-
     <%= form.text_field :name, placeholder: "Add New Tag", autocomplete: "off" %>
-
-    <div class="flex items-start">
-      <%= form.label :color, "Appearance", class: "text-sm" %>
-
-      <% selected_color = people_tag.color.presence || "gray" %>
-      <% colors = %w[gray red yellow green blue] %>
-
-      <div class="flex items-center ml-2 text-sm">
-        <% colors.each do |color| %>
-          <div class="flex items-center ml-4 text-sm">
-            <%= form.radio_button :color, color, id: "people_tag_color_#{color}", checked: (selected_color == color), class: "w-4 h-4 text-#{color}-600 border-#{color}-400 cursor-pointer focus:ring-#{color}-500" %>
-
-            <label
-              for="people_tag_color_<%= color %>"
-              class="ml-1 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-<%= color %>-100 text-<%= color %>-800"
-            >
-              <%= color.capitalize %>
-            </label>
-          </div>
-        <% end %>
-      </div>
+    <div class="flex flex-wrap items-center gap-y-2">
+      <label for="people_tag_color" class="text-sm">Appearance</label>
+      <%= render Ui::ColorPickerComponent.new(name: "people_tag[color]", selected: people_tag.color.presence || "gray", id_prefix: "new_people_tag") %>
     </div>
-
-    <div class="flex justify-end"><%= form.submit "Save", class: "btn-primary" %></div>
+    <%= render Ui::FormActionsComponent.new do %>
+      <%= render Ui::SubmitButtonComponent.new(form, "Save") %>
+    <% end %>
   </div>
 <% end %>

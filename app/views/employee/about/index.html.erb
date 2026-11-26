@@ -1,4 +1,4 @@
-<main class="relative z-0 flex-1 overflow-y-auto focus:outline-none">
+<%= render Ui::PageComponent.new do %>
   <%= render "employee/title", employee: @employee %>
   <div class="px-4 sm:px-6">
     <!-- Main 2 column grid -->
@@ -32,4 +32,4 @@
       </div>
     </div>
   </div>
-</main>
+<% end %>

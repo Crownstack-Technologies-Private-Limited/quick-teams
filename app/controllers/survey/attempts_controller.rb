@@ -1,5 +1,4 @@
 class Survey::AttemptsController < Survey::BaseController
-  include Pagy::Backend
   before_action :set_survey, only: [:index, :update, :destroy, :show, :new, :create, :preview, :survey_questions]
   before_action :set_attempt, only: [:destroy, :update]
   before_action :set_attempt_with_survey, only: [:preview, :show]
@@ -8,7 +7,7 @@ class Survey::AttemptsController < Survey::BaseController
 
   def index
     authorize [:survey, :attempt]
-    @pagy, @attempts = pagy_nil_safe(params, Survey::Attempt.includes(:actor, :participant, :survey, :answers).where(survey: @survey).order(created_at: :desc), items: LIMIT)
+    @pagy, @attempts = pagy_nil_safe(params, Survey::Attempt.includes(:actor, :participant, :survey, :answers).where(survey: @survey).order(created_at: :desc), limit: LIMIT)
     render_partial("survey/attempts/attempt", collection: @attempts, cached: true) if stale?(@attempts + [@survey])
   end
 

@@ -9,12 +9,20 @@ class JobCard < ApplicationRecord
   validates :slot_start, inclusion: { in: 1..9 }
   validates :slot_length, inclusion: { in: 1..9 }
   validate :slot_end_within_session
+  # Cards on past days are history: the planner (context :planner) may not create or move a card into
+  # the past. Checked on the server with the server's date; the browser's clock is not trusted.
+  validate :date_not_in_past, on: :planner
   
   # Set default color to gray
   after_initialize :set_default_color
 
   scope :for_date, ->(date) { where(date: date) }
   scope :for_week, ->(start_date) { where(date: start_date..(start_date + 6.days)) }
+
+  # Today's and future cards can still be changed from the planner.
+  def editable?
+    date.present? && date >= Date.current
+  end
 
   def slot_end
     slot_start + slot_length - 1
@@ -60,6 +68,12 @@ class JobCard < ApplicationRecord
     if slot_start && slot_length && (slot_start + slot_length - 1) > 9
       errors.add(:slot_length, "extends beyond session (max slot is 9)")
     end
+  end
+
+  def date_not_in_past
+    return unless date && (new_record? || will_save_change_to_date?)
+
+    errors.add(:date, "can't be in the past") if date < Date.current
   end
 
   def set_default_color

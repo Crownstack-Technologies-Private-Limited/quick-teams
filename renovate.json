@@ -1,6 +1,21 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
+    "config:recommended"
+  ],
+  "packageRules": [
+    {
+      "groupName": "Rails",
+      "matchPackageNames": ["rails", "/^action/", "/^active/", "railties"]
+    },
+    {
+      "groupName": "Pay and Stripe",
+      "description": "Each Pay minor pins one Stripe major; update them together.",
+      "matchPackageNames": ["pay", "stripe"]
+    },
+    {
+      "groupName": "Devise",
+      "matchPackageNames": ["devise", "/^devise[-_]/", "pwned", "warden"]
+    }
   ]
 }

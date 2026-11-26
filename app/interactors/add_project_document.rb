@@ -1,4 +1,4 @@
-class AddProjectDocument < Patterns::Service
+class AddProjectDocument < ApplicationService
   def initialize(project, params, actor)
     @project = project
     @document = project.documents.new(params)

@@ -1,0 +1,12 @@
+<%= tag.div(**wrapper_options) do %>
+  <% if @title.present? || actions? %>
+    <div class="card-header">
+      <%= content_tag @heading_tag, @title, class: "card-title" %>
+      <%= actions %>
+    </div>
+  <% end %>
+  <div class="<%= [("card-body" if @padded), @body_class].compact.join(" ") %>"><%= content %></div>
+  <% if footer? %>
+    <div class="border-t border-gray-200 px-5 py-3"><%= footer %></div>
+  <% end %>
+<% end %>

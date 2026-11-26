@@ -31,9 +31,9 @@ class ProjectSkillsTest < ApplicationSystemTestCase
     visit page_url
     fill_in "search-skills", with: "Ruby"
     sleep(0.5)
-    first("#add-skill").click
+    click_reflex("[data-nav-search-target=results] #add-skill", text: "Ruby")
     assert_selector "#project-skills", text: "Ruby"
-    find("#remove-skill").click
+    click_reflex("#remove-skill")
     assert_no_selector "#project-skills", text: "Ruby"
   end
 end

@@ -5,9 +5,9 @@
       <label for="name" class="block mt-2 text-sm font-bold text-gray-700"><%= "Edit Note" %></label>
 
       <%= form.text_area :body, class: "resize-y form-text-field h-48" %>
-      <div class="flex justify-end">
-        <%= form.submit "Edit Note", class: "btn-primary" %>
-      </div>
+      <%= render Ui::FormActionsComponent.new do %>
+        <%= render Ui::SubmitButtonComponent.new(form, "Edit Note") %>
+      <% end %>
     </main>
   <% end %>
 <% end %>

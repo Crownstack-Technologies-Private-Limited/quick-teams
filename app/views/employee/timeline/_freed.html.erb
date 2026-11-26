@@ -1,49 +1,7 @@
-<li>
-  <div class="relative pb-4">
-    <span
-      class="absolute top-4 left-3 -ml-px h-full w-0.5 bg-gray-200"
-      aria-hidden="true"
-    ></span>
-    <div class="relative flex space-x-3">
-      <div>
-        <span
-          class="
-            flex items-center justify-center w-7 h-7 bg-gray-200
-            rounded-full ring-2 ring-white
-          "
-        >
-          <%= display_xsmall_avatar(event.user) %>
-        </span>
-      </div>
-      <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
-        <div>
-          <p class="text-sm text-gray-500">
-            <a
-              href="<%= employee_timeline_path(event.user) %>"
-              class="font-medium text-gray-900 hover:underline"
-            >
-              <%= event.user.decorate.display_name %>
-            </a>
-            freed employee
-            <a
-              href="<%= employee_schedules_path(event.eventable) %>"
-              class="font-medium text-gray-900 hover:underline"
-            >
-              <%= event.eventable.decorate.display_name %>
-            </a>
-            from project
-            <a
-              href="<%= project_schedules_path(event.trackable) %>"
-              class="font-medium text-gray-900 hover:underline"
-            >
-              <%= event.trackable.name.titleize %>
-            </a>
-          </p>
-        </div>
-        <div class="text-sm text-right text-gray-500 whitespace-nowrap">
-          <%= display_created_at(event) %>
-        </div>
-      </div>
-    </div>
-  </div>
-</li>
+<%= render Ui::TimelineItemComponent.new(user: event.user, timestamp: display_created_at(event)) do %>
+  <%= render Ui::TextLinkComponent.new(event.user.decorate.display_name, employee_timeline_path(event.user), tone: :strong) %>
+  freed  employee
+  <%= render Ui::TextLinkComponent.new(event.eventable.decorate.display_name, employee_schedules_path(event.eventable), tone: :strong) %>
+  from project
+  <%= render Ui::TextLinkComponent.new(event.trackable.name.titleize, project_schedules_path(event.trackable), tone: :strong) %>
+<% end %>

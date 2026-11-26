@@ -5,6 +5,13 @@ Rails.application.routes.draw do
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
 
+  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
+  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  get "up" => "rails/health#show", as: :rails_health_check
+
+  # data-reflex actions (see app/reflexes/application_reflex.rb)
+  post "reflex_actions", to: "reflex_actions#create", as: :reflex_actions
+
   namespace :account do
     resources :roles, except: [:new, :show]
     resources :disciplines, except: [:new, :show]

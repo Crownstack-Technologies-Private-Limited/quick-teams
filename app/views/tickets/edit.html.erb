@@ -1,16 +1,17 @@
 <%= tailwind_form_with(model: @ticket, id: dom_id(@ticket), url: ticket_path(@ticket)) do |form| %>
-  <main class="max-w-lg px-4 pt-6 pb-12 mx-auto space-y-4 lg:pb-16">
+  <%= render Ui::FormContainerComponent.new do %>
     <%= render "shared/form_messages", resource: @ticket, message: local_assigns[:message] %>
     <%= render "shared/form_header", title: "Edit Ticket", subtitle: "Please update details of ticket to edit" %>
-
     <div>
-      <%= form.label :description, "Description", class: "block text-sm font-medium text-gray-700" %>
-      <%= form.text_area :description, class: "form-text-field h-24", placeholder: "Describe the issue..." %>
-
-      <%= form.label :ticket_label_id, "Select Label", class: "block mt-4 text-sm font-medium text-gray-700" %>
-      <%= form.collection_select :ticket_label_id, TicketLabel.all, :id, :name, { prompt: "Select labels" }, { class: "form-text-field" } %>
+      <%= form.text_area :description, placeholder: "Describe the issue...", class: "form-text-field h-24" %>
+      <%= render Ui::FormFieldComponent.new(label: "Select Label", for_id: "ticket_ticket_label_id") do %>
+        <%= form.collection_select :ticket_label_id, TicketLabel.all, :id, :name, { prompt: "Select labels" }, { class: "form-text-field" } %>
+      <% end %>
     </div>
-
-    <div class="flex justify-end"><%= link_to "Cancel", "javascript:history.back()", class: "btn-secondary" %><%= form.submit "Save", class: "btn-primary ml-2" %></div>
-  </main>
+  </div>
+  <%= render Ui::FormActionsComponent.new do %>
+    <%= render Ui::ButtonComponent.new("Cancel", href: "javascript:history.back()", variant: :secondary) %>
+    <%= render Ui::SubmitButtonComponent.new(form, "Save", class: "ml-2") %>
+  <% end %>
+<% end %>
 <% end %>
